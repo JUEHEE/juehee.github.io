@@ -1,0 +1,14 @@
+{
+  "name": "juehee.github.io",
+  "private": true,
+  "type": "module",
+  "description": "POIESIS — Kim Juehee archive portfolio",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/dev.mjs"
+  },
+  "optionalDependencies": {
+    "sharp": "^0.33.5"
+  },
+  "engines": { "node": ">=20" }
+}
