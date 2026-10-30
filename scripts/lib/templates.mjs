@@ -36,7 +36,7 @@ ${og ? `<meta property="og:image" content="${esc(og)}">\n<meta name="twitter:car
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="${u("assets/css/style.css")}">
-<script>document.documentElement.classList.add("js")</script>
+<script>document.documentElement.classList.add("js");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("motion")</script>
 ${jsonld}
 </head>
 <body class="${page}">
@@ -57,6 +57,9 @@ ${body}
   <p class="ft-copy mono">© ${new Date().getFullYear()} ${esc(SITE.name_en || SITE.name)}</p>
 </footer>
 <div class="grain" aria-hidden="true"></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
 <script src="${u("assets/js/site.js")}" defer></script>
 </body>
 </html>

@@ -26,6 +26,70 @@
     tick(); setInterval(tick, 15000);
   }
 
+  /* ---------- 부드러운 스크롤 (Lenis + GSAP ScrollTrigger) ---------- */
+  const gsap = window.gsap, ST = window.ScrollTrigger;
+  const hasGsap = !!(gsap && ST);
+  if (hasGsap) gsap.registerPlugin(ST);
+  let lenis = null;
+  if (!reduce && window.Lenis) {
+    lenis = new window.Lenis({ duration: 1.15, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    if (hasGsap) {
+      lenis.on("scroll", ST.update);
+      gsap.ticker.add(t => lenis.raf(t * 1000));
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      const raf = t => { lenis.raf(t); requestAnimationFrame(raf); };
+      requestAnimationFrame(raf);
+    }
+    // 같은 페이지 안의 # 링크도 부드럽게 (본문 건너뛰기 링크는 제외)
+    document.addEventListener("click", e => {
+      const a = e.target.closest('a[href^="#"]:not(.skip)');
+      const target = a && a.hash.length > 1 && document.querySelector(a.hash);
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: -80 });
+    });
+  }
+
+  /* ---------- 제목: 한 글자씩 아래에서 올라오며 나타나기 ---------- */
+  const TITLES = ".display, .pj-t, .cats-t, .card-t, .intro-h";
+  function splitChars(el) {
+    el.setAttribute("aria-label", el.textContent.replace(/\s+/g, " ").trim());
+    const chars = [];
+    const walk = node => {
+      for (const n of [...node.childNodes]) {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          for (const part of n.textContent.split(/(\s+)/)) {
+            if (!part) continue;
+            if (/^\s+$/.test(part)) { frag.append(" "); continue; }
+            const w = document.createElement("span");
+            w.className = "split-w"; w.setAttribute("aria-hidden", "true");
+            for (const ch of part) {
+              const o = document.createElement("span"), i = document.createElement("span");
+              o.className = "split-c"; i.textContent = ch;
+              o.append(i); w.append(o); chars.push(i);
+            }
+            frag.append(w);
+          }
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1 && !n.matches("sup, br, .badge, svg, img")) walk(n);
+      }
+    };
+    walk(el);
+    el.classList.add("is-split");
+    return chars;
+  }
+  if (!reduce) document.querySelectorAll(TITLES).forEach(el => {
+    const chars = splitChars(el);
+    if (!hasGsap || !chars.length) return;
+    gsap.set(chars, { yPercent: 115 });
+    ST.create({
+      trigger: el, start: "top 92%", once: true,
+      onEnter: () => gsap.to(chars, { yPercent: 0, duration: 1.1, ease: "expo.out", stagger: Math.min(.045, .7 / chars.length) }),
+    });
+  });
+
   /* ---------- 스크롤하면 나타나기 ---------- */
   const revealIO = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add("is-in"); revealIO.unobserve(e.target); }
@@ -118,6 +182,7 @@
     wk.dataset.view = v;
     viewBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.view === v)));
     if (v === "grid") wk.querySelectorAll("[data-reveal]:not(.is-in)").forEach(el => revealIO.observe(el));
+    if (hasGsap) ST.refresh();
   };
   viewBtns.forEach(b => b.addEventListener("click", () => { setView(b.dataset.view); store.set("wk-view", b.dataset.view); }));
   if (store.get("wk-view") === "list") setView("list");

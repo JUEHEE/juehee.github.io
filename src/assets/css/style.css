@@ -297,6 +297,19 @@ a.ct-mail:hover { color: var(--moss); }
 @keyframes vt-out { to { opacity: 0; transform: translateY(-10px); } }
 @keyframes vt-in { from { opacity: 0; transform: translateY(14px); } }
 
+/* 부드러운 스크롤 (Lenis) */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* 제목: 한 글자씩 아래에서 올라오기. 글자를 나누기 전에는 잠깐 숨겨 둡니다 (2.5초 뒤엔 무조건 보임) */
+.split-w { display: inline-block; white-space: nowrap; }
+.split-c { display: inline-block; overflow: hidden; vertical-align: bottom; padding: .12em 0 .1em; margin: -.12em 0 -.1em; }
+.split-c > span { display: inline-block; }
+.motion :is(.display, .pj-t, .cats-t, .card-t, .intro-h):not(.is-split) { visibility: hidden; animation: split-safety 0s 2.5s forwards; }
+@keyframes split-safety { to { visibility: visible; } }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .js [data-reveal] { opacity: 1; transform: none; }
