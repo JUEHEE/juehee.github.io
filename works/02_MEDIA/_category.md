@@ -1,4 +1,5 @@
 ---
+title: Generative Media
 title_ko: 영상, 음악 등 미디어 콘텐츠
 ---
 생성형 AI와 함께 이미지, 영상, 소리로 이야기를 만든 작업.

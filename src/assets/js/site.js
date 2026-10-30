@@ -52,9 +52,11 @@
   }
 
   /* ---------- 제목: 한 글자씩 아래에서 올라오며 나타나기 ---------- */
-  const TITLES = ".display, .pj-t, .cats-t, .card-t, .intro-h";
+  const TITLES = ".display, .pj-t, .bl-t, .card-t, .intro-h";
   function splitChars(el) {
-    el.setAttribute("aria-label", el.textContent.replace(/\s+/g, " ").trim());
+    const clone = el.cloneNode(true);
+    clone.querySelectorAll('[aria-hidden="true"]').forEach(n => n.remove());
+    el.setAttribute("aria-label", clone.textContent.replace(/\s+/g, " ").trim());
     const chars = [];
     const walk = node => {
       for (const n of [...node.childNodes]) {
@@ -73,7 +75,7 @@
             frag.append(w);
           }
           n.replaceWith(frag);
-        } else if (n.nodeType === 1 && !n.matches("sup, br, .badge, svg, img")) walk(n);
+        } else if (n.nodeType === 1 && !n.matches('sup, br, .badge, svg, img, [aria-hidden="true"]')) walk(n);
       }
     };
     walk(el);
@@ -195,7 +197,7 @@
   });
 
   // 카드에 마우스를 올리면 잠깐 점으로 흩어졌다 돌아옵니다
-  if (fine && !reduce) document.querySelectorAll(".card a, .cats a").forEach(a => {
+  if (fine && !reduce) document.querySelectorAll(".card a").forEach(a => {
     let busy = false;
     a.addEventListener("mouseenter", () => {
       const img = a.querySelector("img[data-mosaic].is-on");
@@ -232,23 +234,48 @@
   viewBtns.forEach(b => b.addEventListener("click", () => { setView(b.dataset.view); store.set("wk-view", b.dataset.view); }));
   if (store.get("wk-view") === "list") setView("list");
 
-  /* ---------- 목록 미리보기 이미지 ---------- */
+  /* ---------- 목록: 커서 옆에 대표 이미지가 떠오름 ----------
+     커서를 살짝 늦게 따라오고(부드러운 추적), 움직이는 방향으로 조금 기울어집니다. */
   if (fine) {
     const pv = document.createElement("div");
     pv.className = "preview"; pv.setAttribute("aria-hidden", "true");
-    const pimg = document.createElement("img"); pimg.alt = "";
+    const pimg = document.createElement("img"); pimg.alt = ""; pimg.decoding = "async";
     pv.appendChild(pimg);
-    let on = false;
-    document.querySelectorAll("a[data-preview]").forEach(a => {
-      a.addEventListener("mouseenter", () => { if (!pv.isConnected) document.body.appendChild(pv); pimg.src = a.dataset.preview; pv.classList.add("is-on"); on = true; });
+    const cur = { x: 0, y: 0 }, tgt = { x: 0, y: 0 };
+    let on = false, raf = 0, fresh = true, mouse = { x: 0, y: 0 };
+    const aim = () => {
+      const w = pv.offsetWidth || 280, h = pv.offsetHeight || 200;
+      const right = mouse.x + 28 + w < innerWidth - 12;
+      tgt.x = right ? mouse.x + 28 : mouse.x - 28 - w;
+      tgt.y = Math.max(12, Math.min(mouse.y - h / 2, innerHeight - h - 12));
+    };
+    const step = () => {
+      const k = reduce ? 1 : .16;
+      const dx = (tgt.x - cur.x) * k;
+      cur.x += dx; cur.y += (tgt.y - cur.y) * k;
+      const rot = reduce ? 0 : Math.max(-7, Math.min(7, dx * .35));
+      pv.style.transform = `translate3d(${cur.x}px, ${cur.y}px, 0) rotate(${rot}deg)`;
+      raf = on || Math.abs(tgt.x - cur.x) + Math.abs(tgt.y - cur.y) > .5 ? requestAnimationFrame(step) : 0;
+    };
+    const wake = () => { if (!raf) raf = requestAnimationFrame(step); };
+    const links = document.querySelectorAll("a[data-preview]");
+    // 처음 목록에 들어올 때 이미지들을 미리 받아 둡니다
+    let preloaded = false;
+    const preload = () => { if (preloaded) return; preloaded = true; links.forEach(a => { const i = new Image(); i.src = a.dataset.preview; }); };
+    links.forEach(a => {
+      a.addEventListener("mouseenter", e => {
+        preload();
+        if (!pv.isConnected) document.body.appendChild(pv);
+        mouse = { x: e.clientX, y: e.clientY };
+        pimg.src = a.dataset.preview;
+        aim();
+        if (fresh) { cur.x = tgt.x; cur.y = tgt.y; fresh = false; }
+        pv.classList.add("is-on"); on = true; wake();
+      });
       a.addEventListener("mouseleave", () => { pv.classList.remove("is-on"); on = false; });
     });
-    addEventListener("mousemove", e => {
-      if (!on) return;
-      const w = pv.offsetWidth, h = pv.offsetHeight;
-      const x = Math.min(e.clientX + 28, innerWidth - w - 12), y = Math.max(12, Math.min(e.clientY - h / 2, innerHeight - h - 12));
-      pv.style.transform = `translate(${x}px, ${y}px)`;
-    }, { passive: true });
+    document.querySelectorAll(".bl-list, .list").forEach(l => l.addEventListener("mouseleave", () => { fresh = true; }));
+    addEventListener("mousemove", e => { mouse = { x: e.clientX, y: e.clientY }; if (on) { aim(); wake(); } }, { passive: true });
   }
 
   /* ---------- 첫 화면: 점이 모여 단어가 됩니다 ---------- */

@@ -220,15 +220,8 @@ export function home({ categories, featured, all }) {
 </section>
 
 <section class="sec" aria-labelledby="cat-h">
-  <div class="sec-hd"><h2 class="mono" id="cat-h">INDEX</h2></div>
-  <ol class="cats">${categories.map(c => `
-    <li data-reveal><a href="${u(`works/${c.key}/`)}">
-      <span class="mono cats-no">${esc(c.no)}</span>
-      <span class="cats-t">${esc(c.label)}<sup class="mono">${c.works.length}</sup></span>
-      <span class="cats-ko">${esc(c.ko)}</span>
-      <span class="cats-thumbs" aria-hidden="true">${c.works.slice(0, 4).map(p => coverUrl(p) ? `<img src="${esc(coverUrl(p))}" alt="" loading="lazy">` : "<i></i>").join("")}</span>
-    </a></li>`).join("")}
-  </ol>
+  <div class="sec-hd"><h2 class="mono" id="cat-h">INDEX</h2><a class="mono arrow" href="${u("works/")}">ALL WORKS</a></div>
+  ${bigList(categories, { level: 3 })}
 </section>
 
 <section class="sec statement" aria-label="작업 방식">
@@ -242,7 +235,6 @@ export function home({ categories, featured, all }) {
 /* ---------- WORKS ---------- */
 export function worksPage({ categories, current, list }) {
   const total = categories.reduce((n, c) => n + c.works.length, 0);
-  const rows = list.flatMap((p, i) => [row(p, pad(i + 1), current), ...p.children.map((c, j) => row(c, `${pad(i + 1)}.${j + 1}`, current, true))]);
   const body = `
 <section class="wk-hd">
   <p class="mono">${current ? `WORKS / ${esc(current.no)}` : "ARCHIVE"}</p>
@@ -261,19 +253,25 @@ export function worksPage({ categories, current, list }) {
 </div>
 <div class="wk" data-view="grid">
   <div class="grid">${list.map((p, i) => card(p, i, { showCat: !current })).join("")}</div>
-  <ol class="list">${rows.join("")}</ol>
+  <div class="list">${bigList(current ? [current] : categories, { level: 2, children: true, heading: !current })}</div>
 </div>`;
   return layout({ title: current ? current.label : "Works", description: current ? `${current.label} — ${current.ko}` : SITE.works_intro, path: current ? `works/${current.key}/` : "works/", body, page: "pg-works" });
 }
 
-function row(p, no, current, child = false) {
-  return `<li class="${child ? "is-child" : ""}"><a href="${u(`works/${p.slug}/`)}"${coverUrl(p) ? ` data-preview="${esc(coverUrl(p))}"` : ""}>
-    <span class="mono l-no">${no}</span>
-    <span class="l-t">${child ? '<i aria-hidden="true">↳</i> ' : ""}${esc(p.title)}${badge(p.status)}</span>
-    <span class="mono l-c">${current ? "" : esc(p.category.label)}</span>
-    <span class="l-r">${txt(p.role)}</span>
-    <span class="mono l-y">${esc(p.year)}</span>
-  </a></li>`;
+/* ---------- 분야별 큰 텍스트 목록 ----------
+   마우스를 올리면 대표 이미지가 커서 옆에 떠오릅니다 (site.js의 data-preview). */
+function bigList(groups, { level = 3, children = false, heading = true } = {}) {
+  const h = `h${level}`;
+  const item = (p, child = false) => `<li${child ? ' class="is-child"' : ""}><a href="${u(`works/${p.slug}/`)}"${coverUrl(p) ? ` data-preview="${esc(coverUrl(p))}"` : ""}>
+      <span class="bl-t">${child ? '<i aria-hidden="true">↳ </i>' : ""}${esc(p.title)}</span>${badge(p.status)}
+      <span class="bl-m"><span class="mono bl-y">${esc(p.year)}</span><span class="bl-r">${txt(p.role)}</span></span>
+    </a></li>`;
+  return `<div class="bl">${groups.map(c => `
+  <section class="bl-g" aria-label="${esc(c.label)}">
+    ${heading ? `<${h} class="bl-h"><a href="${u(`works/${c.key}/`)}"><span class="mono">${esc(c.no)}</span><span class="mono">${esc(c.label)}</span><sup>${c.works.length}</sup></a>${c.ko ? `<span class="bl-ko">${esc(c.ko)}</span>` : ""}</${h}>` : ""}
+    <ol class="bl-list">${c.works.map(p => item(p) + (children ? p.children.map(ch => item(ch, true)).join("") : "")).join("")}</ol>
+  </section>`).join("")}
+</div>`;
 }
 
 /* ---------- 작업 상세 ---------- */
