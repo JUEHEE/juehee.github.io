@@ -5,6 +5,25 @@ let SITE = {};
 export const setSite = s => { SITE = s; };
 export const u = p => (String(SITE.base || "/").replace(/\/?$/, "/") + String(p).replace(/^\//, ""));
 const pad = n => String(n).padStart(2, "0");
+
+/* ---------- 도트 로고 ----------
+   글자마다 따로 된 SVG(5×7칸)이고, 각 칸은 작은 원입니다. 첫 화면의 점 애니메이션과 같은 언어.
+   "ac"로 표시한 점 두 개만 포인트 색입니다. */
+const GLYPHS = {
+  J: ["..###", "...#.", "...#.", "...#.", "#..#.", "#..#.", ".##.."],
+  U: ["#...#", "#...#", "#...#", "#...#", "#...#", "#...#", ".###."],
+  E: ["#####", "#....", "#....", "####.", "#....", "#....", "#####"],
+  H: ["#...#", "#...#", "#...#", "#####", "#...#", "#...#", "#...#"],
+};
+const ACCENT = { 3: "2,3", 5: "4,6" }; // 4번째 글자 H의 가운데, 마지막 E의 오른쪽 아래
+function dotLogo(word = "JUEHEE") {
+  return [...word.toUpperCase()].filter(ch => GLYPHS[ch]).map((ch, i) => {
+    let d = 0;
+    const dots = GLYPHS[ch].flatMap((row, y) => [...row].map((v, x) => v === "#"
+      ? `<circle cx="${x + .5}" cy="${y + .5}" r=".4" style="--d:${d++}"${ACCENT[i] === `${x},${y}` ? ' class="ac"' : ""}/>` : "")).join("");
+    return `<svg class="lg-l" viewBox="0 0 5 7" style="--i:${i}" aria-hidden="true" focusable="false">${dots}</svg>`;
+  }).join("");
+}
 const txt = s => inline(s ?? "");
 
 /* ---------- 공통 틀 ---------- */
@@ -42,7 +61,7 @@ ${jsonld}
 <body class="${page}">
 <a class="skip" href="#main">본문으로 건너뛰기</a>
 <header class="hd">
-  <a class="hd-mark" href="${u("")}"><b>${esc(SITE.name_en || SITE.name)}</b><span>${esc(SITE.keyword || "")}</span></a>
+  <a class="hd-mark" href="${u("")}" aria-label="${esc(SITE.logo || "JUEHEE")} — 처음으로"><span class="hd-logo">${dotLogo(SITE.logo || "JUEHEE")}</span><span class="hd-kw">${esc(SITE.keyword || "")}</span></a>
   <nav class="hd-nav" aria-label="주요 메뉴">
     ${nav.map(([k, l]) => `<a href="${u(k + "/")}"${path.startsWith(k) ? ' aria-current="page"' : ""}>${l}</a>`).join("")}
   </nav>

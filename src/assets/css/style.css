@@ -62,9 +62,16 @@ sup { font-family: var(--mono); font-size: .55em; vertical-align: super; letter-
   background: linear-gradient(var(--paper) 40%, rgba(239, 238, 232, 0));
   view-transition-name: hd;
 }
-.hd-mark { display: flex; gap: .7em; align-items: baseline; white-space: nowrap; }
-.hd-mark b { font-weight: 600; text-transform: uppercase; }
-.hd-mark span { color: var(--mute); font-family: var(--mono); font-size: 11.5px; }
+.hd-mark { display: flex; gap: 14px; align-items: center; white-space: nowrap; justify-self: start; }
+.hd-kw { color: var(--mute); font-family: var(--mono); font-size: 11.5px; }
+
+/* 도트 로고: 페이지가 열리면 글자가 하나씩, 글자 안의 점은 위에서부터 차례로 나타남 */
+.hd-logo { display: flex; gap: 4px; }
+.lg-l { width: 15px; height: 21px; overflow: visible; fill: var(--ink); }
+.lg-l .ac { fill: var(--olive); }
+.lg-l circle { transform-box: fill-box; transform-origin: center; }
+.motion .lg-l circle { animation: lg-in .5s cubic-bezier(.3, 1.6, .5, 1) both; animation-delay: calc(.15s + var(--i) * .14s + var(--d) * .016s); }
+@keyframes lg-in { from { transform: scale(0); opacity: 0; } }
 .hd-nav { display: flex; gap: clamp(14px, 2.4vw, 36px); }
 .hd-nav a { position: relative; padding: 4px 0; }
 .hd-nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease); }
@@ -330,7 +337,9 @@ html.lenis, html.lenis body { height: auto; }
 @media (max-width: 760px) {
   :root { --hd-h: 50px; }
   .hd { grid-template-columns: 1fr auto; font-size: 12.5px; }
-  .hd-mark span, .hd-clock { display: none; }
+  .hd-kw, .hd-clock { display: none; }
+  .hd-logo { gap: 3px; }
+  .lg-l { width: 12px; height: 16.8px; }
   .intro { min-height: 560px; }
   .intro-dots { inset: 20% 0 30%; height: 50%; }
   .intro-def { position: absolute; left: 0; right: auto; top: auto; bottom: calc(clamp(20px, 4vh, 40px) + 6.4em); text-align: left; max-width: 18em; font-size: 12.5px; }
