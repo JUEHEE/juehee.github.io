@@ -90,6 +90,51 @@
     });
   });
 
+  /* ---------- 3D 큐브: 스크롤하면 돌다가 펼쳐져 한 장의 이미지가 됩니다 ----------
+     데스크톱(761px 이상) + 모션 허용 + GSAP이 있을 때만. 화면 폭이 바뀌면 자동으로 카드 ↔ 큐브 전환 */
+  const sel = document.querySelector(".cubes");
+  if (sel && hasGsap) {
+    const section = sel.closest("section");
+    gsap.matchMedia().add("(min-width: 761px) and (prefers-reduced-motion: no-preference)", () => {
+      section.classList.add("has-cubes");
+      sel.querySelectorAll(".cs").forEach(cs => {
+        const cube = cs.querySelector(".cube");
+        const q = s => cs.querySelector(s);
+        const sides = cs.querySelectorAll(".f-left, .f-right, .f-top, .f-bottom, .f-back");
+        const text = cs.querySelectorAll(".cs-text > *");
+        const half = () => `50% 50% ${-cube.offsetWidth / 2}px`; // 큐브의 한가운데를 중심으로 회전
+        gsap.set(cube, { transformOrigin: half });
+
+        // 모든 동작에 시작값·끝값을 함께 적어 둡니다 (창 크기가 바뀌어 다시 계산해도 어긋나지 않게)
+        const ft = (el, from, to, at) => tl.fromTo(el, from, { ...to, immediateRender: at === 0 }, at);
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: { trigger: cs, start: "top top", end: "+=170%", pin: true, scrub: .8, invalidateOnRefresh: true },
+        });
+        // 1) 글이 올라오고, 큐브가 돌며 앞면을 향함
+        ft(text, { y: 32, opacity: 0 }, { y: 0, opacity: 1, stagger: .025, duration: .18, ease: "power2.out" }, 0);
+        ft(cube, { rotationY: -38, scale: .78 }, { rotationY: 360, scale: 1, duration: .5, ease: "power1.inOut" }, 0);
+        ft(cube, { rotationX: -26 }, { rotationX: 22, duration: .25, ease: "sine.inOut" }, 0);
+        tl.fromTo(cube, { rotationX: 22 }, { rotationX: 0, duration: .25, ease: "sine.inOut", immediateRender: false }, .25);
+        // 2) 옆면이 경첩처럼 펼쳐짐 (접힌 상태에서 시작)
+        const fold = [[".f-left", "rotationY", -90, .5], [".f-right", "rotationY", 90, .5], [".f-top", "rotationX", 90, .54], [".f-bottom", "rotationX", -90, .54]];
+        fold.forEach(([face, prop, deg, at]) => {
+          gsap.set(q(face), { [prop]: deg });
+          tl.fromTo(q(face), { [prop]: deg }, { [prop]: 0, duration: .22, ease: "power2.inOut", immediateRender: false }, at);
+        });
+        gsap.set(q(".f-back"), { rotationY: 90, opacity: 1 });
+        tl.fromTo(q(".f-back"), { rotationY: 90, opacity: 1 }, { rotationY: 0, opacity: 0, duration: .18, ease: "power2.in", immediateRender: false }, .5);
+        gsap.set(sides, { "--shade": .22 });
+        tl.fromTo(sides, { "--shade": .22 }, { "--shade": 0, duration: .22, immediateRender: false }, .52);
+        // 3) 빈 모서리가 채워져 한 장의 평면 이미지가 됨
+        tl.fromTo(cs.querySelectorAll(".f-corner"), { opacity: 0 }, { opacity: 1, duration: .1, stagger: .025, immediateRender: false }, .74);
+        tl.to({}, { duration: .1 });
+      });
+      ST.refresh();
+      return () => section.classList.remove("has-cubes");
+    });
+  }
+
   /* ---------- 스크롤하면 나타나기 ---------- */
   const revealIO = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add("is-in"); revealIO.unobserve(e.target); }

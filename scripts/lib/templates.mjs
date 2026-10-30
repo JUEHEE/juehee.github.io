@@ -167,6 +167,38 @@ function card(p, i, { showCat = true, sizes = "(max-width: 760px) 100vw, 50vw" }
 </article>`;
 }
 
+/* ---------- 3D 큐브 (HOME 대표 작업, 데스크톱 전용) ----------
+   정육면체의 각 면은 대표 이미지를 3×3으로 나눈 조각입니다. 큐브가 펼쳐지면 조각이 맞춰져 한 장의 이미지가 됩니다.
+   앞면을 가운데에 두고, 옆면은 앞면의 모서리에 경첩처럼 붙어 있습니다. (모션은 site.js) */
+function cubeStage(p, i, total) {
+  const url = coverUrl(p);
+  const tile = (cls, c, r, inner = "") => `<div class="f ${cls}" style="background-position:${c * 50}% ${r * 50}%">${inner}</div>`;
+  const corners = [[0, 0], [2, 0], [0, 2], [2, 2]].map(([c, r]) => tile(`f-corner f-c${c}${r}`, c, r)).join("");
+  const href = u(`works/${p.slug}/`);
+  return `<article class="cs${url ? "" : " cs--empty"}"${url ? ` style="--img:url('${esc(url)}')"` : ""}>
+  <div class="cs-text">
+    <p class="mono cs-no">${pad(i + 1)} / ${pad(total)}</p>
+    <h3 class="cs-t"><a href="${href}">${esc(p.title)}</a>${badge(p.status)}</h3>
+    ${p.titleEn ? `<p class="cs-en">${esc(p.titleEn)}</p>` : ""}
+    <p class="mono cs-meta"><span>${esc(p.category.label)}</span><span>${esc(p.year)}</span></p>
+    ${p.summary ? `<p class="cs-s">${txt(p.summary)}</p>` : ""}
+    <a class="mono arrow cs-go" href="${href}" tabindex="-1">VIEW</a>
+  </div>
+  <a class="cs-stage" href="${href}" aria-label="${esc(p.title)} — 자세히 보기">
+    <div class="cube">
+      ${tile("f-front", 1, 1, [
+        tile("f-left", 0, 1),
+        tile("f-right", 2, 1, tile("f-back", 1, 1)),
+        tile("f-top", 1, 0),
+        tile("f-bottom", 1, 2),
+        corners,
+        url ? "" : `<span class="mono f-label">${esc(p.titleEn || p.title)}</span>`,
+      ].join(""))}
+    </div>
+  </a>
+</article>`;
+}
+
 /* ---------- HOME ---------- */
 export function home({ categories, featured, all }) {
   const ld = `<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "Person", name: SITE.name, alternateName: SITE.name_en, url: SITE.url, sameAs: (SITE.links || []).map(l => l.value).filter(Boolean) })}</script>`;
@@ -183,7 +215,8 @@ export function home({ categories, featured, all }) {
 
 <section class="sec" aria-labelledby="sel-h">
   <div class="sec-hd"><h2 class="mono" id="sel-h">SELECTED WORKS <sup>${featured.length}</sup></h2><a class="mono arrow" href="${u("works/")}">ALL WORKS</a></div>
-  <div class="grid">${featured.map((p, i) => card(p, i)).join("")}</div>
+  <div class="cubes">${featured.map((p, i) => cubeStage(p, i, featured.length)).join("")}</div>
+  <div class="grid sel-grid">${featured.map((p, i) => card(p, i)).join("")}</div>
 </section>
 
 <section class="sec" aria-labelledby="cat-h">

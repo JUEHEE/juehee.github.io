@@ -135,6 +135,42 @@ canvas.mosaic { position: absolute; inset: 0; width: 100%; height: 100%; pointer
 .js img[data-mosaic] { opacity: 0; }
 .js img[data-mosaic].is-on { opacity: 1; transition: opacity .35s; }
 
+/* ---------- 3D 큐브 (대표 작업) ----------
+   기본은 숨김 → site.js가 데스크톱 + 모션 허용일 때만 .has-cubes를 붙여 보여 줍니다.
+   그 밖(모바일, 동작 줄이기, 스크립트 실패)에는 아래 일반 카드 그리드가 보입니다. */
+.cubes { display: none; }
+.has-cubes .cubes { display: block; }
+.has-cubes .sel-grid { display: none; }
+.cs { --s: min(24vh, 16vw); position: relative; height: 100vh; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: var(--col-gap); align-items: center; }
+.cs-text { align-self: center; max-width: 26em; }
+.cs-no { color: var(--mute); margin: 0 0 18px; }
+.cs-t { font-size: clamp(32px, 3.6vw, 56px); line-height: 1.05; letter-spacing: -.045em; font-weight: 500; margin: 0; }
+.cs-t a:hover { color: var(--moss); }
+.cs-en { margin: 10px 0 0; color: var(--mute); }
+.cs-meta { display: flex; gap: 1.6em; color: var(--mute); margin: 18px 0 0; }
+.cs-s { margin: 14px 0 0; color: var(--mute); font-size: 15px; }
+.cs-go { margin-top: 24px; }
+.cs-stage { position: relative; height: 100%; display: grid; place-items: center; perspective: 1600px; }
+.cube { position: relative; width: var(--s); height: var(--s); transform-style: preserve-3d; }
+.cube .f {
+  position: absolute; width: var(--s); height: var(--s); transform-style: preserve-3d;
+  background-color: var(--paper-2); background-image: var(--img); background-size: 300% 300%;
+}
+.cube .f::after { content: ""; position: absolute; inset: 0; background: #000; opacity: var(--shade, 0); pointer-events: none; }
+.cube .f-front { left: 0; top: 0; }
+.cube .f-left { left: -100%; top: 0; transform-origin: 100% 50%; }
+.cube .f-right { left: 100%; top: 0; transform-origin: 0 50%; }
+.cube .f-back { left: 100%; top: 0; transform-origin: 0 50%; }
+.cube .f-top { left: 0; top: -100%; transform-origin: 50% 100%; }
+.cube .f-bottom { left: 0; top: 100%; transform-origin: 50% 0; }
+.cube .f-corner { opacity: 0; }
+.cube .f-c00 { left: -100%; top: -100%; } .cube .f-c20 { left: 100%; top: -100%; }
+.cube .f-c02 { left: -100%; top: 100%; } .cube .f-c22 { left: 100%; top: 100%; }
+.cs--empty .cube .f { background-image: radial-gradient(circle, rgba(21, 21, 19, .22) 1.1px, transparent 1.4px); background-size: 11px 11px; box-shadow: inset 0 0 0 1px var(--line); }
+.f-label { position: absolute; left: 10px; bottom: 10px; background: var(--paper); padding: 3px 8px; color: var(--mute); }
+.cs-stage:focus-visible { outline: none; }
+.cs-stage:focus-visible .cube { outline: 1px solid var(--ink); outline-offset: 8px; }
+
 /* ---------- 카테고리 목록 ---------- */
 .cats { list-style: none; margin: 0; padding: 0; counter-reset: c; }
 .cats li { border-top: 1px solid var(--line); }
