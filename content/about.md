@@ -1,38 +1,38 @@
 ---
-title: ABOUT
-lead: 김주희. 이야기와 미디어를 배우고, 데이터와 AI로 그 이야기를 실제로 작동하는 형태로 만듭니다.
+title: about
+lead: Kim Juehee. I study stories and media, and turn them into forms that actually work — with data and AI.
 # 프로필 사진을 쓰려면 content/ 폴더에 사진을 넣고 아래 줄 맨 앞의 # 을 지우세요.
 # portrait: portrait.jpg
 ---
 
-## 소개
+## Profile
 
-서강대학교 미디어&엔터테인먼트학과에서 이야기와 미디어를, 빅데이터 사이언스 연계전공과 데이터사이언스 학회 PARROT에서 데이터와 AI를 배우고 있습니다.
+I study stories and media at the Department of Media & Entertainment, Sogang University, and data and AI through the Big Data Science interdisciplinary major and the data science society PARROT.
 
 [작성 필요] 한두 문장 더
 
-## 관심 분야
+## Interests
 
-- 사람의 불편에서 시작하는 서비스 기획과 UX
-- 생성형 AI로 만드는 영상과 음악
-- 데이터 분석과 머신러닝
-- 전시와 행사 기획
+- Service design and UX that begin with people's inconveniences
+- Video and music made with generative AI
+- Data analysis and machine learning
+- Exhibition and event planning
 
-## 작업 방식
+## Approach
 
 [작성 필요] 내가 일하는 방식, 중요하게 생각하는 가치
 
-## 학력
+## Education
 
-- 서강대학교 미디어&엔터테인먼트학과
-- 빅데이터 사이언스 연계전공
+- Sogang University — Media & Entertainment
+- Big Data Science (interdisciplinary major)
 
-## 주요 활동
+## Activities
 
-- 2026.08– PARROT 부학회장 (서강대 데이터사이언스학회)
+- 2026.08– Vice president, PARROT (Sogang Data Science Society)
 - 2026.07– Sogang Intelligence
-- 2026.02–2026.07 AIFA — RAG 구축 백엔드팀, DH2026 발표
-- 2026 서강대 해커톤 장려상 — 손길
-- 2025 미엔날레 전체 총괄
-- 2025.03–2025.08 SGCC 동아리 웹사이트 UI/UX · 프론트엔드
-- 2024.06–2024.09 전후자 장학금 서포터즈 — 비폭력 지구인 프로젝트
+- 2026.02–2026.07 AIFA — RAG back-end team, DH2026 presentation
+- 2026 Sogang Hackathon, Honorable Mention — Sonkil
+- 2025 Miennale — general director
+- 2025.03–2025.08 SGCC club website — UI/UX, front-end
+- 2024.06–2024.09 Jeonhuja Scholarship Supporters — Nonviolent Earthling Project

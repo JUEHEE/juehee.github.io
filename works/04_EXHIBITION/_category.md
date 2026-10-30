@@ -1,5 +1,5 @@
 ---
 title: Exhibition & Planning
-title_ko: 전시 및 기획 활동
+subtitle: Exhibitions & events
 ---
-사람들이 직접 경험하는 공간과 행사를 기획한 작업.
+Spaces and events that people experience in person.

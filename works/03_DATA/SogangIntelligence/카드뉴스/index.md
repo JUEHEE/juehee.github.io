@@ -1,5 +1,6 @@
 ---
-title: 카드뉴스 (MAS)
+title: Card News — MAS
+title_ko: 카드뉴스 (MAS)
 slug: si-mas
 year: 2026
 role: [작성 필요]
@@ -8,6 +9,6 @@ status:
 order: 2
 ---
 
-## 내용
+## Overview
 
 [작성 필요]

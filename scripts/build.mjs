@@ -125,7 +125,8 @@ function loadProject(dir, category, parent) {
   const p = {
     dir, folder, category, parent, body, data,
     title: data.title || folder,
-    titleEn: data.title_en || "",
+    titleKo: data.title_ko || "",
+    subtitle: data.subtitle || data.title_en || "",
     slug: slugify(data.slug || (parent ? `${parent.slug}-${folder}` : folder)),
     year: String(data.year ?? ""),
     period: data.period || "", role: data.role || "", team: data.team || "", tools: data.tools || "",
@@ -155,7 +156,7 @@ function loadCategories() {
     const { data, body } = meta ? readMd(meta) : { data: {}, body: "" };
     const cat = {
       key: slugify(data.slug || label), label: data.title || label, no: m ? m[1] : "",
-      ko: data.title_ko || "", description: body.trim(),
+      sub: data.subtitle || data.title_ko || "", description: body.trim(),
     };
     cat.works = sortWorks(dirs(path.join(WORKS, name)).map(n => loadProject(path.join(WORKS, name, n), cat, null)).filter(Boolean));
     return cat;

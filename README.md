@@ -103,11 +103,12 @@ scripts/           ← 웹사이트를 만들어 주는 프로그램. 고칠 일
 ### 새 카테고리 추가하기
 
 `works/05_RESEARCH/` 처럼 `번호_이름` 폴더를 만들면 됩니다. 번호 순서대로 정렬됩니다.
-한국어 설명은 그 폴더에 `_category.md`를 만들고:
+분야 이름(영어)과 설명은 그 폴더에 `_category.md`를 만들고:
 
 ```
 ---
-title_ko: 연구 및 논문
+title: Research
+subtitle: Papers & research
 ---
 카테고리 페이지에 보일 한두 문장 설명.
 ```
@@ -120,41 +121,43 @@ title_ko: 연구 및 논문
 
 ```markdown
 ---
-title: 손길
-title_en: Sonkil — Remote Sign Language Counseling
+title: Sonkil
+title_ko: 손길
+subtitle: Remote sign language counseling
 slug: sonkil
 year: 2026
 period: 2026.03 – 2026.06
-role: 팀장 (기획, 데이터 전처리, 웹 구현)
-team: 4명
+role: Team lead (planning, data preprocessing, web)
+team: 4
 tools: Figma, Python, React
 summary: 청각장애인을 위한 비대면 수어 상담 서비스.
-status: 진행 중
+status: In progress
 featured: true
 order: 1
 info:
-  - 수상 | 서강대 해커톤 장려상
+  - Award | Sogang Hackathon, Honorable Mention
 links:
   - GitHub | https://github.com/JUEHEE/...
-  - 발표 자료 PDF | 발표자료.pdf
-  - 시연 영상 | https://youtu.be/...
+  - Slides PDF | 발표자료.pdf
+  - Demo video | https://youtu.be/...
 ---
 
-## 배경
+## Background
 
-본문은 여기부터 자유롭게 씁니다.
+본문은 여기부터 자유롭게 씁니다. (설명은 한국어로 써도 됩니다)
 ```
 
 | 항목 | 뜻 | 꼭? |
 |---|---|---|
-| `title` | 작업 이름 | ✔ |
-| `title_en` | 영문 이름 / 부제 | |
+| `title` | 작업 이름 (영어, 크게 보임) | ✔ |
+| `title_ko` | 한국어 이름 (영어 이름 아래 두 번째 줄) | |
+| `subtitle` | 한 줄 부제 (영어) | |
 | `slug` | 웹 주소에 쓰일 영문 이름 → `juehee.github.io/works/sonkil/` (한 번 정하면 바꾸지 않기) | 권장 |
 | `year` | 연도 (정렬과 목록에 쓰임) | 권장 |
-| `period` `role` `team` `tools` | 상세 페이지 오른쪽 정보표 | |
+| `period` `role` `team` `tools` | 상세 페이지 오른쪽 정보표 (Year / Period / Role / Team / Tools) | |
 | `info` | 정보표에 더 넣을 줄. `- 라벨 \| 내용` | |
-| `summary` | 한두 문장 소개 (카드, 검색엔진 설명) | 권장 |
-| `status` | `진행 중` 같은 작은 표시 | |
+| `summary` | 한두 문장 소개 (카드, 검색엔진 설명). 한국어로 써도 됨 | 권장 |
+| `status` | `In progress` 같은 작은 표시 | |
 | `featured` | `true` 면 HOME의 SELECTED WORKS에 나옴 | |
 | `order` | 같은 카테고리 안에서의 순서 (작을수록 앞) | |
 | `cover` | 표지 파일 이름 또는 유튜브 주소 | |
@@ -163,6 +166,9 @@ links:
 | `hero` | `false` 면 상세 페이지 맨 위 큰 표지를 숨김 | |
 | `auto_gallery` | `false` 면 본문에 안 쓴 사진을 자동으로 붙이지 않음 | |
 | `draft` | `true` 면 사이트에 나오지 않음 (작성 중일 때) | |
+
+**화면의 고정 문구(메뉴, 라벨, 제목)는 영어**이고, 요약과 본문 설명은 쓴 그대로(한국어도 OK) 나옵니다.
+섹션 제목(`## Process`)도 영어로 쓰면 `[ process ]`처럼 대괄호 소제목으로 보입니다.
 
 **본문은 정해진 틀이 없습니다.** 배경, 문제 정의, 과정, 역할, 결과… 작업마다 필요한 제목만 `## 제목`으로 쓰면
 왼쪽에 작은 제목, 오른쪽에 본문이 놓이는 편집 레이아웃으로 바뀝니다.
@@ -242,7 +248,7 @@ links:
 
 ## 6. 사이트 전체 정보 바꾸기
 
-`content/site.md`에서 이름, 첫 화면 문구, POIESIS 설명, 이메일, SNS를 바꿉니다.
+`content/site.md`에서 이름, 첫 화면 문구(`hero`, `hero_note`, `place` — 한 줄씩 `- `로), 소개 문장, 이메일, SNS를 바꿉니다.
 
 ```
 email: hello@example.com

@@ -1,15 +1,17 @@
 ---
-title: 논문 스터디 (RAPO · VISTA)
+title: Paper Study — RAPO · VISTA
+title_ko: 논문 스터디 (RAPO · VISTA)
+subtitle: Prompt optimization for text-to-video
 slug: si-paper-study
 year: 2026
-role: 발표
+role: Presenter
 summary: 텍스트-비디오 생성의 프롬프트 최적화 논문 발표
 status: 
 order: 1
 links:
-  - 발표 자료 PDF |
+  - Slides PDF |
 ---
 
-## 내용
+## Overview
 
 [작성 필요]

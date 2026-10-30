@@ -1,16 +1,17 @@
 ---
 title: PARROT
-title_en: Sogang Data Science Society
+title_ko: 서강대 데이터사이언스학회
+subtitle: Sogang Data Science Society
 slug: parrot
 year: 2026
 period: 2026.03–
-role: 부학회장, 프로젝트 총괄 및 기획
+role: Vice president, project lead & planning
 summary: 서강대 데이터사이언스학회. 학회원 2026.03–, 부학회장 2026.08–.
 featured: true
 order: 1
 ---
 
-## 소개
+## About
 
 [작성 필요] 학회 소개와 부학회장으로서 한 일 2~3문장
 

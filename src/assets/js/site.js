@@ -1,30 +1,61 @@
 /* =========================================================
-   POIESIS — 화면 움직임
-   1) 첫 화면: 흩어진 점(생각)이 모여 단어(형태)가 됩니다
-   2) 이미지: 점(모자이크)에서 선명한 이미지로 나타납니다
-   3) 그 밖에: 시계, 스크롤 등장, 유튜브 재생, 보기 방식 전환, 목록 미리보기
+   juehee — 화면 움직임
+   1) 배경: 회색 입자가 흐르는 곡선
+   2) 부드러운 스크롤, 제목이 한 글자씩 올라오기
+   3) HOME: 큰 로고 → 스크롤하면 작은 로고, 대표 작업 3D 큐브
+   4) 그 밖에: 스크롤 등장, 유튜브 재생, 보기 방식 전환, 목록 미리보기
    ========================================================= */
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
-  const css = getComputedStyle(document.documentElement);
-  const C = {
-    paper: css.getPropertyValue("--paper").trim() || "#EFEEE8",
-    ink: css.getPropertyValue("--ink").trim() || "#151513",
-    olive: css.getPropertyValue("--olive").trim() || "#6B7A3A",
-  };
   const store = {
     get: k => { try { return localStorage.getItem(k); } catch { return null; } },
     set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* 저장 안 돼도 괜찮아요 */ } },
   };
 
-  /* ---------- 시계 ---------- */
-  const clock = document.querySelector("[data-clock]");
-  if (clock) {
-    const fmt = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Seoul", hour: "2-digit", minute: "2-digit" });
-    const tick = () => { clock.textContent = fmt.format(new Date()); };
-    tick(); setInterval(tick, 15000);
+  /* ---------- 배경: 회색 입자로 그린 곡선 ----------
+     화면 밖까지 이어지는 곡선 몇 개를 따라 작은 점을 흩뿌립니다. 한 번만 그리고, 창 크기가 바뀌면 다시 그립니다.
+     매번 같은 모양이 나오도록 정해진 씨앗(seed)으로 난수를 만듭니다. */
+  const swirl = document.querySelector(".swirl");
+  if (swirl) {
+    const draw = () => {
+      const W = innerWidth, H = innerHeight, dpr = Math.min(1.5, devicePixelRatio || 1);
+      swirl.width = Math.round(W * dpr); swirl.height = Math.round(H * dpr);
+      const ctx = swirl.getContext("2d");
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      let seed = 7;
+      const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+      const gauss = () => (rnd() + rnd() + rnd() - 1.5) / 1.5;
+      ctx.fillStyle = "rgba(35, 24, 21, .05)";
+      for (let i = 0, n = Math.round(W * H / 380); i < n; i++) ctx.fillRect(rnd() * W, rnd() * H, 1, 1);
+      // 곡선: 4개의 점을 지나는 부드러운 선(캣멀-롬)
+      const curves = 7;
+      for (let c = 0; c < curves; c++) {
+        const pts = [];
+        for (let k = 0; k < 5; k++) pts.push([(-0.3 + rnd() * 1.6) * W, (-0.3 + rnd() * 1.6) * H]);
+        const steps = 2600;
+        for (let t = 0; t < steps; t++) {
+          const u = t / steps * (pts.length - 3), i = Math.floor(u), f = u - i;
+          const [p0, p1, p2, p3] = [pts[i], pts[i + 1], pts[i + 2], pts[i + 3]];
+          const q = (a, b, c2, d) => .5 * (2 * b + (-a + c2) * f + (2 * a - 5 * b + 4 * c2 - d) * f * f + (-a + 3 * b - 3 * c2 + d) * f * f * f);
+          const x = q(p0[0], p1[0], p2[0], p3[0]), y = q(p0[1], p1[1], p2[1], p3[1]);
+          const spread = 3 + 22 * Math.abs(Math.sin(t / 340 + c));
+          for (let k = 0; k < 5; k++) {
+            ctx.fillStyle = `rgba(35, 24, 21, ${.04 + rnd() * .1})`;
+            ctx.fillRect(x + gauss() * spread, y + gauss() * spread, 1.1, 1.1);
+          }
+        }
+      }
+    };
+    draw();
+    let rt, lastW = innerWidth;
+    addEventListener("resize", () => { if (Math.abs(innerWidth - lastW) < 2) return; lastW = innerWidth; clearTimeout(rt); rt = setTimeout(draw, 250); });
   }
+
+  /* ---------- HOME: 큰 로고가 화면에서 사라지면 머리의 작은 로고를 보여 줌 ---------- */
+  const heroLogo = document.querySelector(".hero-logo");
+  if (heroLogo) new IntersectionObserver(([e]) => document.body.classList.toggle("hero-out", !e.isIntersecting), { rootMargin: "-40px 0px 0px 0px" }).observe(heroLogo);
 
   /* ---------- 부드러운 스크롤 (Lenis + GSAP ScrollTrigger) ---------- */
   const gsap = window.gsap, ST = window.ScrollTrigger;
@@ -52,7 +83,7 @@
   }
 
   /* ---------- 제목: 한 글자씩 아래에서 올라오며 나타나기 ---------- */
-  const TITLES = ".display, .pj-t, .bl-t, .card-t, .intro-h";
+  const TITLES = ".huge, .pj-t, .cs-t, .card-t, .vaw-t";
   function splitChars(el) {
     const clone = el.cloneNode(true);
     clone.querySelectorAll('[aria-hidden="true"]').forEach(n => n.remove());
@@ -143,70 +174,6 @@
   }), { rootMargin: "0px 0px -8% 0px" });
   document.querySelectorAll("[data-reveal]").forEach(el => revealIO.observe(el));
 
-  /* ---------- 이미지 모자이크 ---------- */
-  function pixelate(img, steps, done) {
-    const frame = img.parentElement;
-    const r = frame.getBoundingClientRect();
-    if (!r.width || !img.naturalWidth) return done();
-    const dpr = Math.min(2, devicePixelRatio || 1);
-    const c = document.createElement("canvas");
-    c.className = "mosaic";
-    c.width = Math.round(r.width * dpr); c.height = Math.round(r.height * dpr);
-    frame.appendChild(c);
-    const ctx = c.getContext("2d");
-    const tiny = document.createElement("canvas");
-    const tctx = tiny.getContext("2d", { willReadFrequently: true });
-    let k = 0;
-    const draw = cell => {
-      const cols = Math.max(1, Math.ceil(r.width / cell)), rows = Math.max(1, Math.ceil(r.height / cell));
-      tiny.width = cols; tiny.height = rows;
-      const s = Math.max(cols / img.naturalWidth, rows / img.naturalHeight);
-      tctx.drawImage(img, (cols - img.naturalWidth * s) / 2, (rows - img.naturalHeight * s) / 2, img.naturalWidth * s, img.naturalHeight * s);
-      const d = tctx.getImageData(0, 0, cols, rows).data;
-      const cs = cell * dpr, sq = cs * .8, off = (cs - sq) / 2;
-      ctx.fillStyle = C.paper; ctx.fillRect(0, 0, c.width, c.height);
-      ctx.lineWidth = Math.max(1, dpr);
-      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
-        const i = (y * cols + x) * 4, col = `rgb(${d[i]},${d[i + 1]},${d[i + 2]})`;
-        const lum = (d[i] * .3 + d[i + 1] * .59 + d[i + 2] * .11) / 255;
-        if (lum > .82 && cell > 8) { ctx.strokeStyle = col; ctx.strokeRect(x * cs + off + .5, y * cs + off + .5, sq - 1, sq - 1); }
-        else { ctx.fillStyle = col; ctx.fillRect(x * cs + off, y * cs + off, sq, sq); }
-      }
-    };
-    const next = () => {
-      try { draw(steps[k]); } catch { c.remove(); return done(); } // 다른 사이트 이미지 등 읽을 수 없으면 그냥 보여 줍니다
-      if (++k < steps.length) return setTimeout(next, 95);
-      setTimeout(() => { done(); c.style.opacity = "0"; setTimeout(() => c.remove(), 520); }, 95);
-    };
-    next();
-  }
-
-  const mosaicIO = new IntersectionObserver(es => es.forEach(e => {
-    if (!e.isIntersecting) return;
-    mosaicIO.unobserve(e.target);
-    const img = e.target;
-    const show = () => img.classList.add("is-on");
-    if (reduce) return show();
-    const go = () => pixelate(img, [36, 22, 13, 7], show);
-    if (img.complete && img.naturalWidth) go();
-    else { img.addEventListener("load", go, { once: true }); img.addEventListener("error", show, { once: true }); }
-  }), { rootMargin: "0px 0px -6% 0px" });
-  document.querySelectorAll("img[data-mosaic]").forEach(img => {
-    img.loading = "eager"; // 화면에 들어올 때 바로 그릴 수 있게
-    mosaicIO.observe(img);
-  });
-
-  // 카드에 마우스를 올리면 잠깐 점으로 흩어졌다 돌아옵니다
-  if (fine && !reduce) document.querySelectorAll(".card a").forEach(a => {
-    let busy = false;
-    a.addEventListener("mouseenter", () => {
-      const img = a.querySelector("img[data-mosaic].is-on");
-      if (!img || busy) return;
-      busy = true;
-      pixelate(img, [9, 5], () => { busy = false; });
-    });
-  });
-
   /* ---------- 유튜브: 누르면 그 자리에서 재생 ---------- */
   document.addEventListener("click", e => {
     const a = e.target.closest("a[data-yt]");
@@ -278,109 +245,4 @@
     addEventListener("mousemove", e => { mouse = { x: e.clientX, y: e.clientY }; if (on) { aim(); wake(); } }, { passive: true });
   }
 
-  /* ---------- 첫 화면: 점이 모여 단어가 됩니다 ---------- */
-  const cv = document.querySelector(".intro-dots");
-  if (cv) intro(cv);
-
-  async function intro(canvas) {
-    const word = canvas.dataset.word || "POIESIS";
-    const ctx = canvas.getContext("2d");
-    try { await Promise.race([document.fonts.load('600 100px "Pretendard Variable"'), new Promise(r => setTimeout(r, 1200))]); } catch { /* 기본 글꼴 사용 */ }
-
-    let W = 0, H = 0, dpr = 1, cell = 8, dots = [], visible = true, raf = 0, t0 = 0;
-    const ptr = { x: -1e4, y: -1e4 };
-
-    function layout() {
-      const r = canvas.getBoundingClientRect();
-      dpr = Math.min(2, devicePixelRatio || 1);
-      W = r.width; H = r.height;
-      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      cell = Math.max(5, Math.round(W / (W < 700 ? 62 : 120)));
-
-      // 단어를 몰래 그려 보고, 글자가 있는 칸을 점의 목적지로 씁니다
-      const off = document.createElement("canvas");
-      const cols = Math.floor(W / cell), rows = Math.floor(H / cell);
-      off.width = cols; off.height = rows;
-      const o = off.getContext("2d", { willReadFrequently: true });
-      let fs = rows;
-      o.font = `600 ${fs}px "Pretendard Variable", Pretendard, sans-serif`;
-      const tw = o.measureText(word).width;
-      fs = Math.min(rows * 1.05, fs * (cols * .98) / tw);
-      o.font = `600 ${fs}px "Pretendard Variable", Pretendard, sans-serif`;
-      o.textAlign = "center"; o.textBaseline = "middle"; o.fillStyle = "#000";
-      o.fillText(word, cols / 2, rows / 2 + fs * .04);
-      const d = o.getImageData(0, 0, cols, rows).data;
-      const targets = [];
-      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) if (d[(y * cols + x) * 4 + 3] > 110) targets.push([(x + .5) * cell + (W - cols * cell) / 2, (y + .5) * cell + (H - rows * cell) / 2]);
-
-      const old = dots;
-      dots = targets.map(([tx, ty], i) => {
-        const p = old[i];
-        const rnd = Math.random();
-        return {
-          tx, ty,
-          x: p ? p.x : Math.random() * W, y: p ? p.y : Math.random() * H,
-          vx: 0, vy: 0,
-          delay: p ? 0 : 200 + Math.random() * 1400 + (tx / W) * 500,
-          hollow: rnd < .14, accent: rnd > .93,
-        };
-      });
-      // 아직 형태가 되지 않은 생각들: 단어 밖을 떠도는 점
-      const strays = Math.round(targets.length * .06);
-      for (let i = 0; i < strays; i++) {
-        const x = Math.random() * W, y = Math.random() * H;
-        dots.push({ tx: x, ty: y, x, y, vx: 0, vy: 0, delay: 0, stray: true, hollow: Math.random() < .5, accent: Math.random() < .3, ph: Math.random() * 6.28 });
-      }
-    }
-
-    function frame(t) {
-      if (!t0) t0 = t;
-      const el = t - t0;
-      ctx.clearRect(0, 0, W, H);
-      const s = cell * .74, R = cell * 7;
-      for (const d of dots) {
-        let tx = d.tx, ty = d.ty;
-        if (d.stray) { tx += Math.sin(el / 2400 + d.ph) * cell * 2; ty += Math.cos(el / 3100 + d.ph) * cell * 2; }
-        if (el < d.delay) { tx = d.x; ty = d.y; }
-        const dx = d.x - ptr.x, dy = d.y - ptr.y, dist = Math.hypot(dx, dy);
-        if (dist < R) { const f = (1 - dist / R) * 2.2; d.vx += dx / (dist || 1) * f; d.vy += dy / (dist || 1) * f; }
-        d.vx = (d.vx + (tx - d.x) * .045) * .84;
-        d.vy = (d.vy + (ty - d.y) * .045) * .84;
-        d.x += d.vx; d.y += d.vy;
-        const x = d.x - s / 2, y = d.y - s / 2;
-        const col = d.accent ? C.olive : C.ink;
-        if (d.hollow) { ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.strokeRect(x + .5, y + .5, s - 1, s - 1); }
-        else { ctx.fillStyle = col; ctx.fillRect(x, y, s, s); }
-      }
-      if (visible) raf = requestAnimationFrame(frame);
-    }
-
-    function still() {
-      ctx.clearRect(0, 0, W, H);
-      const s = cell * .74;
-      for (const d of dots) {
-        const col = d.accent ? C.olive : C.ink;
-        if (d.hollow) { ctx.strokeStyle = col; ctx.strokeRect(d.tx - s / 2 + .5, d.ty - s / 2 + .5, s - 1, s - 1); }
-        else { ctx.fillStyle = col; ctx.fillRect(d.tx - s / 2, d.ty - s / 2, s, s); }
-      }
-    }
-
-    layout();
-    if (reduce) { still(); addEventListener("resize", () => { layout(); still(); }); return; }
-
-    canvas.addEventListener("pointermove", e => { const r = canvas.getBoundingClientRect(); ptr.x = e.clientX - r.left; ptr.y = e.clientY - r.top; }, { passive: true });
-    canvas.addEventListener("pointerleave", () => { ptr.x = ptr.y = -1e4; });
-    // 손가락으로 톡 치면 흩어졌다 다시 모입니다
-    canvas.addEventListener("pointerdown", e => {
-      const r = canvas.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top;
-      for (const d of dots) { const dx = d.x - px, dy = d.y - py, dist = Math.hypot(dx, dy) || 1, f = Math.max(0, 1 - dist / (cell * 26)) * 26; d.vx += dx / dist * f; d.vy += dy / dist * f; }
-    });
-    let rt;
-    addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(layout, 150); });
-    new IntersectionObserver(([e]) => {
-      visible = e.isIntersecting;
-      if (visible) { cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }
-    }).observe(canvas);
-  }
 })();

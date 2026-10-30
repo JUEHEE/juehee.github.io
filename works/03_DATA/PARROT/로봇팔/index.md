@@ -1,14 +1,15 @@
 ---
-title: 로봇팔
+title: Robot Arm
+title_ko: 로봇팔
 slug: parrot-robot-arm
 year: 2026
 role: [작성 필요]
 summary: [작성 필요]
 order: 5
 links:
-  - 코드 |
+  - Code |
 ---
 
-## 내용
+## Overview
 
 [작성 필요]

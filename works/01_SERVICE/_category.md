@@ -1,5 +1,5 @@
 ---
 title: Service & UX
-title_ko: 서비스 기획 및 개발
+subtitle: Service planning & development
 ---
-불편에서 시작한 질문을 실제로 쓰이는 서비스로 만든 작업.
+Services that began with an everyday inconvenience, built to be used.
