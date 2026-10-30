@@ -46,7 +46,7 @@ ${jsonld}
   <nav class="hd-nav" aria-label="주요 메뉴">
     ${nav.map(([k, l]) => `<a href="${u(k + "/")}"${path.startsWith(k) ? ' aria-current="page"' : ""}>${l}</a>`).join("")}
   </nav>
-  <p class="hd-clock lbl" aria-hidden="true">SEOUL <span data-clock>--:--</span></p>
+  <p class="hd-clock mono" aria-hidden="true">SEOUL <span data-clock>--:--</span></p>
 </header>
 <main id="main" tabindex="-1">
 ${body}
@@ -54,7 +54,7 @@ ${body}
 <footer class="ft">
   <p class="ft-line">${esc(SITE.tagline || "")}</p>
   <ul class="ft-links">${contactLinks().map(l => `<li>${l}</li>`).join("")}</ul>
-  <p class="ft-copy lbl">© ${new Date().getFullYear()} ${esc(SITE.name_en || SITE.name)}</p>
+  <p class="ft-copy mono">© ${new Date().getFullYear()} ${esc(SITE.name_en || SITE.name)}</p>
 </footer>
 <div class="grain" aria-hidden="true"></div>
 <script src="${u("assets/js/site.js")}" defer></script>
@@ -98,7 +98,7 @@ export function mediaHTML(m, o = {}, caption = "", opts = {}) {
     case "youtube": {
       const watch = `https://www.youtube.com/watch?v=${m.id}`;
       const play = o.flags?.has("thumb") ? "" : ` data-yt="${m.id}"`;
-      return `<div class="frame frame--video" style="aspect-ratio:${r}"><a class="yt" href="${watch}" target="_blank" rel="noopener"${play} aria-label="${esc((label || "영상") + " — 재생")}">${ytThumb(m.id, label, opts.eager)}<span class="yt-play lbl"><i aria-hidden="true"></i>PLAY</span></a></div>`;
+      return `<div class="frame frame--video" style="aspect-ratio:${r}"><a class="yt" href="${watch}" target="_blank" rel="noopener"${play} aria-label="${esc((label || "영상") + " — 재생")}">${ytThumb(m.id, label, opts.eager)}<span class="yt-play mono"><i aria-hidden="true"></i>PLAY</span></a></div>`;
     }
     case "vimeo":
       return `<div class="frame frame--video" style="aspect-ratio:${r}"><iframe src="https://player.vimeo.com/video/${m.id}?dnt=1" title="${esc(label || "영상")}" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>`;
@@ -107,10 +107,10 @@ export function mediaHTML(m, o = {}, caption = "", opts = {}) {
       return `<div class="frame" style="aspect-ratio:${r}"><video src="${esc(m.url)}" ${loop ? "autoplay muted loop playsinline" : 'controls playsinline preload="metadata"'}${label ? ` aria-label="${esc(label)}"` : ""}></video></div>`;
     }
     case "doc":
-      return `<a class="doc" href="${esc(m.url)}" target="_blank" rel="noopener"><span class="doc-ext lbl">${esc(m.ext || "LINK")}</span><span class="doc-t">${esc(label || decodeURI(m.url.split("/").pop()))}</span><span class="doc-arrow" aria-hidden="true">↗</span></a>`;
+      return `<a class="doc" href="${esc(m.url)}" target="_blank" rel="noopener"><span class="doc-ext mono">${esc(m.ext || "LINK")}</span><span class="doc-t">${esc(label || decodeURI(m.url.split("/").pop()))}</span><span class="doc-arrow" aria-hidden="true">↗</span></a>`;
     default:
-      if (/\.(pdf|pptx?|docx?|key|hwp|zip)$/i.test(m.name || "")) return `<p class="doc doc--missing"><span class="doc-ext lbl">${esc(m.name.split(".").pop().toUpperCase())}</span><span class="doc-t">${esc(label || m.name)} — 파일 필요 (${esc(m.name)})</span><span></span></p>`;
-      return `<div class="frame ph" style="aspect-ratio:${r}"><span class="lbl">이미지 자리 · ${esc(m.name || label)}</span></div>`;
+      if (/\.(pdf|pptx?|docx?|key|hwp|zip)$/i.test(m.name || "")) return `<p class="doc doc--missing"><span class="doc-ext mono">${esc(m.name.split(".").pop().toUpperCase())}</span><span class="doc-t">${esc(label || m.name)} — 파일 필요 (${esc(m.name)})</span><span></span></p>`;
+      return `<div class="frame ph" style="aspect-ratio:${r}"><span class="mono">이미지 자리 · ${esc(m.name || label)}</span></div>`;
   }
 }
 
@@ -122,11 +122,11 @@ export function figure(group) {
     const { caption, o, m } = first;
     const isDoc = m.type === "doc" || (m.type === "missing" && /\.(pdf|pptx?|docx?|key|hwp|zip)$/i.test(m.name || ""));
     const cls = ["m", `m--${isDoc ? "doc" : size}`, o.align && `m--${o.align}`].filter(Boolean).join(" ");
-    return `<figure class="${cls}" data-reveal>${mediaHTML(m, o, caption, { sizes: sizesFor(size) })}${caption && !isDoc ? `<figcaption class="lbl">${txt(caption)}</figcaption>` : ""}</figure>`;
+    return `<figure class="${cls}" data-reveal>${mediaHTML(m, o, caption, { sizes: sizesFor(size) })}${caption && !isDoc ? `<figcaption class="mono">${txt(caption)}</figcaption>` : ""}</figure>`;
   }
   const items = group.map(({ caption, o, m }) => {
     const r = num(ratioOf(m, o));
-    return `<figure class="m-cell" style="--r:${r.toFixed(4)}">${mediaHTML(m, o, caption, { sizes: `(max-width: 760px) 100vw, ${Math.round(100 / group.length)}vw` })}${caption && m.type !== "doc" ? `<figcaption class="lbl">${txt(caption)}</figcaption>` : ""}</figure>`;
+    return `<figure class="m-cell" style="--r:${r.toFixed(4)}">${mediaHTML(m, o, caption, { sizes: `(max-width: 760px) 100vw, ${Math.round(100 / group.length)}vw` })}${caption && m.type !== "doc" ? `<figcaption class="mono">${txt(caption)}</figcaption>` : ""}</figure>`;
   });
   return `<div class="m m-row m--${size}" data-reveal>${items.join("")}</div>`;
 }
@@ -138,7 +138,7 @@ function cover(p, i, sizes) {
   const c = p.cover;
   if (c && c.type === "image") return `<div class="frame" style="aspect-ratio:${ratioOf(c)}">${img(c, `${p.title} 대표 이미지`, { sizes })}</div>`;
   if (c && c.type === "youtube") return `<div class="frame" style="aspect-ratio:16/9">${ytThumb(c.id, `${p.title} 영상 썸네일`)}</div>`;
-  return `<div class="frame ph" style="aspect-ratio:${PH_RATIOS[i % PH_RATIOS.length]}"><span class="lbl">${esc(p.titleEn || p.title)}</span></div>`;
+  return `<div class="frame ph" style="aspect-ratio:${PH_RATIOS[i % PH_RATIOS.length]}"><span class="mono">${esc(p.titleEn || p.title)}</span></div>`;
 }
 const coverUrl = p => p.cover?.type === "image" ? p.cover.url : p.cover?.type === "youtube" ? `https://i.ytimg.com/vi/${p.cover.id}/hqdefault.jpg` : "";
 
@@ -147,7 +147,7 @@ function card(p, i, { showCat = true, sizes = "(max-width: 760px) 100vw, 50vw" }
   <a href="${u(`works/${p.slug}/`)}">
     <div class="card-media">${cover(p, i, sizes)}</div>
     <div class="card-cap">
-      <p class="lbl card-meta"><span>${pad(i + 1)}</span>${showCat ? `<span>${esc(p.category.label)}</span>` : ""}<span>${esc(p.year)}</span></p>
+      <p class="mono card-meta"><span>${pad(i + 1)}</span>${showCat ? `<span>${esc(p.category.label)}</span>` : ""}<span>${esc(p.year)}</span></p>
       <h3 class="card-t">${esc(p.title)}${badge(p.status)}</h3>
       ${p.titleEn ? `<p class="card-en">${esc(p.titleEn)}</p>` : ""}
       ${p.summary ? `<p class="card-s">${txt(p.summary)}</p>` : ""}
@@ -157,33 +157,30 @@ function card(p, i, { showCat = true, sizes = "(max-width: 760px) 100vw, 50vw" }
 }
 
 /* ---------- HOME ---------- */
-export function home({ categories, featured, all, poster }) {
+export function home({ categories, featured, all }) {
   const ld = `<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "Person", name: SITE.name, alternateName: SITE.name_en, url: SITE.url, sameAs: (SITE.links || []).map(l => l.value).filter(Boolean) })}</script>`;
   const years = all.map(p => parseInt(p.year)).filter(Boolean);
   const span = years.length ? `${Math.min(...years)}—${Math.max(...years)}` : "";
   const body = `
-<section class="intro ${poster ? "intro--poster" : "intro--word"}" aria-labelledby="intro-h">
-  <h1 class="intro-tl lbl" id="intro-h"><b>${esc(SITE.keyword || "")}.</b>${txt(SITE.tagline || "").replace(", ", ",<br>")}</h1>
-  <p class="intro-def lbl"><i>poiesis</i> (n.)<br>${txt(SITE.definition || "")}</p>
-  ${poster ? `<div class="poster" data-poster>
-    ${img(poster, SITE.intro_alt || `${SITE.name_en || ""} — ${SITE.keyword || ""}`, { sizes: "100vw", eager: true }).replace("<img ", '<img class="poster-img" ').replace(" data-mosaic", "")}
-    <canvas class="poster-cv" aria-hidden="true"></canvas>
-  </div>` : `<canvas class="intro-dots" data-word="${esc(SITE.keyword || "POIESIS")}" aria-hidden="true"></canvas>`}
-  <p class="intro-h lbl">${esc(SITE.name_en || "")}<br>ARCHIVE<br>${span}.</p>
-  <p class="intro-scroll lbl" aria-hidden="true">SCROLL ↓</p>
+<section class="intro" aria-labelledby="intro-h">
+  <canvas class="intro-dots" data-word="${esc(SITE.keyword || "POIESIS")}" aria-hidden="true"></canvas>
+  <p class="intro-tl mono">${esc(SITE.name_en || "")}<br>ARCHIVE ${span}</p>
+  <p class="intro-def"><i>poiesis</i> <span class="mono">(n.)</span><br>${txt(SITE.definition || "")}</p>
+  <h1 class="intro-h" id="intro-h"><span class="sr-only">${esc(SITE.keyword || "")} — </span>${txt(SITE.tagline || "").replace(", ", ",<br>")}</h1>
+  <p class="intro-scroll mono" aria-hidden="true">SCROLL</p>
 </section>
 
 <section class="sec" aria-labelledby="sel-h">
-  <div class="sec-hd"><h2 class="lbl" id="sel-h">SELECTED WORKS <sup>${featured.length}</sup></h2><a class="lbl arrow" href="${u("works/")}">ALL WORKS</a></div>
+  <div class="sec-hd"><h2 class="mono" id="sel-h">SELECTED WORKS <sup>${featured.length}</sup></h2><a class="mono arrow" href="${u("works/")}">ALL WORKS</a></div>
   <div class="grid">${featured.map((p, i) => card(p, i)).join("")}</div>
 </section>
 
 <section class="sec" aria-labelledby="cat-h">
-  <div class="sec-hd"><h2 class="lbl" id="cat-h">INDEX</h2></div>
+  <div class="sec-hd"><h2 class="mono" id="cat-h">INDEX</h2></div>
   <ol class="cats">${categories.map(c => `
     <li data-reveal><a href="${u(`works/${c.key}/`)}">
-      <span class="lbl cats-no">${esc(c.no)}</span>
-      <span class="cats-t">${esc(c.label)}<sup class="lbl">${c.works.length}</sup></span>
+      <span class="mono cats-no">${esc(c.no)}</span>
+      <span class="cats-t">${esc(c.label)}<sup class="mono">${c.works.length}</sup></span>
       <span class="cats-ko">${esc(c.ko)}</span>
       <span class="cats-thumbs" aria-hidden="true">${c.works.slice(0, 4).map(p => coverUrl(p) ? `<img src="${esc(coverUrl(p))}" alt="" loading="lazy">` : "<i></i>").join("")}</span>
     </a></li>`).join("")}
@@ -191,9 +188,9 @@ export function home({ categories, featured, all, poster }) {
 </section>
 
 <section class="sec statement" aria-label="작업 방식">
-  <p class="lbl">STATEMENT</p>
+  <p class="mono">STATEMENT</p>
   <p class="statement-t">${txt(SITE.statement || "")}</p>
-  <a class="lbl arrow" href="${u("about/")}">ABOUT</a>
+  <a class="mono arrow" href="${u("about/")}">ABOUT</a>
 </section>`;
   return layout({ body, page: "pg-home", jsonld: ld, image: featured.find(p => p.cover?.type === "image")?.cover.url });
 }
@@ -204,16 +201,16 @@ export function worksPage({ categories, current, list }) {
   const rows = list.flatMap((p, i) => [row(p, pad(i + 1), current), ...p.children.map((c, j) => row(c, `${pad(i + 1)}.${j + 1}`, current, true))]);
   const body = `
 <section class="wk-hd">
-  <p class="lbl">${current ? `WORKS / ${esc(current.no)}` : "ARCHIVE"}</p>
+  <p class="mono">${current ? `WORKS / ${esc(current.no)}` : "ARCHIVE"}</p>
   <h1 class="display">${current ? esc(current.label) : "WORKS"}</h1>
   ${current ? `<p class="wk-ko">${esc(current.ko)}</p>${current.description ? `<p class="wk-desc">${txt(current.description)}</p>` : ""}` : `<p class="wk-ko">${esc(SITE.works_intro || "")}</p>`}
 </section>
 <div class="wk-bar">
-  <nav class="wk-filter lbl" aria-label="카테고리">
+  <nav class="wk-filter mono" aria-label="카테고리">
     <a href="${u("works/")}"${current ? "" : ' aria-current="page"'}>ALL<sup>${total}</sup></a>
     ${categories.map(c => `<a href="${u(`works/${c.key}/`)}"${current === c ? ' aria-current="page"' : ""}>${esc(c.label)}<sup>${c.works.length}</sup></a>`).join("")}
   </nav>
-  <div class="wk-view lbl" role="group" aria-label="보기 방식">
+  <div class="wk-view mono" role="group" aria-label="보기 방식">
     <button type="button" data-view="grid" aria-pressed="true">GRID</button>
     <button type="button" data-view="list" aria-pressed="false">LIST</button>
   </div>
@@ -227,11 +224,11 @@ export function worksPage({ categories, current, list }) {
 
 function row(p, no, current, child = false) {
   return `<li class="${child ? "is-child" : ""}"><a href="${u(`works/${p.slug}/`)}"${coverUrl(p) ? ` data-preview="${esc(coverUrl(p))}"` : ""}>
-    <span class="lbl l-no">${no}</span>
+    <span class="mono l-no">${no}</span>
     <span class="l-t">${child ? '<i aria-hidden="true">↳</i> ' : ""}${esc(p.title)}${badge(p.status)}</span>
-    <span class="lbl l-c">${current ? "" : esc(p.category.label)}</span>
+    <span class="mono l-c">${current ? "" : esc(p.category.label)}</span>
     <span class="l-r">${txt(p.role)}</span>
-    <span class="lbl l-y">${esc(p.year)}</span>
+    <span class="mono l-y">${esc(p.year)}</span>
   </a></li>`;
 }
 
@@ -243,7 +240,7 @@ export function projectPage({ p, cat, html, gallery, prev, next }) {
     : `<li><span class="todo">${esc(l.label)} — 링크 필요</span></li>`).join("");
   let hero = "";
   if (p.data.hero !== false && p.cover && (p.cover.type === "image" || p.cover.type === "youtube")) {
-    hero = `<figure class="m m--full pj-hero"${p.cover.type === "image" && !p.cover.external ? " data-spill" : ""}>${mediaHTML(p.cover, {}, p.cover.type === "youtube" ? `${p.title} 영상` : `${p.title} 대표 이미지`, { sizes: "100vw", eager: true })}</figure>`;
+    hero = `<figure class="m m--full pj-hero">${mediaHTML(p.cover, {}, p.cover.type === "youtube" ? `${p.title} 영상` : `${p.title} 대표 이미지`, { sizes: "100vw", eager: true })}</figure>`;
   }
   // 자동 갤러리: 1장, 2장, 1장, 2장 … 리듬으로 배치
   const rows = [];
@@ -253,22 +250,22 @@ export function projectPage({ p, cat, html, gallery, prev, next }) {
   const body = `
 <article class="pj">
   <header class="pj-hd">
-    <p class="lbl pj-crumb"><a href="${u("works/")}">WORKS</a> / <a href="${u(`works/${cat.key}/`)}">${esc(cat.label)}</a>${parent ? ` / <a href="${u(`works/${parent.slug}/`)}">${esc(parent.title)}</a>` : ""}</p>
+    <p class="mono pj-crumb"><a href="${u("works/")}">WORKS</a> / <a href="${u(`works/${cat.key}/`)}">${esc(cat.label)}</a>${parent ? ` / <a href="${u(`works/${parent.slug}/`)}">${esc(parent.title)}</a>` : ""}</p>
     <h1 class="pj-t">${esc(p.title)}${badge(p.status)}</h1>
     ${p.titleEn ? `<p class="pj-en">${esc(p.titleEn)}</p>` : ""}
     <div class="pj-intro">
       ${p.summary ? `<p class="pj-lead">${txt(p.summary)}</p>` : ""}
       ${links ? `<ul class="pj-links">${links}</ul>` : ""}
     </div>
-    ${meta.length ? `<dl class="pj-meta">${meta.map(([k, v]) => `<div><dt class="lbl">${esc(k)}</dt><dd>${txt(v)}</dd></div>`).join("")}</dl>` : ""}
+    ${meta.length ? `<dl class="pj-meta">${meta.map(([k, v]) => `<div><dt class="mono">${esc(k)}</dt><dd>${txt(v)}</dd></div>`).join("")}</dl>` : ""}
   </header>
   ${hero}
   <div class="pj-body">${html}${galleryHTML}</div>
-  ${p.children.length ? `<section class="pj-children" aria-labelledby="ch-h"><div class="sec-hd"><h2 class="lbl" id="ch-h">PROJECTS <sup>${p.children.length}</sup></h2></div><div class="grid grid--sm">${p.children.map((c, i) => card(c, i, { showCat: false })).join("")}</div></section>` : ""}
+  ${p.children.length ? `<section class="pj-children" aria-labelledby="ch-h"><div class="sec-hd"><h2 class="mono" id="ch-h">PROJECTS <sup>${p.children.length}</sup></h2></div><div class="grid grid--sm">${p.children.map((c, i) => card(c, i, { showCat: false })).join("")}</div></section>` : ""}
   <nav class="pj-nav" aria-label="다른 작업">
-    ${prev ? `<a class="pj-prev" href="${u(`works/${prev.slug}/`)}"><span class="lbl">← PREV</span>${esc(prev.title)}</a>` : "<span></span>"}
-    <a class="pj-up lbl" href="${u(parent ? `works/${parent.slug}/` : `works/${cat.key}/`)}">${esc(parent ? parent.title : cat.label)}</a>
-    ${next ? `<a class="pj-next" href="${u(`works/${next.slug}/`)}"><span class="lbl">NEXT →</span>${esc(next.title)}</a>` : "<span></span>"}
+    ${prev ? `<a class="pj-prev" href="${u(`works/${prev.slug}/`)}"><span class="mono">← PREV</span>${esc(prev.title)}</a>` : "<span></span>"}
+    <a class="pj-up mono" href="${u(parent ? `works/${parent.slug}/` : `works/${cat.key}/`)}">${esc(parent ? parent.title : cat.label)}</a>
+    ${next ? `<a class="pj-next" href="${u(`works/${next.slug}/`)}"><span class="mono">NEXT →</span>${esc(next.title)}</a>` : "<span></span>"}
   </nav>
 </article>`;
   const plain = String(p.summary).replace(/\[[^\]]*\]/g, "").trim();
@@ -279,7 +276,7 @@ export function projectPage({ p, cat, html, gallery, prev, next }) {
 export function aboutPage({ data, html, portrait }) {
   const body = `
 <section class="ab-hd">
-  <p class="lbl">ABOUT</p>
+  <p class="mono">ABOUT</p>
   <h1 class="display">${esc(data.title || "ABOUT")}</h1>
   ${portrait && portrait.type === "image" ? `<figure class="ab-portrait">${mediaHTML(portrait, {}, data.portrait_alt || `${SITE.name} 사진`, { sizes: "(max-width: 760px) 70vw, 28vw" })}</figure>` : ""}
   ${data.lead ? `<p class="ab-lead">${txt(data.lead)}</p>` : ""}
@@ -293,15 +290,15 @@ export function contactPage() {
   const email = SITE.email && !isTodo(SITE.email) ? `<a class="ct-mail" href="mailto:${esc(SITE.email)}">${esc(SITE.email)}</a>` : `<p class="ct-mail"><span class="todo">${esc(SITE.email || "[작성 필요] 이메일")}</span></p>`;
   const body = `
 <section class="ct">
-  <p class="lbl">CONTACT</p>
+  <p class="mono">CONTACT</p>
   <h1 class="display">CONTACT</h1>
   <p class="ct-lead">${txt(SITE.contact_message || "")}</p>
   ${email}
-  <ul class="ct-links">${(SITE.links || []).map(l => `<li><span class="lbl">${esc(l.label)}</span>${l.value ? `<a href="${esc(l.value)}" target="_blank" rel="noopener">${esc(l.value.replace(/^https?:\/\/(www\.)?/, ""))}<span aria-hidden="true"> ↗</span></a>` : '<span class="todo">링크 필요</span>'}</li>`).join("")}</ul>
+  <ul class="ct-links">${(SITE.links || []).map(l => `<li><span class="mono">${esc(l.label)}</span>${l.value ? `<a href="${esc(l.value)}" target="_blank" rel="noopener">${esc(l.value.replace(/^https?:\/\/(www\.)?/, ""))}<span aria-hidden="true"> ↗</span></a>` : '<span class="todo">링크 필요</span>'}</li>`).join("")}</ul>
 </section>`;
   return layout({ title: "Contact", path: "contact/", body, page: "pg-contact" });
 }
 
 export function notFound() {
-  return layout({ title: "404", path: "404.html", page: "pg-404", body: `<section class="ct"><p class="lbl">404</p><h1 class="display">NOT FOUND</h1><p class="ct-lead">주소가 바뀌었거나 아직 형태가 되지 않은 페이지예요.</p><p><a class="lbl arrow" href="${u("works/")}">WORKS</a></p></section>` });
+  return layout({ title: "404", path: "404.html", page: "pg-404", body: `<section class="ct"><p class="mono">404</p><h1 class="display">NOT FOUND</h1><p class="ct-lead">주소가 바뀌었거나 아직 형태가 되지 않은 페이지예요.</p><p><a class="mono arrow" href="${u("works/")}">WORKS</a></p></section>` });
 }
