@@ -10,6 +10,10 @@ statement: 일상에서 발견한 질문을 데이터와 기술, 이야기와 �
 works_intro: 서비스, 미디어, 데이터, 전시. 질문이 형태가 된 기록들.
 contact_message: 함께 만들고 싶은 것이 있다면 편하게 연락 주세요.
 email: [작성 필요] 이메일 주소
+# 첫 화면 큰 사진: content/ 폴더에 사진을 넣고 아래 줄 맨 앞의 # 을 지우세요.
+# 비워 두면 SELECTED WORKS 첫 작업의 대표 이미지를 씁니다. 사진이 하나도 없으면 점으로 된 POIESIS 글자가 나옵니다.
+# intro_image: intro.jpg
+# intro_alt: 첫 화면 사진 설명
 url: https://juehee.github.io
 base: /
 links:

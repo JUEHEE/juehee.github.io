@@ -141,6 +141,160 @@
     }, { passive: true });
   }
 
+  /* ---------- 첫 화면 포스터: 아래는 사진, 위로는 점으로 부서져 번집니다 ---------- */
+  const posterEl = document.querySelector("[data-poster]");
+  if (posterEl) poster(posterEl);
+
+  async function poster(el) {
+    const img = el.querySelector(".poster-img"), cv = el.querySelector(".poster-cv");
+    try { await img.decode(); } catch { /* 아래에서 확인 */ }
+    if (!img.naturalWidth) return;
+    const ctx = cv.getContext("2d");
+    let W = 0, H = 0, dpr = 1, cell = 8, split = 0, cells = [], map = null, t0 = 0, raf = 0, visible = true, until = 0;
+    const ptr = { x: -1e4, y: -1e4 };
+
+    function layout() {
+      const r = el.getBoundingClientRect();
+      W = r.width; H = r.height; dpr = Math.min(2, devicePixelRatio || 1);
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      split = img.offsetTop;
+      cell = Math.max(6, Math.round(W / (W < 700 ? 46 : 92)));
+      const s = Math.max(W / img.naturalWidth, H / img.naturalHeight);
+      map = { s, x: (W - img.naturalWidth * s) / 2, y: (H - img.naturalHeight * s) / 2 };
+
+      const cols = Math.ceil(W / cell), rows = Math.ceil(H / cell);
+      const tiny = document.createElement("canvas");
+      tiny.width = cols; tiny.height = rows;
+      const tc = tiny.getContext("2d", { willReadFrequently: true });
+      tc.drawImage(img, map.x / cell, map.y / cell, img.naturalWidth * s / cell, img.naturalHeight * s / cell);
+      let d;
+      try { d = tc.getImageData(0, 0, cols, rows).data; } catch { return false; }
+
+      // 배경색(위쪽 가장자리의 평균)과 얼마나 다른지 = 눈에 띄는 정도
+      let br = 0, bg = 0, bb = 0, n = 0;
+      for (let y = 0; y < Math.max(1, Math.round(rows * .12)); y++) for (let x = 0; x < cols; x++) { const i = (y * cols + x) * 4; br += d[i]; bg += d[i + 1]; bb += d[i + 2]; n++; }
+      br /= n; bg /= n; bb /= n;
+      const all = [];
+      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+        const i = (y * cols + x) * 4, R = d[i], G = d[i + 1], B = d[i + 2];
+        all.push({ x: x * cell, y: y * cell, col: `rgb(${R},${G},${B})`, lum: (R * .3 + G * .59 + B * .11) / 255, sal: Math.hypot(R - br, G - bg, B - bb) / 255 });
+      }
+      const sorted = all.map(c => c.sal).sort((a, b) => a - b);
+      const thr = sorted[Math.floor(sorted.length * .45)];
+      cells = [];
+      for (const c of all) {
+        const cy = c.y + cell / 2;
+        let p;
+        if (cy < split) {
+          const fall = cy / split;                          // 0 = 맨 위, 1 = 사진 경계
+          p = c.sal > thr ? Math.pow(fall, 1.1) * .95 : (fall > .92 ? .35 : 0);
+          c.above = true;
+        } else {
+          const fall = 1 - (cy - split) / ((H - split) * .6); // 사진 안쪽으로 갈수록 줄어듦
+          p = fall > 0 && c.sal > thr ? fall * .8 : 0;
+        }
+        if (Math.random() < p) { c.t = Math.random() * 900 + (c.above ? (1 - cy / split) * 900 : (cy - split) / (H - split) * 500); cells.push(c); }
+      }
+      return true;
+    }
+
+    function draw(el2) {
+      ctx.clearRect(0, 0, W, H);
+      ctx.save();
+      ctx.beginPath(); ctx.rect(0, split, W, H - split); ctx.clip();
+      ctx.drawImage(img, map.x, map.y, img.naturalWidth * map.s, img.naturalHeight * map.s);
+      ctx.restore();
+      const sq = cell * .8, off = (cell - sq) / 2, R = cell * 6;
+      ctx.lineWidth = 1;
+      for (const c of cells) {
+        if (el2 < c.t) continue;
+        let x = c.x + off, y = c.y + off;
+        const dx = x - ptr.x, dy = y - ptr.y, dist = Math.hypot(dx, dy);
+        if (dist < R) { const f = (1 - dist / R) * cell * 1.6; x += dx / (dist || 1) * f; y += dy / (dist || 1) * f; }
+        if (c.above) {
+          if (c.lum > .78) { ctx.strokeStyle = c.col; ctx.strokeRect(x + .5, y + .5, sq - 1, sq - 1); }
+          else { ctx.fillStyle = c.col; ctx.fillRect(x, y, sq, sq); }
+        } else if (c.lum > .45) {
+          ctx.fillStyle = C.paper; ctx.fillRect(x, y, sq, sq);
+          ctx.strokeStyle = C.ink; ctx.strokeRect(x + .5, y + .5, sq - 1, sq - 1);
+        } else { ctx.fillStyle = C.ink; ctx.fillRect(x, y, sq, sq); }
+      }
+    }
+
+    function loop(t) {
+      if (!t0) t0 = t;
+      draw(reduce ? 1e9 : t - t0);
+      if (visible && t < until) raf = requestAnimationFrame(loop);
+    }
+    const kick = ms => { until = Math.max(until, performance.now() + ms); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); };
+
+    if (!layout()) return;
+    el.classList.add("is-drawn");
+    kick(reduce ? 0 : 2400);
+    if (fine && !reduce) {
+      el.addEventListener("pointermove", e => { const r = el.getBoundingClientRect(); ptr.x = e.clientX - r.left; ptr.y = e.clientY - r.top; kick(600); }, { passive: true });
+      el.addEventListener("pointerleave", () => { ptr.x = ptr.y = -1e4; kick(400); });
+    }
+    let rt;
+    addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { layout(); t0 = 0; kick(reduce ? 0 : 900); }, 150); });
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) kick(300); }).observe(el);
+  }
+
+  /* ---------- 작업 페이지 큰 사진: 윗부분이 점으로 흩어져 올라갑니다 ---------- */
+  document.querySelectorAll("[data-spill]").forEach(fig => {
+    const frame = fig.querySelector(".frame"), img = frame && frame.querySelector("img");
+    if (!img) return;
+    const go = () => {
+      const fr = frame.getBoundingClientRect();
+      const prev = fig.previousElementSibling;
+      const above = prev ? Math.max(...[...prev.children].map(c => c.getBoundingClientRect().bottom)) : fr.top - 80;
+      const h = Math.min(fr.height * .4, fr.top - above - 12);
+      if (h < 24 || !img.naturalWidth) return;
+      const cell = Math.max(6, Math.round(fr.width / (fr.width < 700 ? 46 : 92)));
+      const cols = Math.ceil(fr.width / cell), rows = Math.floor(h / cell);
+      const dpr = Math.min(2, devicePixelRatio || 1);
+      const c = document.createElement("canvas");
+      c.className = "spill"; c.setAttribute("aria-hidden", "true");
+      c.width = Math.round(fr.width * dpr); c.height = Math.round(rows * cell * dpr);
+      c.style.height = rows * cell + "px";
+      frame.appendChild(c);
+      const ctx = c.getContext("2d");
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // 사진의 맨 윗줄 색을 가져와 위로 흩뿌립니다
+      const band = 6, t = document.createElement("canvas");
+      t.width = cols; t.height = band;
+      const tc = t.getContext("2d", { willReadFrequently: true });
+      const s = Math.max(fr.width / img.naturalWidth, fr.height / img.naturalHeight);
+      const ox = (fr.width - img.naturalWidth * s) / 2, oy = (fr.height - img.naturalHeight * s) / 2;
+      tc.drawImage(img, ox / cell, oy / cell, img.naturalWidth * s / cell, img.naturalHeight * s / cell);
+      let d;
+      try { d = tc.getImageData(0, 0, cols, band).data; } catch { c.remove(); return; }
+      const list = [];
+      for (let k = 0; k < rows; k++) for (let x = 0; x < cols; x++) {
+        const p = Math.pow(1 - (k + 1) / (rows + 1), 2.2) * .85;
+        if (Math.random() > p) continue;
+        const i = (Math.floor(Math.random() * band) * cols + x) * 4;
+        list.push({ x: x * cell, y: (rows - 1 - k) * cell, col: `rgb(${d[i]},${d[i + 1]},${d[i + 2]})`, lum: (d[i] * .3 + d[i + 1] * .59 + d[i + 2] * .11) / 255, t: k * 70 + Math.random() * 300 });
+      }
+      const sq = cell * .8, off = (cell - sq) / 2;
+      let t0 = 0;
+      const frameFn = now => {
+        if (!t0) t0 = now;
+        const el = reduce ? 1e9 : now - t0;
+        ctx.clearRect(0, 0, c.width, c.height);
+        for (const q of list) {
+          if (el < q.t) continue;
+          if (q.lum > .78) { ctx.strokeStyle = q.col; ctx.strokeRect(q.x + off + .5, q.y + off + .5, sq - 1, sq - 1); }
+          else { ctx.fillStyle = q.col; ctx.fillRect(q.x + off, q.y + off, sq, sq); }
+        }
+        if (el < rows * 70 + 400) requestAnimationFrame(frameFn);
+      };
+      requestAnimationFrame(frameFn);
+    };
+    if (img.complete && img.naturalWidth) setTimeout(go, 600); else img.addEventListener("load", () => setTimeout(go, 600), { once: true });
+  });
+
   /* ---------- 첫 화면: 점이 모여 단어가 됩니다 ---------- */
   const cv = document.querySelector(".intro-dots");
   if (cv) intro(cv);

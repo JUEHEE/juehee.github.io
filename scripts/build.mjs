@@ -230,7 +230,14 @@ async function main() {
   }
 
   // 3) 목록 페이지
-  await write("index.html", T.home({ categories, featured: sortWorks(everything.filter(p => p.featured)), all }));
+  const featured = sortWorks(everything.filter(p => p.featured));
+  let poster = null;
+  if (site.intro_image) {
+    poster = await resolveMedia({ dir: CONTENT, slug: "site", used: new Set() }, site.intro_image);
+    if (poster.type !== "image") { warn(`site.md의 intro_image를 찾을 수 없어요: ${site.intro_image}`); poster = null; }
+  }
+  poster ??= [...featured, ...everything].map(p => p.cover).find(c => c?.type === "image" && !c.external) || null;
+  await write("index.html", T.home({ categories, featured, all, poster }));
   await write("works/index.html", T.worksPage({ categories, current: null, list: all }));
   for (const cat of categories) await write(`works/${cat.key}/index.html`, T.worksPage({ categories, current: cat, list: cat.works }));
 
