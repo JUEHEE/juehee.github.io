@@ -8,6 +8,10 @@ role: Planning, AI music production (individual)
 tools: Suno, UVR (Ultimate Vocal Remover), Kits.ai, Mureka
 summary: 동요 '반달'(1924)의 서정을 이어받아, 연애 리얼리티 프로그램의 감정선을 받쳐 주는 BGM으로 재해석한 생성형 AI 음악 프로듀싱.
 order: 2
+cover: https://youtu.be/4xHfgSIi5nk
+# 맨 위에 유튜브 영상이 크게 나오고 바로 재생됩니다
+links:
+  - YouTube | https://youtu.be/4xHfgSIi5nk
 ---
 
 > Though we're under the same moon, I'm still lost without you
