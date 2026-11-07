@@ -1,14 +1,14 @@
 ---
-title: Datathon 2026-2
-title_ko: 데이터톤 2026-2 (앵날다쏘)
+title: PARROT Datathon
+title_ko: 데이터톤 (앵날다쏘)
 subtitle: Predicting late-delivery risk in global e-commerce
-slug: parrot-datathon-26-2
+slug: parrot-datathon
 year: 2026
 role: Lead & planning
 team: 5
 tools: Python, LightGBM, XGBoost, Colab
-summary: 글로벌 e-커머스 주문 14만 건으로 배송 지연 위험을 예측한 중앙대 × 서강대 데이터톤 프로젝트.
-order: 2
+summary: 글로벌 e-커머스 주문 14만 건으로 배송 지연 위험을 머신러닝으로 예측한 중앙대 × 서강대 데이터톤(앵날다쏘) 프로젝트.
+order: 1
 info:
   - Score | OOF PR-AUC 0.9668
 links:

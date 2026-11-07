@@ -10,6 +10,7 @@ summary: Sandia National Laboratories의 Mo 스퍼터링 공정 데이터(27개 
 order: 3
 links:
   - Colab | https://colab.research.google.com/drive/1FUxdruC-vSyxcWiMcfL8QqKtcWTDaX20
+  - Notion | https://app.notion.com/p/PRIME-PARROT-PVD-3d00b009e7bd810280ddeed21969d6a8
   - EDA report PDF |
 ---
 

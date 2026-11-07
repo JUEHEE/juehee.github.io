@@ -8,6 +8,7 @@ role: Research, presentation (individual)
 summary: 멀티 에이전트 LLM이 복합 과제에서 실패하는 이유를 세 논문으로 분석하고, 이를 바탕으로 AI 카드뉴스 생성 아키텍처를 설계했습니다.
 order: 2
 links:
+  - GitHub | https://github.com/jhCOR/CardNewsGenerator
   - Slides PDF |
 ---
 
