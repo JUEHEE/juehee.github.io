@@ -168,8 +168,9 @@ async function pickCover(p) {
   if (p.data.cover) return resolveMedia(p, p.data.cover);
   const auto = fs.readdirSync(p.dir).find(n => /^cover\.(jpe?g|png|gif|webp|avif)$/i.test(n));
   if (auto) return resolveMedia(p, auto);
-  const m = p.body.match(/^!\[[^\]]*\]\(\s*([^)\s]+)/m);
-  if (m) {
+  // 본문에서 처음 나오는 사진(또는 유튜브)
+  for (const m of p.body.matchAll(/^!\[[^\]]*\]\(\s*(.+?)(?:\s+"[^"]*")?\s*\)\s*$/gm)) {
+    if (!IMAGE_EXT.test(m[1]) && !videoId(m[1])) continue;
     const r = await resolveMedia(p, m[1]);
     if (r.type === "image" || r.type === "youtube") return r;
   }

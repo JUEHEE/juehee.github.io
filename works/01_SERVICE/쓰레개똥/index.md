@@ -6,12 +6,13 @@ slug: sseure-gaettong
 year: 2026
 period: 2026–
 role: Planning, UI/UX, development
-tools: React, Vite, TypeScript, Leaflet, Supabase [작성 필요]
+tools: React, Vite, TypeScript, Tailwind CSS, Leaflet, Supabase
 summary: 산책 중 반려견 배변 봉투를 버릴 쓰레기통을 찾아 주는 위치 기반 모바일 웹.
 status: In progress
 featured: true
 order: 2
 links:
+  - Live app | https://sseure-gaettong.vercel.app
   - GitHub | https://github.com/JUEHEE/sseure-gaettong
 ---
 
@@ -23,8 +24,13 @@ links:
 
 ## Process
 
-푸른수목원(서울 구로구 항동) 주변 도보 20분 생활권을 첫 서비스 지역으로 정하고, 현장조사로 쓰레기통 위치와 상태를 직접 기록했습니다. [작성 필요]
+푸른수목원(서울 구로구 항동) 주변 도보 20분 생활권(반경 약 1.5km)을 첫 서비스 지역으로 정하고, 현장조사로 쓰레기통 위치와 상태를 직접 기록하고 있습니다. 지역은 행정구역이 아니라 실제 산책 동선을 기준으로 정했습니다.
+
+"배변 봉투를 버려도 되는 곳인지"는 현장 안내문이나 직접 확인한 근거가 있을 때만 표시하고, 그 전까지는 '확인 전'으로 둔다는 데이터 원칙을 세웠습니다. 일반 쓰레기통이라는 이유만으로 버려도 된다고 판단하지 않습니다.
 
 ## Outcome
 
-현재 개발 중입니다. 지금까지 한 것: [작성 필요] / 다음에 할 것: [작성 필요]
+현재 개발 중입니다.
+
+- **지금까지 한 것** — 배포, 지도와 내 위치·서비스 지역 표시, 가장 가까운 추천 1곳 + 대안 2곳, 카카오맵 길찾기 연결, 사진과 현재 위치로 쓰레기통 등록(진행 중)
+- **다음에 할 것** — 제보 기능, 현장조사 데이터 입력, 항동 아파트 단지 견주 대상 현장 테스트(게시판 QR로 모집)

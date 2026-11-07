@@ -71,7 +71,8 @@ export function parseOptions(str = "") {
   return o;
 }
 
-const MEDIA_LINE = /^!\[([^\]]*)\]\(\s*([^)\s]+)(?:\s+"([^"]*)")?\s*\)\s*$/;
+// 파일 이름에 띄어쓰기가 있어도 됩니다: ![캡션](손길 시연 영상.mp4 "wide")
+const MEDIA_LINE = /^!\[([^\]]*)\]\(\s*(.+?)(?:\s+"([^"]*)")?\s*\)\s*$/;
 
 /* ---------- 본문 전체 ---------- */
 export async function renderMarkdown(src, { resolve, figure }) {
