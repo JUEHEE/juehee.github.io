@@ -11,15 +11,16 @@ tools: MediaPipe, Transformer Encoder, GPT-4o-mini, RAG
 summary: 청각장애인이 통역사 없이 수어로 금융 상담을 받을 수 있는 비대면 AI 상담 서비스. 서강대 해커톤 장려상.
 featured: true
 order: 1
-# 대표 이미지(cover.jpg)를 올리기 전까지는 맨 위 큰 사진을 숨겨 둡니다. 올린 뒤 이 줄을 지우세요.
+# 맨 위에 영상이 바로 나오도록 큰 대표 이미지(cover.jpg)는 숨깁니다. cover.jpg는 목록·큐브에 쓰여요.
 hero: false
 info:
   - Course | 빅데이터종합설계 (서강대 AI중심대학사업단)
 links:
+  - GitHub |
   - Service website |
 ---
 
-![수어 인식 시연 영상](손길 시연 영상.mp4)
+![서비스 시연 — 수어로 금융 상담하기](손길 시연 최종 영상.mp4)
 
 ## Problem
 
@@ -34,6 +35,8 @@ links:
 3. **문장 생성** — GPT-4o-mini로 단어 시퀀스를 자연스러운 한국어 문장으로 변환 (예: 항상 + 운전 + 천천히 → "항상 천천히 운전하세요.")
 
 데이터는 AI Hub 한국수어 데이터(단어·문장 수어 영상, 2~4초, 5개 촬영 방향)를 사용했습니다.
+
+![기술 검증 — 실시간 수어 인식](손길 시연 영상.mp4 "medium left")
 
 ![학술 연구 포스터](손길 학술 연구포스터.png "medium right")
 

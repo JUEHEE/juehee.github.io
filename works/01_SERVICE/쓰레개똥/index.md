@@ -11,6 +11,9 @@ summary: 산책 중 반려견 배변 봉투를 버릴 쓰레기통을 찾아 주
 status: In progress
 featured: true
 order: 2
+cover: 쓰레개똥1.jpg
+# 휴대폰 세로 화면이라 맨 위 큰 사진은 숨기고, 본문에 나란히 놓습니다.
+hero: false
 links:
   - Live app | https://sseure-gaettong.vercel.app
   - GitHub | https://github.com/JUEHEE/sseure-gaettong
@@ -21,6 +24,11 @@ links:
 ## Question
 
 한 손엔 리드줄, 다른 손엔 배변 봉투. 산책 중인 보호자는 급하고, 화면을 오래 볼 수 없습니다. 지금 위치에서 가장 가까운, 실제로 버릴 수 있을 가능성이 높은 쓰레기통은 어디일까요?
+
+![첫 화면](쓰레개똥1.jpg)
+![지도와 서비스 지역](쓰레개똥2.jpg)
+![가장 가까운 쓰레기통 추천](쓰레개똥3.jpg)
+![쓰레기통 등록](쓰레개똥4.jpg)
 
 ## Process
 
