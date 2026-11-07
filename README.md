@@ -208,6 +208,8 @@ links:
 ![쇼츠](https://youtube.com/shorts/AbC123xyz)    ← 세로 영상은 자동으로 세로
 ![티저](https://youtu.be/AbC123xyz "thumb")      ← 썸네일만 (누르면 유튜브로 이동)
 ![짧은 루프](loop.mp4 "loop")                    ← 소리 없이 반복 재생 (GIF처럼)
+![최종 음원](반달.mp3)                           ← 음원: 페이지 안에서 바로 재생 (mp3, m4a, wav)
+![릴스](https://www.instagram.com/reel/영상ID/)   ← 인스타그램 릴스·게시물 주소: 페이지 안에 그대로 보임
 ![기획서](기획서.pdf)                            ← PDF는 문서 링크 줄로 표시
 ```
 
@@ -233,6 +235,7 @@ links:
 | 자료 | 어디에 | 규칙 |
 |---|---|---|
 | 사진 | 작업 폴더 | JPG/PNG/WebP/GIF. 긴 쪽 **2000px 이하**, 한 장 **5MB 이하** 권장. 비율은 자유 (세로, 가로, 정사각 모두 OK) |
+| 음원 | 작업 폴더 | mp3 권장, 10MB 이하 |
 | 영상 | **유튜브** (일부 공개도 가능) | 저장소에 큰 영상 넣지 않기 (GitHub은 100MB 넘는 파일을 거부합니다). 몇 초짜리 루프 영상(10MB 이하)만 `mp4`로 폴더에 |
 | PDF, 발표 자료 | 작업 폴더 | 20MB 이하 권장 |
 | 이력서 | `content/files/resume.pdf` | 주소: `/files/resume.pdf` |

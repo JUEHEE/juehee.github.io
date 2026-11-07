@@ -93,6 +93,7 @@ const sub = s => `<span lang="ko">${txt(s)}</span>`; // 설명은 한국어로 �
 function ratioOf(m, o = {}) {
   if (o.ratio) return o.ratio;
   if (m.width && m.height) return `${m.width}/${m.height}`;
+  if (m.type === "instagram") return m.post ? "4/5.6" : "9/18.5"; // 인스타그램 화면 위아래 머리·꼬리 포함
   if (m.type === "youtube" || m.type === "vimeo" || m.type === "video") return m.vertical ? "9/16" : "16/9";
   return "4/3";
 }
@@ -121,6 +122,10 @@ export function mediaHTML(m, o = {}, caption = "", opts = {}) {
     }
     case "vimeo":
       return `<div class="frame frame--video" style="aspect-ratio:${r}"><iframe src="https://player.vimeo.com/video/${m.id}?dnt=1" title="${esc(label || "Video")}" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>`;
+    case "instagram":
+      return `<div class="frame frame--video frame--ig" style="aspect-ratio:${r}"><iframe src="https://www.instagram.com/${m.post ? "p" : "reel"}/${m.id}/embed" title="${esc(label || "Instagram")}" loading="lazy" scrolling="no" allowtransparency="true"></iframe></div>`;
+    case "audio":
+      return `<div class="audio"><span class="audio-mark" aria-hidden="true"></span><audio controls preload="metadata" src="${esc(m.url)}"${label ? ` aria-label="${esc(label)}"` : ""}></audio></div>`;
     case "video": {
       const loop = o.flags?.has("loop");
       return `<div class="frame" style="aspect-ratio:${r}"><video src="${esc(m.url)}" ${loop ? "autoplay muted loop playsinline" : 'controls playsinline preload="metadata"'}${label ? ` aria-label="${esc(label)}"` : ""}></video></div>`;

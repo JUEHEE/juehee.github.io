@@ -20,6 +20,7 @@ const CONTENT = path.join(ROOT, "content");
 const IMAGE_EXT = /\.(jpe?g|png|gif|webp|avif|svg)$/i;
 const RASTER_EXT = /\.(jpe?g|png|webp)$/i;
 const VIDEO_EXT = /\.(mp4|webm|m4v|mov)$/i;
+const AUDIO_EXT = /\.(mp3|m4a|wav|ogg|aac|flac)$/i;
 const DOC_EXT = /\.(pdf|pptx?|docx?|key|hwp|zip)$/i;
 const WIDTHS = [640, 1280, 1920];
 
@@ -90,16 +91,19 @@ function videoId(url) {
   if (m) return { kind: "youtube", id: m[1], vertical: false };
   m = s.match(/vimeo\.com\/(?:video\/)?(\d+)/);
   if (m) return { kind: "vimeo", id: m[1], vertical: false };
+  m = s.match(/instagram\.com\/(?:[\w.]+\/)?(p|reel|reels|tv)\/([\w-]+)/);
+  if (m) return { kind: "instagram", id: m[2], post: m[1] === "p", vertical: m[1] !== "p" };
   return null;
 }
 
 /* 본문/표지에서 쓰는 미디어 하나를 HTML로 바꿀 준비 */
 async function resolveMedia(proj, ref, opts = {}) {
   const v = videoId(ref);
-  if (v) return { type: v.kind, id: v.id, vertical: v.vertical || opts.vertical, url: ref };
+  if (v) return { type: v.kind, id: v.id, post: v.post, vertical: v.vertical || opts.vertical, url: ref };
   if (/^https?:\/\//.test(ref)) {
     if (IMAGE_EXT.test(ref.split("?")[0])) return { type: "image", url: ref, external: true };
     if (VIDEO_EXT.test(ref.split("?")[0])) return { type: "video", url: ref, external: true };
+    if (AUDIO_EXT.test(ref.split("?")[0])) return { type: "audio", url: ref, external: true };
     return { type: "doc", url: ref, external: true };
   }
   const a = await asset(proj.dir, proj.slug, ref);
@@ -107,6 +111,7 @@ async function resolveMedia(proj, ref, opts = {}) {
   proj.used.add(a.abs);
   if (IMAGE_EXT.test(a.abs)) return { type: "image", ...a };
   if (VIDEO_EXT.test(a.abs)) return { type: "video", ...a };
+  if (AUDIO_EXT.test(a.abs)) return { type: "audio", ...a };
   return { type: "doc", ...a, ext: path.extname(a.abs).slice(1).toUpperCase() };
 }
 
@@ -180,7 +185,7 @@ async function pickCover(p) {
 /* 본문에 쓰지 않은 이미지·영상을 파일 이름 순으로 모아 갤러리로 붙입니다 */
 async function autoGallery(p) {
   if (p.data.auto_gallery === false) return [];
-  const files = fs.readdirSync(p.dir).filter(n => (IMAGE_EXT.test(n) || VIDEO_EXT.test(n)) && !/^cover\./i.test(n)).sort((a, b) => nfc(a).localeCompare(nfc(b), "ko", { numeric: true }));
+  const files = fs.readdirSync(p.dir).filter(n => (IMAGE_EXT.test(n) || VIDEO_EXT.test(n) || AUDIO_EXT.test(n)) && !/^cover\./i.test(n)).sort((a, b) => nfc(a).localeCompare(nfc(b), "ko", { numeric: true }));
   const out = [];
   for (const f of files) {
     const abs = path.join(p.dir, f);
