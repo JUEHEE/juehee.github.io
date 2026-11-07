@@ -8,17 +8,20 @@ role: [작성 필요]
 tools: LeRobot, ACT, SO-101
 summary: SO-101 로봇 팔로 시연을 녹화하고 LeRobot의 ACT 정책을 학습해, 실제 로봇이 노란 테이프를 집어 바구니에 넣도록 만든 프로젝트.
 order: 5
+hero: false
 info:
   - Result | 15개 시연으로 학습한 모델이 실물 로봇에서 성공
 links:
   - GitHub | https://github.com/SunAhKim0430/so101-act-tape-basket
 ---
 
-![학습에 쓴 시연 에피소드 — 시작 → 잡기 → 들어 올리기 → 놓기 → 복귀](example_episode.jpg)
+![실제 로봇 구동 영상](로봇팔 구동 영상.mp4)
 
 ## Overview
 
 리더·팔로워 두 팔로 사람이 직접 시연을 녹화하고, 그 시연으로 ACT(Action Chunking with Transformers) 정책을 학습해 실제 로봇에서 실행하기까지의 전 과정을 진행했습니다.
+
+![학습에 쓴 시연 에피소드 — 시작 → 잡기 → 들어 올리기 → 놓기 → 복귀](example_episode.jpg)
 
 ## Setup
 

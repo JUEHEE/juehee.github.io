@@ -5,7 +5,7 @@ subtitle: AI and data for an inclusive society
 slug: huss
 year: 2026
 period: 2026.02–
-role: 1st cohort (AIFA, AI idea contest), 2nd cohort (DH2026 RAG back-end)
+role: 1st cohort (AIFA front-end, AI idea contest), 2nd cohort (DH2026 RAG back-end)
 summary: 서강대 HUSS 포용사회 사업단에서 1기(AIFA, AI 아이디어 공모전)와 2기(DH2026 RAG 구축)로 활동.
 order: 2
 ---
@@ -16,7 +16,7 @@ order: 2
 
 ## 1st cohort
 
-AIFA 활동과 AI 데이터 기반 포용 아젠다 아이디어 공모전(PathTo)
+AIFA(Project AI Faculty) 프론트엔드, AI 데이터 기반 포용 아젠다 아이디어 공모전(PathTo)
 
 ## 2nd cohort
 

@@ -13,7 +13,7 @@ info:
   - Result | RT-DETR-L mAP@50 0.820
 links:
   - Colab | https://colab.research.google.com/drive/1jDMTJsMf_he0RTui-RzlJmTLP2d6Gh3i
-  - Slides PDF |
+  - Slides PDF | DL 프로젝트 발표자료.pdf
 ---
 
 > 오늘 뭐 먹지?
@@ -34,9 +34,17 @@ YOLOv8m 단독으로는 마늘처럼 작은 재료나 겹친 채소를 자주 �
 - RT-DETR-L — mAP@50 **0.820** / mAP@50-95 **0.570**
 - 두 모델 앙상블 — 0.812 / 0.543 (단독보다 낮음)
 
+![YOLOv11m과 RT-DETR-L 탐지 비교](slide-models.jpg "medium left")
+
+![최종 실험 결과](slide-results.jpg "medium right")
+
 ## Recommendation
 
 탐지된 재료가 들어간 레시피를 보유 재료 활용률, 레시피 완성도, 칼로리 근접도, 부족 재료 패널티, 채식 보너스로 점수화해 추천합니다. 일반·채식·다이어트·투병 식단마다 칼로리 범위를 따로 설계했고, Gradio로 사진 업로드부터 추천까지 이어지는 데모를 만들었습니다.
+
+![레시피 추천 점수](slide-recommend.jpg "medium left")
+
+![Gradio 데모 — 탐지와 추천 결과](slide-demo.jpg)
 
 ## Limitations
 
