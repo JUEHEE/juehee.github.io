@@ -7,8 +7,9 @@ year: 2026
 role: Research, presentation (individual)
 summary: 멀티 에이전트 LLM이 복합 과제에서 실패하는 이유를 세 논문으로 분석하고, 이를 바탕으로 AI 카드뉴스 생성 아키텍처를 설계했습니다.
 order: 2
+hero: false
 links:
-  - Slides PDF |
+  - Slides PDF | MAS 카드뉴스 아키텍처 발표자료.pdf
 ---
 
 > More agents, better results? Not necessarily. Better coordination, better results.
@@ -23,6 +24,9 @@ links:
 - **PMC (ACL)** — 복잡한 기획 과제를 계층적 하위 과제로 나눠 여러 제약 조건을 동시에 만족하는 비율을 높였습니다 (TravelPlanner 기준 42.68% vs GPT-4 2.92%).
 - **Paper2Figure (CVPR)** — 생성 에이전트와 수정 에이전트의 역할을 분리하고 반복 수정해 정확도·미학·완성도를 함께 올렸습니다.
 
+![세 논문에서 확인한 사실](slide-papers.jpg)
+![세 논문의 시사점 종합](slide-synthesis.jpg "medium left")
+
 ## Architecture
 
 세 논문의 시사점을 카드뉴스 제작에 적용해, 실제로 생길 수 있는 네 가지 실패와 그 해결책을 설계했습니다.
@@ -31,3 +35,5 @@ links:
 - **제약 조건 교착** → 분량·톤앤매너·레이아웃 등 전담 하위 과제로 계층적 분해
 - **맥락 파편화** → 생성과 분리된 독립 Reviewer 에이전트가 최종 결과물만 보고 검증
 - **시각적 진동** → 수정 반복을 최대 3회로 제한하고, 수렴하지 않으면 안전한 기본 템플릿으로 되돌림
+
+![AI 카드뉴스 MAS 하이브리드 아키텍처](cover.jpg)
