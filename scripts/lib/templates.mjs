@@ -128,7 +128,7 @@ export function mediaHTML(m, o = {}, caption = "", opts = {}) {
       return `<div class="audio"><span class="audio-mark" aria-hidden="true"></span><audio controls preload="metadata" src="${esc(m.url)}"${label ? ` aria-label="${esc(label)}"` : ""}></audio></div>`;
     case "video": {
       const loop = o.flags?.has("loop");
-      return `<div class="frame" style="aspect-ratio:${r}"><video src="${esc(m.url)}" ${loop ? "autoplay muted loop playsinline" : 'controls playsinline preload="metadata"'}${label ? ` aria-label="${esc(label)}"` : ""}></video></div>`;
+      return `<div class="frame" style="aspect-ratio:${r}"><video src="${esc(m.url)}" ${loop ? "autoplay muted loop playsinline" : 'controls playsinline preload="metadata"'}${m.poster ? ` poster="${esc(m.poster)}"` : ""}${label ? ` aria-label="${esc(label.split(" | ")[0])}"` : ""}></video></div>`;
     }
     case "doc":
       return `<a class="doc" href="${esc(m.url)}" target="_blank" rel="noopener"><span class="doc-ext lbl">${esc(m.ext || "Link")}</span><span class="doc-t">${esc(label || decodeURI(m.url.split("/").pop()))}</span><span class="doc-arrow" aria-hidden="true">↗</span></a>`;
@@ -136,6 +136,13 @@ export function mediaHTML(m, o = {}, caption = "", opts = {}) {
       if (DOC.test(m.name || "")) return `<p class="doc doc--missing"><span class="doc-ext lbl">${esc(m.name.split(".").pop().toUpperCase())}</span><span class="doc-t">${esc(label || m.name)} — 파일 필요 (${esc(m.name)})</span><span></span></p>`;
       return `<div class="frame ph" style="aspect-ratio:${r}"><span class="lbl">Image coming soon · ${esc(m.name || label)}</span></div>`;
   }
+}
+
+/* 캡션: "제목 | 설명"처럼 쓰면 제목은 굵게, 설명은 그 아래 작은 글로 */
+function cap(caption) {
+  const i = caption.indexOf(" | ");
+  if (i < 0) return `<figcaption>${txt(caption)}</figcaption>`;
+  return `<figcaption><strong class="cap-t">${txt(caption.slice(0, i))}</strong><span lang="ko">${txt(caption.slice(i + 3))}</span></figcaption>`;
 }
 
 /* 마크다운의 미디어 줄(묶음) → figure */
@@ -146,11 +153,11 @@ export function figure(group) {
     const { caption, o, m } = first;
     const isDoc = m.type === "doc" || (m.type === "missing" && DOC.test(m.name || ""));
     const cls = ["m", `m--${isDoc ? "doc" : size}`, o.align && `m--${o.align}`].filter(Boolean).join(" ");
-    return `<figure class="${cls}" data-reveal>${mediaHTML(m, o, caption, { sizes: sizesFor(size) })}${caption && !isDoc ? `<figcaption>${txt(caption)}</figcaption>` : ""}</figure>`;
+    return `<figure class="${cls}" data-reveal>${mediaHTML(m, o, caption, { sizes: sizesFor(size) })}${caption && !isDoc ? cap(caption) : ""}</figure>`;
   }
   const items = group.map(({ caption, o, m }) => {
     const r = num(ratioOf(m, o));
-    return `<figure class="m-cell" style="--r:${r.toFixed(4)}">${mediaHTML(m, o, caption, { sizes: `(max-width: 760px) 100vw, ${Math.round(100 / group.length)}vw` })}${caption && m.type !== "doc" ? `<figcaption>${txt(caption)}</figcaption>` : ""}</figure>`;
+    return `<figure class="m-cell" style="--r:${r.toFixed(4)}">${mediaHTML(m, o, caption, { sizes: `(max-width: 760px) 100vw, ${Math.round(100 / group.length)}vw` })}${caption && m.type !== "doc" ? cap(caption) : ""}</figure>`;
   });
   return `<div class="m m-row m--${size}" data-reveal>${items.join("")}</div>`;
 }

@@ -59,3 +59,20 @@ function exifOrientation(buf, tiff) {
   }
   return 0;
 }
+
+/* mp4/mov 영상의 가로·세로 크기 (영상 트랙의 tkhd 상자에서 읽음, 세로로 돌려 찍은 영상도 반영) */
+export function videoSize(buf) {
+  try {
+    let at = 0;
+    while ((at = buf.indexOf("tkhd", at)) !== -1) {
+      const start = at - 4, size = buf.readUInt32BE(start), end = start + size;
+      at += 4;
+      if (size < 84 || end > buf.length) continue;
+      const w = buf.readUInt32BE(end - 8) / 65536, h = buf.readUInt32BE(end - 4) / 65536;
+      if (!w || !h) continue; // 소리 트랙
+      const m = end - 8 - 36, a = buf.readInt32BE(m), b = buf.readInt32BE(m + 4);
+      return a === 0 && b !== 0 ? { width: Math.round(h), height: Math.round(w) } : { width: Math.round(w), height: Math.round(h) };
+    }
+  } catch { /* 모르는 형식 */ }
+  return null;
+}

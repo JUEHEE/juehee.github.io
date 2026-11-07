@@ -9,7 +9,7 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseFrontMatter, parseList, renderMarkdown, isTodo } from "./lib/markdown.mjs";
-import { imageSize } from "./lib/imagesize.mjs";
+import { imageSize, videoSize } from "./lib/imagesize.mjs";
 import * as T from "./lib/templates.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -61,6 +61,10 @@ async function asset(dir, slug, ref) {
   const size = fs.statSync(abs).size;
   if (size > 20 * 1024 * 1024) warn(`${rel}: ${(size / 1048576).toFixed(0)}MB — 너무 큽니다. 영상은 유튜브, 이미지는 2000px 이하로 줄여 주세요.`);
   const info = { url: T.u(urlPath(rel)), abs, rel, srcset: "" };
+  if (VIDEO_EXT.test(abs)) {
+    const dim = videoSize(await fsp.readFile(abs));
+    if (dim) { info.width = dim.width; info.height = dim.height; }
+  }
   if (IMAGE_EXT.test(abs)) {
     const dim = imageSize(await fsp.readFile(abs));
     if (dim) { info.width = dim.width; info.height = dim.height; }
@@ -110,7 +114,15 @@ async function resolveMedia(proj, ref, opts = {}) {
   if (!a) { warn(`[${proj.slug}] 파일을 찾을 수 없어요: ${ref}`); return { type: "missing", name: ref }; }
   proj.used.add(a.abs);
   if (IMAGE_EXT.test(a.abs)) return { type: "image", ...a };
-  if (VIDEO_EXT.test(a.abs)) return { type: "video", ...a };
+  if (VIDEO_EXT.test(a.abs)) {
+    // 같은 이름의 사진(예: 난춘.mp4 ↔ 난춘.jpg)이 있으면 영상의 첫 화면(포스터)으로 씁니다
+    const base = path.relative(proj.dir, a.abs).replace(/\.[^.]+$/, "");
+    for (const ext of [".jpg", ".jpeg", ".png", ".webp"]) {
+      const pa = findFile(proj.dir, base + ext) && await asset(proj.dir, proj.slug, base + ext);
+      if (pa) { proj.used.add(pa.abs); return { type: "video", ...a, poster: pa.url }; }
+    }
+    return { type: "video", ...a };
+  }
   if (AUDIO_EXT.test(a.abs)) return { type: "audio", ...a };
   return { type: "doc", ...a, ext: path.extname(a.abs).slice(1).toUpperCase() };
 }

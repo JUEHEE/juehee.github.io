@@ -295,6 +295,8 @@ main { display: block; min-height: 70vh; }
 /* 미디어 크기 */
 .m { margin: 0; }
 .m figcaption, .m-cell figcaption { margin-top: 10px; color: var(--mute); font-size: 13px; font-weight: 300; }
+.cap-t { display: block; margin-bottom: 4px; color: var(--ink); font-size: 15px; font-weight: 400; }
+.cap-t + span { display: block; line-height: 1.7; }
 .pj-body > .m--full { grid-column: 1 / -1; margin: 0 calc(var(--g) * -1); }
 .pj-hero.m--full { margin-left: 0; margin-right: 0; }
 .pj-body > .m--full figcaption { padding: 0 var(--g); }
@@ -438,7 +440,8 @@ html.lenis, html.lenis body { height: auto; }
   .pj-body > .m--small.m--left, .pj-body > .m--small.m--right, .pj-body > .m--small { grid-column: 2 / span 10; }
   .m-row { gap: 8px; }
   .m-row:has(> :nth-child(4)) { flex-wrap: wrap; }
-  .m-row:has(> :nth-child(4)) .m-cell { flex-basis: calc(50% - 8px); }
+  .m-row:has(> :nth-child(4)) .m-cell { flex: 0 1 calc(50% - 4px); }
+  .m-row:has(> :nth-child(4)) { row-gap: 24px; }
   .pj-nav { grid-template-columns: 1fr 1fr; }
   .pj-up { grid-column: 1 / -1; grid-row: 2; }
   .ab-portrait { grid-column: 1 / span 8; }
