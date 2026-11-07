@@ -35,4 +35,4 @@ I study stories and media at the Department of Media & Entertainment, Sogang Uni
 - 2026 Sogang Hackathon, Honorable Mention — Sonkil
 - 2025 Miennale — general director
 - 2025.03–2025.08 SGCC club website — UI/UX, front-end
-- 2024.06–2024.09 Jeonhuja Scholarship Supporters — Nonviolent Earthling Project
+- 2024.06–2024.09 Sogang Human Rights & Gender Equality Supporters — Nonviolent Earthling Project
