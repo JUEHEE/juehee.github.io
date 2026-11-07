@@ -16,8 +16,7 @@ hero: false
 info:
   - Course | 빅데이터종합설계 (서강대 AI중심대학사업단)
 links:
-  - GitHub |
-  - Service website |
+  - GitHub | https://github.com/mynamepia/Real_Time_Korean_Sign_Language_Translation_System_For_Financail_Counseling
 ---
 
 ![서비스 시연 — 수어로 금융 상담하기](손길 시연 최종 영상.mp4)
