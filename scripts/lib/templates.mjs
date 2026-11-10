@@ -221,10 +221,13 @@ function wcard(p, i) {
    앞면을 가운데에 두고, 옆면은 앞면의 모서리에 경첩처럼 붙어 있습니다. (모션은 site.js) */
 function cubeStage(p, i, total) {
   const url = p.cubeImg ? p.cubeImg.url : coverUrl(p);
-  const tile = (cls, c, r, inner = "") => `<div class="f ${cls}" style="background-position:${c * 50}% ${r * 50}%">${inner}</div>`;
-  const corners = [[0, 0], [2, 0], [0, 2], [2, 2]].map(([c, r]) => tile(`f-corner f-c${c}${r}`, c, r)).join("");
+  // cube_net: cross → 모서리 없이 6면이 십자 모양으로 펼쳐짐 (뒷면도 남음). 그림은 가로 4칸 × 세로 3칸
+  const cross = p.data.cube_net === "cross";
+  const cols = cross ? 4 : 3;
+  const tile = (cls, c, r, inner = "") => `<div class="f ${cls}" style="background-position:${c * 100 / (cols - 1)}% ${r * 50}%">${inner}</div>`;
+  const corners = cross ? "" : [[0, 0], [2, 0], [0, 2], [2, 2]].map(([c, r]) => tile(`f-corner f-c${c}${r}`, c, r)).join("");
   const href = u(`works/${p.slug}/`);
-  return `<article class="cs${url ? "" : " cs--empty"}"${url ? ` style="--img:url('${esc(url)}')"` : ""}>
+  return `<article class="cs${url ? "" : " cs--empty"}${cross ? " cs--cross" : ""}"${url ? ` style="--img:url('${esc(url)}')"` : ""}>
   <div class="cs-text">
     <p class="lbl cs-no">${pad(i + 1)} / ${pad(total)}</p>
     <h3 class="cs-t"><a href="${href}">${esc(p.title)}</a>${badge(p.status)}</h3>
@@ -238,7 +241,7 @@ function cubeStage(p, i, total) {
     <div class="cube">
       ${tile("f-front", 1, 1, [
         tile("f-left", 0, 1),
-        tile("f-right", 2, 1, tile("f-back", 1, 1)),
+        tile("f-right", 2, 1, tile("f-back", cross ? 3 : 1, 1)),
         tile("f-top", 1, 0),
         tile("f-bottom", 1, 2),
         corners,
@@ -341,9 +344,12 @@ function bigList(groups, { level = 3, children = false, heading = true, tiles = 
       <span class="bl-m"><span class="bl-y">${esc(p.year)}</span>${p.titleKo ? `<span class="bl-ko" lang="ko">${esc(p.titleKo)}</span>` : ""}</span>
     </a></li>`;
   const tileHTML = c => {
-    const withCover = c.works.filter(p => coverUrl(p)).slice(0, CROSS.length);
-    if (!tiles || !withCover.length) return "";
-    return `<div class="bl-tiles" aria-hidden="true">${withCover.map((p, i) => `<a href="${u(`works/${p.slug}/`)}" tabindex="-1" style="grid-area:${CROSS[i][1]} / ${CROSS[i][0]}" data-reveal><img src="${esc(coverUrl(p))}" alt="" loading="lazy" decoding="async"></a>`).join("")}</div>`;
+    // 작업마다 대표 그림 하나씩, 칸이 남으면 tiles:로 지정한 장면들로 채움
+    const main = c.works.filter(p => coverUrl(p)).map(p => ({ p, src: p.thumbImg ? p.thumbImg.url : coverUrl(p) }));
+    const extra = c.works.flatMap(p => (p.tileImgs || []).map(m => ({ p, src: m.url })));
+    const cells = [...main, ...extra].slice(0, CROSS.length);
+    if (!tiles || !cells.length) return "";
+    return `<div class="bl-tiles" aria-hidden="true">${cells.map(({ p, src }, i) => `<a href="${u(`works/${p.slug}/`)}" tabindex="-1" style="grid-area:${CROSS[i][1]} / ${CROSS[i][0]}" data-reveal><img src="${esc(src)}" alt="" loading="lazy" decoding="async"></a>`).join("")}</div>`;
   };
   return `<div class="bl${tiles ? " bl--tiles" : ""}">${groups.map(c => `
   <section class="bl-g${tileHTML(c) ? " has-tiles" : ""}" aria-label="${esc(c.label)}">

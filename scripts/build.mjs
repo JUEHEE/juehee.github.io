@@ -241,6 +241,10 @@ async function main() {
   // 제목 옆에 붙이는 작은 그림 (title_icon: 파일이름) — 예: SGCC 캐릭터가 통통 튐
   for (const p of everything) if (p.data.title_icon) p.titleIcon = await resolveMedia(p, p.data.title_icon);
   // HOME 큐브 전용 이미지 (cube: 파일이름) — 3×3으로 나뉘어 큐브의 각 면이 됩니다
+  // 정사각형 목록 타일용 그림 (thumb: 파일이름) — 없으면 대표 이미지
+  for (const p of everything) if (p.data.thumb) p.thumbImg = await resolveMedia(p, p.data.thumb);
+  // 분야 목록의 십자 타일에 더 넣을 장면들 (tiles: [파일, ...])
+  for (const p of everything) if (Array.isArray(p.data.tiles)) p.tileImgs = (await Promise.all(p.data.tiles.map(f => resolveMedia(p, f)))).filter(m => m.url);
   for (const p of everything) if (p.data.cube) {
     p.cubeImg = await resolveMedia(p, p.data.cube);
     // 큐브 그림을 고치면 주소가 바뀌도록 파일 내용으로 만든 꼬리표를 붙임 (브라우저에 남은 예전 그림 방지)

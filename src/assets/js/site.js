@@ -330,12 +330,16 @@
           gsap.set(q(face), { [prop]: deg });
           tl.fromTo(q(face), { [prop]: deg }, { [prop]: 0, duration: .3, ease: "power2.inOut", immediateRender: false }, at);
         });
+        const cross = cs.classList.contains("cs--cross");
         gsap.set(q(".f-back"), { rotationY: 90, opacity: 1 });
-        tl.fromTo(q(".f-back"), { rotationY: 90, opacity: 1 }, { rotationY: 0, opacity: 0, duration: .2, ease: "power2.in", immediateRender: false }, .48);
+        // 십자 전개도는 뒷면이 그대로 남고, 펼쳐진 모양이 가운데 오도록 살짝 왼쪽으로 옮김
+        tl.fromTo(q(".f-back"), { rotationY: 90, opacity: 1 }, { rotationY: 0, opacity: cross ? 1 : 0, duration: cross ? .3 : .2, ease: cross ? "power2.inOut" : "power2.in", immediateRender: false }, .48);
+        if (cross) tl.fromTo(cube, { x: 0 }, { x: () => -cube.offsetWidth / 2, duration: .3, ease: "power2.inOut", immediateRender: false }, .48);
         gsap.set(sides, { "--shade": .22 });
         tl.fromTo(sides, { "--shade": .22 }, { "--shade": 0, duration: .3, immediateRender: false }, .48);
         // 3) 빈 모서리가 채워져 한 장의 평면 이미지가 됨
-        tl.fromTo(cs.querySelectorAll(".f-corner"), { opacity: 0 }, { opacity: 1, duration: .16, ease: "power1.out", immediateRender: false }, .7);
+        const corners = cs.querySelectorAll(".f-corner");
+        if (corners.length) tl.fromTo(corners, { opacity: 0 }, { opacity: 1, duration: .16, ease: "power1.out", immediateRender: false }, .7);
         tl.to({}, { duration: .1 });
       });
       ST.refresh();

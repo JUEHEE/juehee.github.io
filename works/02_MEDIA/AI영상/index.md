@@ -13,6 +13,11 @@ order: 1
 # 세로 영상이라 맨 위 큰 대표 이미지는 숨김 (cover.jpg는 목록·큐브용)
 hero: false
 cube: cube.jpg
+cube_net: cross
+tiles:
+  - 타일1.jpg
+  - 타일2.jpg
+  - 타일3.jpg
 info:
   - Team | 2명
   - 맡은 일 | 기획, 인물 설정, 장면의 미장센 설계

@@ -14,6 +14,9 @@ order: 2
 cover: cover-wide.jpg
 # HOME 큐브용 정사각형
 cube: cube.jpg
+cube_net: cross
+# 정사각형 타일(분야 목록)용
+thumb: thumb.jpg
 # 휴대폰 세로 화면이라 맨 위 큰 사진은 숨기고, 본문에 나란히 놓습니다.
 hero: false
 info:
