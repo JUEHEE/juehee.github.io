@@ -189,6 +189,26 @@ function card(p, i, { showCat = true, sizes = "(max-width: 760px) 100vw, 50vw" }
 </article>`;
 }
 
+/* ---------- WORKS 목록 카드: 제목 · #분야 · 같은 비율(4:3) 이미지 ---------- */
+function wcard(p, i) {
+  // 묶음(PARROT 등)처럼 표지가 없으면 안에 든 첫 작업의 표지를 빌려 씁니다
+  const own = p.cover && (p.cover.type === "image" || p.cover.type === "youtube") ? p.cover : null;
+  const c = own || (p.children || []).map(ch => ch.cover).find(cv => cv && (cv.type === "image" || cv.type === "youtube"));
+  const alt = `${p.title} — cover`;
+  const media = c && c.type === "image" ? img(c, alt, { sizes: "(max-width: 760px) 100vw, 34vw" })
+    : c && c.type === "youtube" ? ytThumb(c.id, `${p.title} — video`)
+    : `<span class="lbl wc-ph">${esc(p.title)}</span>`;
+  return `<article class="wc" data-reveal>
+  <a href="${u(`works/${p.slug}/`)}">
+    <div class="wc-cap">
+      <h2 class="wc-t">${esc(p.title)}${badge(p.status)}</h2>
+      <p class="wc-tag">#${esc(p.category.label)}</p>
+    </div>
+    <div class="wc-media">${media}</div>
+  </a>
+</article>`;
+}
+
 /* ---------- 3D 큐브 (HOME 대표 작업, 데스크톱 전용) ----------
    정육면체의 각 면은 대표 이미지를 3×3으로 나눈 조각입니다. 큐브가 펼쳐지면 조각이 맞춰져 한 장의 이미지가 됩니다.
    앞면을 가운데에 두고, 옆면은 앞면의 모서리에 경첩처럼 붙어 있습니다. (모션은 site.js) */
@@ -229,29 +249,27 @@ export function home({ categories, featured, all }) {
 <section class="hero" aria-labelledby="hero-h">
   <h1 class="hero-logo" id="hero-h">${logoSVG("logo--lg")}<span class="sr-only">${esc(SITE.name_en || "")} — ${esc(SITE.keyword || "")}</span></h1>
   <p class="hero-hi">${lines(SITE.greeting)}</p>
-  <div class="hero-foot">
-    <div class="hero-intro">${(Array.isArray(SITE.intro) ? SITE.intro : SITE.intro ? [SITE.intro] : []).map(t => `<p>${txt(t)}</p>`).join("")}</div>
-    <figure class="hicam" data-state="idle" aria-label="Say hi with your camera">
-      <div class="hicam-mac">
-        <div class="hicam-lid">
-          <div class="hicam-screen">
-            <video class="hicam-video" playsinline muted aria-hidden="true"></video>
-            <canvas class="hicam-boxes" aria-hidden="true"></canvas>
-            <p class="hicam-msg" aria-live="polite">Hi there.<br>Wave back?</p>
-            <button class="hicam-btn" type="button"><i aria-hidden="true"></i>Say hi</button>
-            <button class="hicam-off lbl" type="button" aria-label="Turn camera off">Off</button>
-            <figure class="hicam-pip">
-              <video class="hicam-me" autoplay poster="${u("assets/media/hello.jpg")}" muted loop playsinline preload="metadata" aria-label="Juehee bowing and waving hello"><source src="${u("assets/media/hello.mp4")}" type="video/mp4"><source src="${u("assets/media/hello.webm")}" type="video/webm"></video>
-              <figcaption class="lbl">juehee</figcaption>
-            </figure>
-          </div>
+  <div class="hero-intro">${(Array.isArray(SITE.intro) ? SITE.intro : SITE.intro ? [SITE.intro] : []).map(t => `<p>${txt(t)}</p>`).join("")}</div>
+  <figure class="hicam" data-state="idle" aria-label="Say hi with your camera">
+    <div class="hicam-mac">
+      <div class="hicam-lid">
+        <div class="hicam-screen">
+          <video class="hicam-video" playsinline muted aria-hidden="true"></video>
+          <canvas class="hicam-boxes" aria-hidden="true"></canvas>
+          <p class="hicam-msg" aria-live="polite">Hi there.<br>Wave back?</p>
+          <button class="hicam-btn" type="button"><i aria-hidden="true"></i>Say hi</button>
+          <button class="hicam-off lbl" type="button" aria-label="Turn camera off">Off</button>
+          <figure class="hicam-pip">
+            <video class="hicam-me" autoplay poster="${u("assets/media/hello.jpg")}" muted loop playsinline preload="metadata" aria-label="Juehee bowing and waving hello"><source src="${u("assets/media/hello.mp4")}" type="video/mp4"><source src="${u("assets/media/hello.webm")}" type="video/webm"></video>
+            <figcaption class="lbl">juehee</figcaption>
+          </figure>
         </div>
-        <div class="hicam-base" aria-hidden="true"></div>
       </div>
-      <figcaption class="hicam-bar lbl"><span class="hicam-rec"><i></i>Live</span><time class="hicam-clock"></time></figcaption>
-      <p class="hicam-note">Your camera stays on your device. Nothing is recorded or sent.</p>
-    </figure>
-  </div>
+      <div class="hicam-base" aria-hidden="true"></div>
+    </div>
+    <figcaption class="hicam-bar lbl"><span class="hicam-rec"><i></i>Live</span><time class="hicam-clock"></time></figcaption>
+    <p class="hicam-note">Your camera stays on your device. Nothing is recorded or sent.</p>
+  </figure>
   <p class="hero-scroll lbl" aria-hidden="true">Scroll <i></i></p>
 </section>
 
@@ -282,24 +300,21 @@ export function home({ categories, featured, all }) {
 export function worksPage({ categories, current, list }) {
   const total = categories.reduce((n, c) => n + c.works.length, 0);
   const body = `
-<section class="pg-hd">
-  <p class="lbl br">${current ? `works / ${esc(current.no)}` : "archive"}</p>
-  <h1 class="huge">${current ? lower(current.label) : "works"}</h1>
-  <p class="pg-sub">${current ? esc(current.sub) : esc(SITE.works_intro || "")}</p>
-  ${current && current.description ? `<p class="pg-desc">${txt(current.description)}</p>` : ""}
-</section>
-<div class="wk-bar">
+<section class="wk-hd">
+  <h1 class="wk-title">works</h1>
+  <p class="lbl br wk-cat">category</p>
   <nav class="wk-filter" aria-label="Categories">
-    <a href="${u("works/")}"${current ? "" : ' aria-current="page"'}>all<sup>${total}</sup></a>
-    ${categories.map(c => `<a href="${u(`works/${c.key}/`)}"${current === c ? ' aria-current="page"' : ""}>${lower(c.label)}<sup>${c.works.length}</sup></a>`).join("")}
+    <a href="${u("works/")}"${current ? "" : ' aria-current="page"'}>All<sub>${total}</sub></a>
+    ${categories.map(c => `<a href="${u(`works/${c.key}/`)}"${current === c ? ' aria-current="page"' : ""}>${esc(c.label)}<sub>${c.works.length}</sub></a>`).join("")}
   </nav>
   <div class="wk-view" role="group" aria-label="View">
     <button type="button" data-view="grid" aria-pressed="true">grid</button>
     <button type="button" data-view="list" aria-pressed="false">list</button>
   </div>
-</div>
+</section>
+${current && current.description ? `<p class="wk-desc">${txt(current.description)}</p>` : ""}
 <div class="wk" data-view="grid">
-  <div class="grid">${list.map((p, i) => card(p, i, { showCat: !current })).join("")}</div>
+  <div class="wgrid">${list.map((p, i) => wcard(p, i)).join("")}</div>
   <div class="list">${bigList(current ? [current] : categories, { level: 2, children: true, heading: !current })}</div>
 </div>`;
   return layout({ title: current ? current.label : "Works", description: current ? `${current.label} — ${current.sub}` : SITE.works_intro, path: current ? `works/${current.key}/` : "works/", body, page: "pg-works" });
