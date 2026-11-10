@@ -4,9 +4,9 @@ subtitle: Sign language–based remote financial counseling AI
 slug: sonkil
 year: 2026
 period: 2026-1
-role: Team lead (planning, data preprocessing, web)
+role: Team lead (data preprocessing, data analysis, web design)
 team: 4
-tools: MediaPipe, Transformer Encoder, GPT-4o-mini, RAG
+tools: MediaPipe Hands·Pose, PyTorch Transformer Encoder, OpenAI o4-mini, Streamlit
 summary: 청각장애인이 통역사 없이 수어로 금융 상담을 받을 수 있는 비대면 AI 상담 서비스. 서강대 해커톤 장려상.
 featured: true
 order: 2
@@ -14,10 +14,10 @@ order: 2
 hero: false
 info:
   - Course | 빅데이터종합설계 (서강대 AI중심대학사업단)
+  - Result | Test accuracy 95.0% (validation 99.73%)
 links:
   - GitHub | https://github.com/mynamepia/Real_Time_Korean_Sign_Language_Translation_System_For_Financail_Counseling
 ---
-
 ![서비스 시연 — 수어로 금융 상담하기](손길 시연 최종 영상.mp4)
 
 ## Problem
@@ -26,27 +26,44 @@ links:
 
 ## Approach
 
-웹캠 앞에서 수어를 하면 실시간으로 인식해 자연어 문장으로 바꿔 주는 파이프라인을 만들었습니다.
+웹캠 앞에서 수어를 하면 단어를 실시간으로 알아보고, 그 단어들을 자연스러운 한국어 문장으로 바꿔 상담 화면에 띄우는 파이프라인을 만들었습니다.
 
-1. **손동작 인식** — MediaPipe로 양손·얼굴·상체 랜드마크 55개(110차원)를 추출
-2. **단어 예측** — 최대 80프레임 시퀀스를 Transformer Encoder로 학습해 수어 단어를 분류
-3. **문장 생성** — GPT-4o-mini로 단어 시퀀스를 자연스러운 한국어 문장으로 변환 (예: 항상 + 운전 + 천천히 → "항상 천천히 운전하세요.")
-
-데이터는 AI Hub 한국수어 데이터(단어·문장 수어 영상, 2~4초, 5개 촬영 방향)를 사용했습니다.
-
-![기술 검증 — 실시간 수어 인식](손길 시연 영상.mp4 "medium left")
+1. **키포인트 추출** — MediaPipe Hands·Pose로 프레임마다 몸의 점 55개를 뽑습니다.
+2. **단어 분류** — 프레임을 이어 붙인 시퀀스를 Transformer Encoder가 읽고 수어 단어를 고릅니다.
+3. **문장 생성** — 인식한 단어 목록을 OpenAI o4-mini가 존댓말 한국어 문장으로 다듬습니다. (예: 항상 + 운전 + 천천히 → "항상 천천히 운전하세요.")
 
 ![학술 연구 포스터](손길 학술 연구포스터.png "medium right")
 
+## Data
+
+[AI Hub 한국수어 영상 데이터](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&searchKeyword=%EC%88%98%EC%96%B4%20%EC%98%81%EC%83%81&aihubDataSe=data&dataSetSn=103)를 사용했습니다. 단어·문장 수어 영상(2~4초, 5개 촬영 방향)과, 영상 속 각 단어가 몇 초부터 몇 초까지인지 적힌 형태소 주석(JSON)이 함께 들어 있습니다.
+
+- **단어 구간 자르기** — 주석의 시작·끝 시간을 30fps 프레임 번호로 바꿔, 영상 하나를 단어 단위 학습 샘플로 나눴습니다.
+- **키포인트 110차원** — 오른손 21 + 왼손 21 + 얼굴 7(코·눈·귀·입꼬리) + 상체 6(어깨·팔꿈치·손목) = 55개 점의 x, y 좌표.
+- **길이 맞추기** — 단어마다 길이가 달라, 길면 고르게 골라 쓰고 짧으면 마지막 프레임으로 채워 80프레임으로 맞췄습니다.
+- **위치 정규화** — 손은 손목, 얼굴은 코, 상체는 어깨를 기준점으로 삼아 좌표를 다시 계산했습니다. 화면 어디에 서 있든 같은 동작은 같은 값이 되도록 하기 위해서입니다.
+- 학습 70% / 검증 15% / 테스트 15%로 나눴습니다.
+
+## Model
+
+- **구조** — 110차원 입력을 256차원으로 바꾼 뒤 위치 인코딩을 더하고, 6층 Transformer Encoder(헤드 8개)로 프레임 사이의 흐름을 학습합니다. 빈 프레임은 마스크로 가리고 평균을 내 단어를 분류합니다.
+- **학습** — Adam(학습률 0.0001), 50 epoch, 검증 손실이 멈추면 학습률을 절반으로 줄였습니다. Apple Silicon(MPS)에서 학습했습니다.
+- **미세 조정** — 실제 사용자의 동작에 맞추기 위해 팀원들이 직접 수어를 녹화했습니다. 녹화한 동작을 잡음·이동·크기 변화·속도 변화·좌우 손 바꾸기로 50배 늘린 뒤, 입력 층은 고정하고 낮은 학습률(0.00001)로 20 epoch 더 학습했습니다.
+
+![기술 검증 — 실시간 수어 인식](손길 시연 영상.mp4 "medium left")
+
+## Real-time
+
+웹캠 영상의 최근 60프레임을 계속 모아 두고 10프레임마다 단어를 예측합니다. 같은 단어가 두 번 연속, 확신도 80% 이상으로 나올 때만 단어로 확정하고 버퍼를 비워 다음 단어를 준비합니다. 15초 동안 모은 단어 목록은 "없는 말을 지어내지 않고, 순서를 지키고, 존댓말로" 같은 규칙과 함께 o4-mini에 보내 문장으로 만듭니다. 상담 화면은 Streamlit으로 만들었고, 상담원 응답은 대출·카드 상담 시나리오로 시연했습니다.
+
 ## Outcome
 
-수어 인식 → 단어 예측 → 문장 생성으로 이어지는 금융 상담용 수어-한국어 번역을 구현했습니다. 서강대 해커톤 장려상을 받았습니다.
-
-[작성 필요] 정확도 수치 (포스터의 Test Accuracy 값 확인 후)
+- 테스트 정확도 **95.0%**, 검증 정확도 **99.73%**
+- 수어 인식 → 단어 예측 → 문장 생성으로 이어지는 금융 상담용 수어-한국어 번역을 구현했습니다. 서강대 해커톤 장려상을 받았습니다.
 
 ## Role
 
-팀장으로서 기획, 데이터 전처리, 웹 구현을 맡았습니다. [작성 필요] 구체적으로 한 일
+팀장으로서 데이터 전처리, 데이터 분석, 웹 디자인을 맡았습니다.
 
 ## Next
 
