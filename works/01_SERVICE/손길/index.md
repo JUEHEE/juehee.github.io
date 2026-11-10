@@ -10,7 +10,7 @@ team: 4
 tools: MediaPipe, Transformer Encoder, GPT-4o-mini, RAG
 summary: 청각장애인이 통역사 없이 수어로 금융 상담을 받을 수 있는 비대면 AI 상담 서비스. 서강대 해커톤 장려상.
 featured: true
-order: 1
+order: 2
 # 맨 위에 영상이 바로 나오도록 큰 대표 이미지(cover.jpg)는 숨깁니다. cover.jpg는 목록·큐브에 쓰여요.
 hero: false
 info:

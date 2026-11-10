@@ -10,6 +10,7 @@ summary: "이 집, 계약해도 괜찮을까?" 재정·거주 데이터로 주�
 order: 4
 links:
   - Proposal PDF | 대집마련 기획안.pdf
+status: Concept
 ---
 
 > 집을 찾는 AI가 아니라, 삶의 지속 가능성을 판단하는 AI

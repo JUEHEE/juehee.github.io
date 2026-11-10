@@ -8,6 +8,7 @@ period: 2026.02–
 role: 1st cohort (AIFA front-end, AI idea contest), 2nd cohort (DH2026 RAG back-end)
 summary: 서강대 HUSS 포용사회 사업단에서 1기(AIFA, AI 아이디어 공모전)와 2기(DH2026 RAG 구축)로 활동.
 order: 2
+group: HUSS
 ---
 
 ## About

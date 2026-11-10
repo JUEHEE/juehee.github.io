@@ -202,7 +202,7 @@ function wcard(p, i) {
   <a href="${u(`works/${p.slug}/`)}">
     <div class="wc-cap">
       <h2 class="wc-t">${esc(p.title)}${badge(p.status)}</h2>
-      <p class="wc-tag">#${esc(p.category.label)}</p>
+      <p class="wc-tag">#${esc(p.category.label)}${p.parent ? ` · ${esc(p.parent.data.group || p.parent.title)}` : ""}</p>
     </div>
     <div class="wc-media">${media}</div>
   </a>
@@ -298,14 +298,17 @@ export function home({ categories, featured, all }) {
 
 /* ---------- WORKS ---------- */
 export function worksPage({ categories, current, list }) {
-  const total = categories.reduce((n, c) => n + c.works.length, 0);
+  // 묶음(PARROT·HUSS·Sogang Intelligence)은 펼쳐서 안의 작업을 하나씩 나열합니다
+  const flat = ws => ws.flatMap(p => p.children && p.children.length ? p.children : [p]);
+  const total = categories.reduce((n, c) => n + flat(c.works).length, 0);
+  list = flat(list);
   const body = `
 <section class="wk-hd">
   <h1 class="wk-title">works</h1>
   <p class="lbl br wk-cat">category</p>
   <nav class="wk-filter" aria-label="Categories">
     <a href="${u("works/")}"${current ? "" : ' aria-current="page"'}>All<sub>${total}</sub></a>
-    ${categories.map(c => `<a href="${u(`works/${c.key}/`)}"${current === c ? ' aria-current="page"' : ""}>${esc(c.label)}<sub>${c.works.length}</sub></a>`).join("")}
+    ${categories.map(c => `<a href="${u(`works/${c.key}/`)}"${current === c ? ' aria-current="page"' : ""}>${esc(c.label)}<sub>${flat(c.works).length}</sub></a>`).join("")}
   </nav>
   <div class="wk-view" role="group" aria-label="View">
     <button type="button" data-view="grid" aria-pressed="true">grid</button>

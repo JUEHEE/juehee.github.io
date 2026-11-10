@@ -10,7 +10,7 @@ tools: React, Vite, TypeScript, Tailwind CSS, Leaflet, Supabase
 summary: 산책 중 반려견 배변 봉투를 버릴 쓰레기통을 찾아 주는 위치 기반 모바일 웹.
 status: In progress
 featured: true
-order: 2
+order: 1
 cover: 쓰레개똥1.jpg
 # 휴대폰 세로 화면이라 맨 위 큰 사진은 숨기고, 본문에 나란히 놓습니다.
 hero: false
