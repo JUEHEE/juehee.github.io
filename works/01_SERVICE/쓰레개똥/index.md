@@ -10,7 +10,10 @@ summary: 산책 중 반려견 배변봉투를 든 보호자에게, 지금 위치
 status: In progress
 featured: true
 order: 2
-cover: 쓰레개똥1.jpg
+# 목록·카드용 표지: 앱 첫 화면의 문구와 강아지를 가로로 나란히 (잘리지 않게)
+cover: cover-wide.jpg
+# HOME 큐브용 정사각형
+cube: cube.jpg
 # 휴대폰 세로 화면이라 맨 위 큰 사진은 숨기고, 본문에 나란히 놓습니다.
 hero: false
 info:
