@@ -92,6 +92,7 @@ main { display: block; min-height: 70vh; }
 .hero-hi { margin: var(--hi-mt) 0 0; font-family: var(--mont); font-weight: 700; font-size: var(--hi-fs); line-height: 1.85; letter-spacing: .2em; }
 .hero-intro { margin-top: clamp(40px, 7vh, 80px); max-width: 30em; padding-right: 2em; font-family: var(--mont); font-weight: 700; font-size: 14px; line-height: 2; letter-spacing: .02em; }
 .hero-intro p { margin: 0; }
+@media (min-width: 761px) { .hero-intro p:first-child .ln { white-space: nowrap; } }
 .hero-intro p + p { margin-top: .8em; font-weight: 400; }
 
 /* 인사하는 캠: 방문자가 버튼을 누르면 카메라가 켜지고, 손을 흔들면 인사가 돌아옵니다 */

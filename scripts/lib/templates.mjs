@@ -261,7 +261,7 @@ export function home({ categories, featured, all }) {
 <section class="hero" aria-labelledby="hero-h">
   <h1 class="hero-logo" id="hero-h">${logoSVG("logo--lg")}<span class="sr-only">${esc(SITE.name_en || "")} — ${esc(SITE.keyword || "")}</span></h1>
   <p class="hero-hi">${lines(SITE.greeting)}</p>
-  <div class="hero-intro">${(Array.isArray(SITE.intro) ? SITE.intro : SITE.intro ? [SITE.intro] : []).map(t => `<p>${txt(t)}</p>`).join("")}</div>
+  <div class="hero-intro">${(Array.isArray(SITE.intro) ? SITE.intro : SITE.intro ? [SITE.intro] : []).map(t => `<p>${String(t).split(" // ").map(l => `<span class="ln">${txt(l)}</span>`).join("")}</p>`).join("")}</div>
   <figure class="hicam" data-state="idle" aria-label="Say hi with your camera">
     <div class="hicam-mac">
       <div class="hicam-lid">
