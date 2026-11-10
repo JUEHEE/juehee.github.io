@@ -374,8 +374,8 @@ export function projectPage({ p, cat, html, gallery, prev, next }) {
 <article class="pj">
   <header class="pj-hd">
     <p class="lbl br pj-crumb"><a href="${u("works/")}">works</a> / <a href="${u(`works/${cat.key}/`)}">${lower(cat.label)}</a>${parent ? ` / <a href="${u(`works/${parent.slug}/`)}">${lower(parent.title)}</a>` : ""}</p>
-    <h1 class="pj-t${/[가-힣]/.test(p.title) ? " pj-t--ko" : ""}${p.titleIcon ? " pj-t--icon" : ""}">${p.titleIcon ? titleWithIcon(p) : esc(p.title)}${badge(p.status)}</h1>
-    ${p.titleKo ? `<p class="pj-ko" lang="ko">${esc(p.titleKo)}</p>` : ""}
+    <h1 class="pj-t${/[가-힣]/.test(p.title) ? " pj-t--ko" : ""}">${esc(p.title)}${badge(p.status)}</h1>
+    ${p.titleKo ? `<p class="pj-ko" lang="ko">${p.titleIcon ? titleWithIcon({ title: p.titleKo, titleIcon: p.titleIcon }) : esc(p.titleKo)}</p>` : ""}
     ${p.subtitle ? `<p class="pj-en">${esc(p.subtitle)}</p>` : ""}
     <div class="pj-intro">
       ${p.summary ? `<p class="pj-lead">${sub(p.summary)}</p>` : ""}
