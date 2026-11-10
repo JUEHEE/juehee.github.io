@@ -45,21 +45,15 @@ links:
 
 ![404 · 회원가입 · 로그인](mobile-10-계정.jpg "wide")
 
-![About Us — 인사말](mobile-02-인사말.jpg "wide")
+![About Us — 인사말](mobile-02-인사말.jpg)
+![About Us — 활동 · 행사](mobile-03-활동.jpg)
+![About Us — SNS](mobile-04-SNS.jpg)
+![Notice — 동아리방](mobile-05-공지.jpg)
 
-![About Us — 활동 · 행사](mobile-03-활동.jpg "wide")
-
-![About Us — SNS](mobile-04-SNS.jpg "wide")
-
-![Notice — 동아리방](mobile-05-공지.jpg "wide")
-
-![Notice — 일정 달력](mobile-06-달력.jpg "wide")
-
-![Community — 피드](mobile-07-피드.jpg "wide")
-
-![Community — 미디어관](mobile-08-미디어관.jpg "wide")
-
-![Community — 신입부원 모집](mobile-09-모집.jpg "wide")
+![Notice — 일정 달력](mobile-06-달력.jpg)
+![Community — 피드](mobile-07-피드.jpg)
+![Community — 미디어관](mobile-08-미디어관.jpg)
+![Community — 신입부원 모집](mobile-09-모집.jpg)
 
 ## Pages
 
