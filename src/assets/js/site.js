@@ -100,7 +100,8 @@
     tick(); setInterval(tick, 1000);
     // 주희 인사 영상: 첫 화면이 보일 때만 반복 재생 ("움직임 줄이기" 설정이면 멈춘 사진만)
     const me = cam.querySelector(".hicam-me");
-    if (me && !reduce) new IntersectionObserver(([e]) => { if (e.isIntersecting) me.play().catch(() => {}); else me.pause(); }).observe(me);
+    if (me && reduce) { me.removeAttribute("autoplay"); me.pause(); }
+    else if (me) new IntersectionObserver(([e]) => { if (e.isIntersecting) me.play().catch(() => {}); else me.pause(); }).observe(me);
     const HELLO = ["Hi! Nice to meet you", "Hello there!", "Welcome in :)"];
     let stream = null, timer = 0, hello = 0, detector = null, loading = null;
 

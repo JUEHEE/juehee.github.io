@@ -4,6 +4,8 @@ import { esc, inline, isTodo } from "./markdown.mjs";
 import { LOGO } from "./logo.mjs";
 
 let SITE = {};
+// 배포할 때마다 바뀌는 번호: 브라우저가 예전 CSS·JS를 붙잡고 있지 않게 주소 뒤에 붙입니다
+const VER = Date.now().toString(36);
 export const setSite = s => { SITE = s; };
 export const u = p => (String(SITE.base || "/").replace(/\/?$/, "/") + String(p).replace(/^\//, ""));
 const pad = n => String(n).padStart(2, "0");
@@ -47,7 +49,7 @@ ${og ? `<meta property="og:image" content="${esc(og)}">\n<meta name="twitter:car
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400&family=Montserrat:wght@400;700&family=Roboto:wght@100;300;400;700&display=swap">
-<link rel="stylesheet" href="${u("assets/css/style.css")}">
+<link rel="stylesheet" href="${u("assets/css/style.css")}?v=${VER}">
 <script>document.documentElement.classList.add("js");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("motion")</script>
 ${jsonld}
 </head>
@@ -71,7 +73,7 @@ ${body}
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
-<script src="${u("assets/js/site.js")}" defer></script>
+<script src="${u("assets/js/site.js")}?v=${VER}" defer></script>
 </body>
 </html>
 `;
@@ -239,7 +241,7 @@ export function home({ categories, featured, all }) {
             <button class="hicam-btn" type="button"><i aria-hidden="true"></i>Say hi</button>
             <button class="hicam-off lbl" type="button" aria-label="Turn camera off">Off</button>
             <figure class="hicam-pip">
-              <video class="hicam-me" poster="${u("assets/media/hello.jpg")}" muted loop playsinline preload="metadata" aria-label="Juehee bowing and waving hello"><source src="${u("assets/media/hello.mp4")}" type="video/mp4"><source src="${u("assets/media/hello.webm")}" type="video/webm"></video>
+              <video class="hicam-me" autoplay poster="${u("assets/media/hello.jpg")}" muted loop playsinline preload="metadata" aria-label="Juehee bowing and waving hello"><source src="${u("assets/media/hello.mp4")}" type="video/mp4"><source src="${u("assets/media/hello.webm")}" type="video/webm"></video>
               <figcaption class="lbl">juehee</figcaption>
             </figure>
           </div>
