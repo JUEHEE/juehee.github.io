@@ -227,17 +227,19 @@ export function home({ categories, featured, all }) {
 <section class="hero" aria-labelledby="hero-h">
   <h1 class="hero-logo" id="hero-h">${logoSVG("logo--lg")}<span class="sr-only">${esc(SITE.name_en || "")} — ${esc(SITE.keyword || "")}</span></h1>
   <p class="hero-hi">${lines(SITE.greeting)}</p>
-  <div class="hero-intro">${(Array.isArray(SITE.intro) ? SITE.intro : SITE.intro ? [SITE.intro] : []).map(t => `<p>${txt(t)}</p>`).join("")}</div>
-  <figure class="hicam" data-state="idle" aria-label="Say hi with your camera">
-    <div class="hicam-screen">
-      <video class="hicam-video" playsinline muted aria-hidden="true"></video>
-      <p class="hicam-msg" aria-live="polite">Hi there.<br>Wave back?</p>
-      <button class="hicam-btn" type="button"><span aria-hidden="true">👋</span> Say hi</button>
-      <button class="hicam-off lbl" type="button" aria-label="Turn camera off">Off</button>
-    </div>
-    <figcaption class="hicam-bar lbl"><span class="hicam-rec"><i></i>Live</span><time class="hicam-clock"></time></figcaption>
-    <p class="hicam-note">Your camera stays on your device. Nothing is recorded or sent.</p>
-  </figure>
+  <div class="hero-foot">
+    <div class="hero-intro">${(Array.isArray(SITE.intro) ? SITE.intro : SITE.intro ? [SITE.intro] : []).map(t => `<p>${txt(t)}</p>`).join("")}</div>
+    <figure class="hicam" data-state="idle" aria-label="Say hi with your camera">
+      <div class="hicam-screen">
+        <video class="hicam-video" playsinline muted aria-hidden="true"></video>
+        <p class="hicam-msg" aria-live="polite">Hi there.<br>Wave back?</p>
+        <button class="hicam-btn" type="button"><span aria-hidden="true">👋</span> Say hi</button>
+        <button class="hicam-off lbl" type="button" aria-label="Turn camera off">Off</button>
+      </div>
+      <figcaption class="hicam-bar lbl"><span class="hicam-rec"><i></i>Live</span><time class="hicam-clock"></time></figcaption>
+      <p class="hicam-note">Your camera stays on your device. Nothing is recorded or sent.</p>
+    </figure>
+  </div>
   <p class="hero-scroll lbl" aria-hidden="true">Scroll <i></i></p>
 </section>
 
