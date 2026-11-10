@@ -95,7 +95,8 @@ function contactLinks() {
 const badge = s => s ? ` <span class="badge">${esc(s)}</span>` : "";
 /* 작업 이름: 영어(title) + 한국어(title_ko) 두 줄 */
 const ko = p => p.titleKo ? `<span class="t-ko" lang="ko">${esc(p.titleKo)}</span>` : "";
-const sub = s => `<span lang="ko">${txt(s)}</span>`; // 설명은 한국어로 씀
+// 설명은 한국어로 씀. 목록으로 쓰면 줄마다 나눠 보여 줌 (예: 한 줄 소개 + 수상)
+const sub = s => `<span lang="ko">${Array.isArray(s) ? s.map(l => `<span class="ln">${txt(l)}</span>`).join("") : txt(s)}</span>`;
 
 /* ---------- 미디어 ---------- */
 function ratioOf(m, o = {}) {
@@ -392,7 +393,7 @@ export function projectPage({ p, cat, html, gallery, prev, next }) {
     ${next ? `<a class="pj-next" href="${u(`works/${next.slug}/`)}"><span class="lbl">Next →</span>${esc(next.title)}</a>` : "<span></span>"}
   </nav>
 </article>`;
-  const plain = [p.subtitle, String(p.summary).replace(/\[[^\]]*\]/g, "").trim()].filter(Boolean).join(" — ");
+  const plain = [p.subtitle, [].concat(p.summary).join(" ").replace(/\[[^\]]*\]/g, "").trim()].filter(Boolean).join(" — ");
   return layout({ title: p.title, description: plain, image: coverUrl(p), path: `works/${p.slug}/`, body, page: "pg-project" });
 }
 

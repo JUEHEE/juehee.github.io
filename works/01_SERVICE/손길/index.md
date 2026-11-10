@@ -7,7 +7,9 @@ period: 2026-1
 role: Team lead (planning & advisory, data preprocessing, fine-tuning data, presentation)
 team: 4
 tools: MediaPipe Hands·Pose, PyTorch Transformer Encoder, OpenAI o4-mini, Streamlit
-summary: 청각장애인이 통역사 없이 수어로 금융 상담을 받을 수 있는 비대면 AI 상담 서비스. 2026-1 서강 캡스톤디자인 경진대회 장려상.
+summary:
+  - 청각장애인이 통역사 없이 수어로 금융 상담을 받을 수 있는 비대면 AI 상담 서비스.
+  - 서강대학교 AI중심대학사업단 2026-1 서강 캡스톤디자인 경진대회 장려상
 featured: true
 order: 1
 # 맨 위에 영상이 바로 나오도록 큰 대표 이미지(cover.jpg)는 숨깁니다. cover.jpg는 목록·큐브에 쓰여요.
