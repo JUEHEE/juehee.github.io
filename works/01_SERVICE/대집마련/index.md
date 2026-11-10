@@ -2,6 +2,8 @@
 title: 대집마련
 subtitle: AI decision platform for student housing
 slug: daejip
+# 기획만 한 단계라 포트폴리오에서 숨김 (다시 보이려면 이 줄을 지우기)
+draft: true
 year: 2026
 role: Planning (individual)
 tools: Random Forest, KoBERT, survival analysis
