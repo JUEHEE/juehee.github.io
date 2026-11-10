@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 /* =========================================================
    POIESIS 사이트 빌더
    works/ 폴더와 content/ 폴더를 읽어서 _site/ 에 완성된 웹사이트를 만듭니다.
@@ -240,7 +241,11 @@ async function main() {
   // 제목 옆에 붙이는 작은 그림 (title_icon: 파일이름) — 예: SGCC 캐릭터가 통통 튐
   for (const p of everything) if (p.data.title_icon) p.titleIcon = await resolveMedia(p, p.data.title_icon);
   // HOME 큐브 전용 이미지 (cube: 파일이름) — 3×3으로 나뉘어 큐브의 각 면이 됩니다
-  for (const p of everything) if (p.data.cube) p.cubeImg = await resolveMedia(p, p.data.cube);
+  for (const p of everything) if (p.data.cube) {
+    p.cubeImg = await resolveMedia(p, p.data.cube);
+    // 큐브 그림을 고치면 주소가 바뀌도록 파일 내용으로 만든 꼬리표를 붙임 (브라우저에 남은 예전 그림 방지)
+    if (p.cubeImg.abs) p.cubeImg.url += "?v=" + crypto.createHash("md5").update(fs.readFileSync(p.cubeImg.abs)).digest("hex").slice(0, 8);
+  }
 
   // 2) 상세 페이지
   const ctx = { resolve: (p, ref, o) => resolveMedia(p, ref, o) };
