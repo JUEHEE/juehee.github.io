@@ -1,6 +1,5 @@
 ---
-title: Daejip Maryeon
-title_ko: 대집마련
+title: 대집마련
 subtitle: AI decision platform for student housing
 slug: daejip
 year: 2026

@@ -1,6 +1,5 @@
 ---
-title: Sseure-gaettong
-title_ko: 쓰레개똥
+title: 쓰레개똥
 subtitle: Where do I throw this?
 slug: sseure-gaettong
 year: 2026

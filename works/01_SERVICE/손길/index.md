@@ -1,6 +1,5 @@
 ---
-title: Sonkil
-title_ko: 손길
+title: 손길
 subtitle: Sign language–based remote financial counseling AI
 slug: sonkil
 year: 2026

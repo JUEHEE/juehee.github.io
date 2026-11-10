@@ -1,6 +1,6 @@
 ---
-title: SGCC Club Website
-title_ko: SGCC 동아리 웹사이트
+title: SGCC Website Renewal
+title_ko: SGCC 웹사이트 리뉴얼
 subtitle: Website renewal for Sogang Computer Club
 slug: sgcc
 year: 2025
