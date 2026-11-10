@@ -219,7 +219,7 @@ function wcard(p, i) {
    정육면체의 각 면은 대표 이미지를 3×3으로 나눈 조각입니다. 큐브가 펼쳐지면 조각이 맞춰져 한 장의 이미지가 됩니다.
    앞면을 가운데에 두고, 옆면은 앞면의 모서리에 경첩처럼 붙어 있습니다. (모션은 site.js) */
 function cubeStage(p, i, total) {
-  const url = coverUrl(p);
+  const url = p.cubeImg ? p.cubeImg.url : coverUrl(p);
   const tile = (cls, c, r, inner = "") => `<div class="f ${cls}" style="background-position:${c * 50}% ${r * 50}%">${inner}</div>`;
   const corners = [[0, 0], [2, 0], [0, 2], [2, 2]].map(([c, r]) => tile(`f-corner f-c${c}${r}`, c, r)).join("");
   const href = u(`works/${p.slug}/`);

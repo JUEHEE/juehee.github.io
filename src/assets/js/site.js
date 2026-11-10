@@ -318,25 +318,24 @@
         const ft = (el, from, to, at) => tl.fromTo(el, from, { ...to, immediateRender: at === 0 }, at);
         const tl = gsap.timeline({
           defaults: { ease: "none" },
-          scrollTrigger: { trigger: cs, start: "top top", end: "+=170%", pin: true, scrub: .8, invalidateOnRefresh: true },
+          scrollTrigger: { trigger: cs, start: "top top", end: "+=170%", pin: true, scrub: 1.2, invalidateOnRefresh: true },
         });
         // 1) 글이 올라오고, 큐브가 돌며 앞면을 향함
         ft(text, { y: 32, opacity: 0 }, { y: 0, opacity: 1, stagger: .025, duration: .18, ease: "power2.out" }, 0);
-        ft(cube, { rotationY: -38, scale: .78 }, { rotationY: 360, scale: 1, duration: .5, ease: "power1.inOut" }, 0);
-        ft(cube, { rotationX: -26 }, { rotationX: 22, duration: .25, ease: "sine.inOut" }, 0);
-        tl.fromTo(cube, { rotationX: 22 }, { rotationX: 0, duration: .25, ease: "sine.inOut", immediateRender: false }, .25);
+        // 한 바퀴 돌리지 않고, 살짝 비스듬한 상태에서 천천히 정면으로 돌아옵니다 (정신없지 않게)
+        ft(cube, { rotationY: -32, rotationX: -16, scale: .86 }, { rotationY: 0, rotationX: 0, scale: 1, duration: .45, ease: "power2.inOut" }, 0);
         // 2) 옆면이 경첩처럼 펼쳐짐 (접힌 상태에서 시작)
-        const fold = [[".f-left", "rotationY", -90, .5], [".f-right", "rotationY", 90, .5], [".f-top", "rotationX", 90, .54], [".f-bottom", "rotationX", -90, .54]];
+        const fold = [[".f-left", "rotationY", -90, .48], [".f-right", "rotationY", 90, .48], [".f-top", "rotationX", 90, .48], [".f-bottom", "rotationX", -90, .48]];
         fold.forEach(([face, prop, deg, at]) => {
           gsap.set(q(face), { [prop]: deg });
-          tl.fromTo(q(face), { [prop]: deg }, { [prop]: 0, duration: .22, ease: "power2.inOut", immediateRender: false }, at);
+          tl.fromTo(q(face), { [prop]: deg }, { [prop]: 0, duration: .3, ease: "power2.inOut", immediateRender: false }, at);
         });
         gsap.set(q(".f-back"), { rotationY: 90, opacity: 1 });
-        tl.fromTo(q(".f-back"), { rotationY: 90, opacity: 1 }, { rotationY: 0, opacity: 0, duration: .18, ease: "power2.in", immediateRender: false }, .5);
+        tl.fromTo(q(".f-back"), { rotationY: 90, opacity: 1 }, { rotationY: 0, opacity: 0, duration: .2, ease: "power2.in", immediateRender: false }, .48);
         gsap.set(sides, { "--shade": .22 });
-        tl.fromTo(sides, { "--shade": .22 }, { "--shade": 0, duration: .22, immediateRender: false }, .52);
+        tl.fromTo(sides, { "--shade": .22 }, { "--shade": 0, duration: .3, immediateRender: false }, .48);
         // 3) 빈 모서리가 채워져 한 장의 평면 이미지가 됨
-        tl.fromTo(cs.querySelectorAll(".f-corner"), { opacity: 0 }, { opacity: 1, duration: .1, stagger: .025, immediateRender: false }, .74);
+        tl.fromTo(cs.querySelectorAll(".f-corner"), { opacity: 0 }, { opacity: 1, duration: .16, ease: "power1.out", immediateRender: false }, .7);
         tl.to({}, { duration: .1 });
       });
       ST.refresh();

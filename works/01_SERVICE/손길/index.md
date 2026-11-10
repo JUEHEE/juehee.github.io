@@ -12,6 +12,8 @@ featured: true
 order: 1
 # 맨 위에 영상이 바로 나오도록 큰 대표 이미지(cover.jpg)는 숨깁니다. cover.jpg는 목록·큐브에 쓰여요.
 hero: false
+# HOME 큐브의 9면 (작업 사진 9장을 3×3으로 붙인 정사각형)
+cube: cube.jpg
 info:
   - Course | 빅데이터종합설계 (서강대 AI중심대학사업단)
   - Advisory | 서강대 '수화의 이해' 모상근 교수 자문
