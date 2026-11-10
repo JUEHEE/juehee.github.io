@@ -9,7 +9,7 @@ tools: React, Vite, TypeScript, Tailwind CSS, Leaflet, Supabase
 summary: 산책 중 반려견 배변봉투를 든 보호자에게, 지금 위치에서 가장 가까운 "버릴 수 있을 가능성이 높은" 쓰레기통을 보여 주는 모바일 웹. 기획부터 디자인, 개발, 배포, 현장조사까지 혼자 진행 중.
 status: In progress
 featured: true
-order: 1
+order: 2
 cover: 쓰레개똥1.jpg
 # 휴대폰 세로 화면이라 맨 위 큰 사진은 숨기고, 본문에 나란히 놓습니다.
 hero: false
