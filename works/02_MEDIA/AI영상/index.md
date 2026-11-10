@@ -93,6 +93,10 @@ links:
 ![함께 낮잠](Antifreeze 장면3.jpg)
 ![처음 만난 날](Antifreeze 장면4.jpg)
 
+## Instagram
+
+지난달 인스타그램 계정 [@olive0kk](https://www.instagram.com/olive0kk)를 열어 영상을 하나씩 올리고 있습니다. 팔로워는 아직 늘려 가는 중이지만, 조회수는 꾸준히 늘고 있습니다.
+
 ## Process
 
 1. 캐릭터와 세계관 확정
