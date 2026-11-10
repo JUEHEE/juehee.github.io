@@ -11,7 +11,7 @@ greeting:
 # 그 아래 소개 (한 문단씩)
 intro:
   - I study Media & Entertainment and Big Data Science at Sogang University.
-  - I start from small questions in everyday life and give them form — as services people can use, images and sound made with generative AI, models built on data, and exhibitions people can walk through.
+  - Most of my projects begin with a small question from everyday life. I answer it in whatever form fits best: an app, a video, a data model, or an exhibition.
 description: The archive of Kim Juehee — questions found in everyday life, turned into services, media, data and exhibitions.
 statement: I find questions in everyday life and shape them — with data and technology, stories and images — into forms that others can experience too. This archive records not only finished results, but the process of thought taking form.
 works_intro: Services, media, data, exhibitions. Questions that took form.

@@ -91,7 +91,7 @@ main { display: block; min-height: 70vh; }
 .hero-foot { display: grid; grid-template-columns: calc(55vw - var(--g) - 4vw) minmax(0, 1fr); align-items: start; margin-top: clamp(40px, 7vh, 80px); }
 .hero-intro { max-width: 30em; padding-right: 2em; font-family: var(--mont); font-weight: 700; font-size: 14px; line-height: 2; letter-spacing: .02em; }
 .hero-intro p { margin: 0; }
-.hero-intro p + p { margin-top: .8em; }
+.hero-intro p + p { margin-top: .8em; font-weight: 400; }
 
 /* 인사하는 캠: 방문자가 버튼을 누르면 카메라가 켜지고, 손을 흔들면 인사가 돌아옵니다 */
 .hicam { width: clamp(230px, 19vw, 300px); margin: 0; }
