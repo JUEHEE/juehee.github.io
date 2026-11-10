@@ -28,13 +28,11 @@ links:
 
 ![About Us — 인사말](desktop-02-인사말.jpg)
 ![About Us — SNS](desktop-04-SNS.jpg)
-
 ![Notice — 동아리방 · 모집 안내](desktop-05-동아리방-모집안내.jpg)
 ![Notice — 일정 달력](desktop-06-달력.jpg)
 
 ![Community — 피드](desktop-07-피드.jpg)
 ![Community — 미디어관](desktop-08-미디어관.jpg)
-
 ![Community — 신입부원 모집](desktop-09-신입부원모집.jpg)
 ![404](desktop-12-404.jpg)
 
