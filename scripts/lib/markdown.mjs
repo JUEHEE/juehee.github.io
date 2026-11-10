@@ -137,7 +137,9 @@ export async function renderMarkdown(src, { resolve, figure }) {
       const q = [];
       while (i < lines.length && lines[i].trim().startsWith(">")) { q.push(lines[i].trim().replace(/^>\s?/, "")); i++; }
       i--;
-      out.push(`<blockquote class="pull"><p>${inline(q.join("\n")).replace(/\n/g, "<br>")}</p></blockquote>`);
+      // 마지막 줄이 (괄호)로만 되어 있으면 작은 글씨 출처로 둡니다: > 인용문 / > (모상근 교수님 자문)
+      const src = q.length > 1 && /^\(.+\)$/.test(q[q.length - 1]) ? q.pop().slice(1, -1) : "";
+      out.push(`<blockquote class="pull"><p>${inline(q.join("\n")).replace(/\n/g, "<br>")}</p>${src ? `<cite class="pull-src">${inline(src)}</cite>` : ""}</blockquote>`);
       continue;
     }
     const li = t.match(/^([-*]|\d+[.)])\s+(.*)$/);

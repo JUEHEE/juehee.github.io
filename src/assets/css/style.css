@@ -267,6 +267,7 @@ main { display: block; min-height: 70vh; }
 .wc a:hover .wc-media img { transform: scale(1.04); }
 .wc-t { justify-self: start; background: linear-gradient(var(--accent), var(--accent)) 0 100% / 0 1px no-repeat; transition: background-size .6s var(--ease); }
 .wc a:hover .wc-t { background-size: 100% 1px; }
+.wc-t--ko { font-weight: 700; }
 .wc-ph { position: absolute; inset: 0; display: grid; place-items: center; color: var(--mute); }
 .wk { padding: 0 var(--g) clamp(40px, 6vw, 80px); }
 .wk .list { display: none; }
@@ -312,6 +313,8 @@ main { display: block; min-height: 70vh; }
 .pj-crumb a:hover { color: var(--ink); }
 .pj-t { grid-column: 1 / span 11; font-weight: 100; font-size: clamp(48px, 8vw, 136px); line-height: 1; letter-spacing: -.01em; margin: 0; }
 .pj-t .badge { font-size: 12px; }
+/* 한글 제목(손길·쓰레개똥·대집마련)은 굵게 */
+.pj-t--ko { font-weight: 700; letter-spacing: -.03em; }
 .pj-ko { grid-column: 1 / span 8; margin: 16px 0 0; font-weight: 300; font-size: clamp(18px, 1.8vw, 26px); }
 .pj-en { grid-column: 1 / span 8; margin: 6px 0 0; color: var(--mute); font-weight: 300; font-size: clamp(15px, 1.2vw, 18px); letter-spacing: .02em; }
 .pj-intro { grid-column: 1 / span 6; margin-top: clamp(36px, 5vw, 72px); }
@@ -351,6 +354,9 @@ main { display: block; min-height: 70vh; }
 .pull p { margin: 0; }
 .pull p::before { content: "“"; color: var(--accent); }
 .pull p::after { content: "”"; color: var(--accent); }
+.pull-src { display: block; margin-top: 14px; font-style: normal; font-size: 14px; font-weight: 400; color: var(--mute); }
+.pull-src::before { content: "("; }
+.pull-src::after { content: ")"; }
 .rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
 
 /* 미디어 크기 */
