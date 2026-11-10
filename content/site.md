@@ -4,19 +4,14 @@ name: 김주희
 name_en: Kim Juehee
 keyword: POIESIS
 tagline: Thought into form, possibility into reality.
-# 첫 화면 로고 아래 큰 글 (한 줄씩)
-hero:
-  - Thought, into form.
-  - Possibility, into reality.
-# 그 아래 작은 글
-hero_note:
-  - POIESIS — to bring into being
-  - what did not exist before.
-# 첫 화면 오른쪽 아래 작은 글 (주소 자리)
-place:
-  - Kim Juehee
-  - Sogang University
-  - Seoul, Korea
+# 첫 화면 로고 아래 큰 인사 (한 줄씩)
+greeting:
+  - Hello,
+  - I'm Juehee.
+# 그 아래 소개 (한 문단씩)
+intro:
+  - I study Media & Entertainment and Big Data Science at Sogang University.
+  - I start from small questions in everyday life and give them form — as services people can use, images and sound made with generative AI, models built on data, and exhibitions people can walk through.
 description: The archive of Kim Juehee — questions found in everyday life, turned into services, media, data and exhibitions.
 statement: I find questions in everyday life and shape them — with data and technology, stories and images — into forms that others can experience too. This archive records not only finished results, but the process of thought taking form.
 works_intro: Services, media, data, exhibitions. Questions that took form.

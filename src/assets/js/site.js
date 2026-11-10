@@ -1,6 +1,6 @@
 /* =========================================================
    juehee — 화면 움직임
-   1) 배경: 회색 입자가 흐르는 곡선
+   1) 배경: 회색 입자가 천천히 흐르는 곡선 / HOME 첫 화면: 인사하는 캠
    2) 부드러운 스크롤, 제목이 한 글자씩 올라오기
    3) HOME: 큰 로고 → 스크롤하면 작은 로고, 대표 작업 3D 큐브
    4) 그 밖에: 스크롤 등장, 유튜브 재생, 보기 방식 전환, 목록 미리보기
@@ -13,44 +13,148 @@
     set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* 저장 안 돼도 괜찮아요 */ } },
   };
 
-  /* ---------- 배경: 회색 입자로 그린 곡선 ----------
-     화면 밖까지 이어지는 곡선 몇 개를 따라 작은 점을 흩뿌립니다. 한 번만 그리고, 창 크기가 바뀌면 다시 그립니다.
-     매번 같은 모양이 나오도록 정해진 씨앗(seed)으로 난수를 만듭니다. */
+  /* ---------- 배경: 회색 입자로 그린 곡선 (천천히 흐름) ----------
+     화면 밖까지 이어지는 곡선 몇 개를 따라 작은 점들이 흩어져 있고, 점들이 곡선을 따라 아주 천천히 흘러갑니다.
+     곡선 자체도 숨 쉬듯 조금씩 휘어집니다. 매번 같은 모양이 나오도록 정해진 씨앗(seed)으로 난수를 만듭니다.
+     점을 하나씩 그리지 않고, 화면 크기의 투명도 지도에 더한 뒤 한 번에 찍어서 가볍게 움직입니다.
+     탭이 숨겨지면 멈추고, "움직임 줄이기" 설정이면 한 번만 그립니다. */
   const swirl = document.querySelector(".swirl");
   if (swirl) {
-    const draw = () => {
-      const W = innerWidth, H = innerHeight, dpr = Math.min(1.5, devicePixelRatio || 1);
-      swirl.width = Math.round(W * dpr); swirl.height = Math.round(H * dpr);
-      const ctx = swirl.getContext("2d");
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, W, H);
+    const ctx = swirl.getContext("2d");
+    const CURVES = 7;                            // 곡선 수
+    let PER = 9000;                              // 곡선마다 점 수 (화면 크기에 맞춰 정함)
+    let W = 0, H = 0, img, acc, base, curves = [], dots, raf = 0, last = 0;
+    const setup = () => {
+      W = innerWidth; H = innerHeight;
+      PER = Math.round(Math.max(4500, Math.min(11000, W * H / (1440 * 900) * 11000)));
+      swirl.width = W; swirl.height = H;
+      img = ctx.createImageData(W, H);
+      acc = new Float32Array(W * H);
+      base = new Float32Array(W * H);
       let seed = 7;
       const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
       const gauss = () => (rnd() + rnd() + rnd() - 1.5) / 1.5;
-      ctx.fillStyle = "rgba(35, 24, 21, .05)";
-      for (let i = 0, n = Math.round(W * H / 380); i < n; i++) ctx.fillRect(rnd() * W, rnd() * H, 1, 1);
-      // 곡선: 4개의 점을 지나는 부드러운 선(캣멀-롬)
-      const curves = 7;
-      for (let c = 0; c < curves; c++) {
+      for (let i = 0, n = Math.round(W * H / 380); i < n; i++) base[(rnd() * H | 0) * W + (rnd() * W | 0)] += .05;
+      curves = [];
+      for (let c = 0; c < CURVES; c++) {
         const pts = [];
-        for (let k = 0; k < 5; k++) pts.push([(-0.3 + rnd() * 1.6) * W, (-0.3 + rnd() * 1.6) * H]);
-        const steps = 2600;
-        for (let t = 0; t < steps; t++) {
-          const u = t / steps * (pts.length - 3), i = Math.floor(u), f = u - i;
-          const [p0, p1, p2, p3] = [pts[i], pts[i + 1], pts[i + 2], pts[i + 3]];
-          const q = (a, b, c2, d) => .5 * (2 * b + (-a + c2) * f + (2 * a - 5 * b + 4 * c2 - d) * f * f + (-a + 3 * b - 3 * c2 + d) * f * f * f);
-          const x = q(p0[0], p1[0], p2[0], p3[0]), y = q(p0[1], p1[1], p2[1], p3[1]);
-          const spread = 3 + 22 * Math.abs(Math.sin(t / 340 + c));
-          for (let k = 0; k < 5; k++) {
-            ctx.fillStyle = `rgba(35, 24, 21, ${.04 + rnd() * .1})`;
-            ctx.fillRect(x + gauss() * spread, y + gauss() * spread, 1.1, 1.1);
-          }
-        }
+        for (let k = 0; k < 5; k++) pts.push([(-0.3 + rnd() * 1.6) * W, (-0.3 + rnd() * 1.6) * H, rnd() * 6.28, .5 + rnd()]);
+        curves.push({ pts, speed: (.004 + rnd() * .004) * (rnd() < .5 ? -1 : 1) });
+      }
+      // 점: [곡선 번호, 곡선 위 위치(0~1), 옆으로 흩어진 정도 x, y, 진하기]
+      dots = new Float32Array(CURVES * PER * 5);
+      for (let c = 0, o = 0; c < CURVES; c++) for (let i = 0; i < PER; i++, o += 5) {
+        dots[o] = c; dots[o + 1] = rnd(); dots[o + 2] = gauss(); dots[o + 3] = gauss(); dots[o + 4] = .045 + rnd() * .11;
       }
     };
-    draw();
+    const draw = now => {
+      const t = now / 1000;
+      acc.set(base);
+      const q = (a, b, c, d, f) => .5 * (2 * b + (-a + c) * f + (2 * a - 5 * b + 4 * c - d) * f * f + (-a + 3 * b - 3 * c + d) * f * f * f);
+      for (let c = 0; c < CURVES; c++) {
+        const { pts, speed } = curves[c];
+        // 곡선을 지나는 점들이 숨 쉬듯 조금씩 움직임
+        const P = pts.map(([x, y, ph, amp]) => [x + Math.sin(t * .11 * amp + ph) * W * .035, y + Math.cos(t * .09 * amp + ph) * H * .035]);
+        const seg = P.length - 3;
+        for (let o = c * PER * 5, e = o + PER * 5; o < e; o += 5) {
+          let u = (dots[o + 1] + t * speed) % 1; if (u < 0) u += 1;
+          const s = u * seg, i = s | 0, f = s - i;
+          const x = q(P[i][0], P[i + 1][0], P[i + 2][0], P[i + 3][0], f), y = q(P[i][1], P[i + 1][1], P[i + 2][1], P[i + 3][1], f);
+          const spread = 3 + 22 * Math.abs(Math.sin(u * 2600 / 340 + c));
+          const px = (x + dots[o + 2] * spread) | 0, py = (y + dots[o + 3] * spread) | 0;
+          if (px >= 0 && py >= 0 && px < W && py < H) acc[py * W + px] += dots[o + 4];
+        }
+      }
+      const d = img.data;
+      for (let i = 0, j = 0; i < acc.length; i++, j += 4) {
+        const a = acc[i];
+        if (a) { d[j] = 35; d[j + 1] = 24; d[j + 2] = 21; d[j + 3] = a >= 1 ? 255 : a * 255; } else d[j + 3] = 0;
+      }
+      ctx.putImageData(img, 0, 0);
+    };
+    // 1초에 30번 정도만 다시 그립니다 (충분히 부드럽고 가벼움)
+    const loop = now => { if (now - last > 33) { last = now; draw(now); } raf = document.hidden ? 0 : requestAnimationFrame(loop); };
+    setup(); draw(performance.now());
+    if (!reduce) {
+      raf = requestAnimationFrame(loop);
+      document.addEventListener("visibilitychange", () => { if (!document.hidden && !raf) raf = requestAnimationFrame(loop); });
+    }
     let rt, lastW = innerWidth;
-    addEventListener("resize", () => { if (Math.abs(innerWidth - lastW) < 2) return; lastW = innerWidth; clearTimeout(rt); rt = setTimeout(draw, 250); });
+    addEventListener("resize", () => { if (Math.abs(innerWidth - lastW) < 2) return; lastW = innerWidth; clearTimeout(rt); rt = setTimeout(() => { setup(); draw(performance.now()); }, 250); });
+  }
+
+  /* ---------- HOME 첫 화면: 인사하는 캠 ----------
+     "Say hi"를 누르면 방문자의 카메라가 켜지고(브라우저가 먼저 허락을 묻습니다), 손을 흔들면 인사가 돌아옵니다.
+     영상은 이 브라우저 안에서만 쓰이고 어디로도 보내거나 저장하지 않습니다.
+     손 흔들기는 작은 화면(64×48)에서 움직인 부분의 가운데가 좌우로 몇 번 왔다 갔다 하는지로 알아챕니다. */
+  const cam = document.querySelector(".hicam");
+  if (cam) {
+    const video = cam.querySelector(".hicam-video"), msg = cam.querySelector(".hicam-msg"), clock = cam.querySelector(".hicam-clock");
+    const say = (state, html) => { cam.dataset.state = state; msg.innerHTML = html; };
+    const tick = () => { clock.textContent = new Date().toLocaleTimeString("en-GB"); };
+    tick(); setInterval(tick, 1000);
+    const HELLO = ["Hi! Nice to meet you 👋", "Hello there!", "Welcome in :)"];
+    let stream = null, timer = 0, hello = 0;
+
+    const stop = () => {
+      if (stream) stream.getTracks().forEach(tr => tr.stop());
+      stream = null; cancelAnimationFrame(timer); video.srcObject = null;
+      say("idle", "See you around.<br>Wave again?");
+    };
+
+    const watch = () => {
+      const c = document.createElement("canvas"); c.width = 64; c.height = 48;
+      const g = c.getContext("2d", { willReadFrequently: true });
+      let prev = null, xs = [], lastWave = 0, nudge = performance.now() + 7000;
+      const frame = now => {
+        if (!stream) return;
+        if (video.readyState >= 2) {
+          g.drawImage(video, 0, 0, 64, 48);
+          const px = g.getImageData(0, 0, 64, 48).data, cur = new Uint8ClampedArray(64 * 48);
+          let cnt = 0, sx = 0;
+          for (let i = 0; i < cur.length; i++) {
+            cur[i] = (px[i * 4] * 3 + px[i * 4 + 1] * 6 + px[i * 4 + 2]) / 10;
+            if (prev && Math.abs(cur[i] - prev[i]) > 28) { cnt++; sx += i % 64; }
+          }
+          prev = cur;
+          xs = xs.filter(p => now - p[0] < 1600);
+          if (cnt > 40) xs.push([now, sx / cnt]);
+          // 좌우로 방향이 바뀐 횟수 세기 (흔들림이 4칸 이상일 때만)
+          let turns = 0, dir = 0, anchor = xs[0]?.[1];
+          for (const [, x] of xs) {
+            const dx = x - anchor;
+            if (Math.abs(dx) > 4) { const nd = Math.sign(dx); if (dir && nd !== dir) turns++; dir = nd; anchor = x; }
+          }
+          if (turns >= 3 && now - lastWave > 3500) {
+            lastWave = now; xs = [];
+            say("waved", HELLO[hello++ % HELLO.length]);
+            setTimeout(() => { if (stream && cam.dataset.state === "waved") say("live", "Wave again anytime."); }, 3200);
+          } else if (now > nudge && !lastWave) {
+            nudge = Infinity; msg.innerHTML = "Give me a wave 👋<br>with your hand.";
+          }
+        }
+        timer = requestAnimationFrame(frame);
+      };
+      timer = requestAnimationFrame(frame);
+    };
+
+    cam.querySelector(".hicam-btn").addEventListener("click", async () => {
+      if (!navigator.mediaDevices?.getUserMedia) { say("denied", "No camera here —<br>hi anyway 👋"); return; }
+      say("asking", "Allow the camera<br>in your browser.");
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } }, audio: false });
+        video.srcObject = stream; await video.play();
+        say("live", "I can see you!<br>Wave hello 👋");
+        watch();
+      } catch {
+        stream = null;
+        say("denied", "Camera is off —<br>hi anyway 👋");
+      }
+    });
+    cam.querySelector(".hicam-off").addEventListener("click", stop);
+    // 첫 화면을 벗어나면 카메라를 끕니다
+    new IntersectionObserver(([e]) => { if (!e.isIntersecting && stream) stop(); }, { threshold: 0 }).observe(cam);
+    addEventListener("pagehide", () => { if (stream) stream.getTracks().forEach(tr => tr.stop()); });
   }
 
   /* ---------- HOME: 큰 로고가 화면에서 사라지면 머리의 작은 로고를 보여 줌 ---------- */
