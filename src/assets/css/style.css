@@ -315,6 +315,12 @@ main { display: block; min-height: 70vh; }
 .pj-t .badge { font-size: 12px; }
 /* 한글 제목(손길·쓰레개똥·대집마련)은 굵게 */
 .pj-t--ko { font-weight: 700; letter-spacing: -.03em; }
+/* 제목 옆 캐릭터: 통통 튀기 */
+.pj-t-last { white-space: nowrap; }
+.pj-t--icon { grid-column: 1 / -1; }
+.pj-t-icon { display: inline-block; height: .62em; width: auto; margin-left: .22em; vertical-align: -.02em; transform-origin: 50% 100%; }
+.motion .pj-t-icon { animation: hop 1.4s cubic-bezier(.3, 0, .3, 1) infinite; }
+@keyframes hop { 0%, 100% { transform: translateY(0) scale(1.06, .94); } 15% { transform: translateY(0) scale(1); } 45% { transform: translateY(-38%) scale(.97, 1.03); } 70% { transform: translateY(0) scale(1); } 80% { transform: translateY(0) scale(1.08, .92); } }
 .pj-ko { grid-column: 1 / span 8; margin: 16px 0 0; font-weight: 300; font-size: clamp(18px, 1.8vw, 26px); }
 .pj-en { grid-column: 1 / span 8; margin: 6px 0 0; color: var(--mute); font-weight: 300; font-size: clamp(15px, 1.2vw, 18px); letter-spacing: .02em; }
 .pj-intro { grid-column: 1 / span 6; margin-top: clamp(36px, 5vw, 72px); }

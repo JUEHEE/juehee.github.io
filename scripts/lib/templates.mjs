@@ -20,6 +20,12 @@ function logoSVG(cls = "") {
   return `<svg class="logo ${cls}" viewBox="${viewBox}" aria-hidden="true" focusable="false">${letters.map((d, i) => `<path class="lg-l" style="--i:${i}" d="${d}"/>`).join("")}<circle class="lg-dot" cx="${dot.cx}" cy="${dot.cy}" r="${dot.r}"/></svg>`;
 }
 
+/* 제목 마지막 단어와 그림을 한 덩어리로 묶어, 그림만 다음 줄로 떨어지지 않게 합니다 */
+function titleWithIcon(p) {
+  const words = String(p.title).split(" "), last = words.pop();
+  return `${words.length ? esc(words.join(" ")) + " " : ""}<span class="pj-t-last">${esc(last)}<img class="pj-t-icon" src="${p.titleIcon.url}" alt="" aria-hidden="true"></span>`;
+}
+
 /* ---------- 공통 틀 ---------- */
 function layout({ title, description, image, path = "", body, page = "", jsonld = "" }) {
   const name = SITE.name_en || SITE.name;
@@ -368,7 +374,7 @@ export function projectPage({ p, cat, html, gallery, prev, next }) {
 <article class="pj">
   <header class="pj-hd">
     <p class="lbl br pj-crumb"><a href="${u("works/")}">works</a> / <a href="${u(`works/${cat.key}/`)}">${lower(cat.label)}</a>${parent ? ` / <a href="${u(`works/${parent.slug}/`)}">${lower(parent.title)}</a>` : ""}</p>
-    <h1 class="pj-t${/[가-힣]/.test(p.title) ? " pj-t--ko" : ""}">${esc(p.title)}${badge(p.status)}</h1>
+    <h1 class="pj-t${/[가-힣]/.test(p.title) ? " pj-t--ko" : ""}${p.titleIcon ? " pj-t--icon" : ""}">${p.titleIcon ? titleWithIcon(p) : esc(p.title)}${badge(p.status)}</h1>
     ${p.titleKo ? `<p class="pj-ko" lang="ko">${esc(p.titleKo)}</p>` : ""}
     ${p.subtitle ? `<p class="pj-en">${esc(p.subtitle)}</p>` : ""}
     <div class="pj-intro">

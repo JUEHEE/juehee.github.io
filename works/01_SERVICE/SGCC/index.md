@@ -10,6 +10,7 @@ tools: SvelteKit (Svelte 5), TypeScript, Tailwind CSS, Figma
 summary: 1982년에 창립된 서강대 중앙 컴퓨터 동아리 SGCC의 공식 웹사이트 리뉴얼. 데스크톱·모바일 화면을 설계하고, 프론트엔드 페이지 구현을 맡았습니다.
 order: 3
 cover: cover.jpg
+title_icon: character.png
 info:
   - Team | 5명 (프론트엔드 담당)
   - Status | 2025.09 자체 도메인으로 배포 · 현재는 사이트 운영 종료
@@ -43,6 +44,8 @@ links:
 
 ![메인 — 첫 화면부터 푸터까지, 메뉴](mobile-01-메인.jpg "wide")
 
+![404 · 회원가입 · 로그인](mobile-10-계정.jpg "wide")
+
 ![About Us — 인사말](mobile-02-인사말.jpg "wide")
 
 ![About Us — 활동 · 행사](mobile-03-활동.jpg "wide")
@@ -58,8 +61,6 @@ links:
 ![Community — 미디어관](mobile-08-미디어관.jpg "wide")
 
 ![Community — 신입부원 모집](mobile-09-모집.jpg "wide")
-
-![404 · 회원가입 · 로그인](mobile-10-계정.jpg "wide")
 
 ## Pages
 

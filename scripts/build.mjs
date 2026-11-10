@@ -237,6 +237,8 @@ async function main() {
 
   // 1) 표지 먼저 (목록 화면에 필요)
   for (const p of everything) p.cover = await pickCover(p);
+  // 제목 옆에 붙이는 작은 그림 (title_icon: 파일이름) — 예: SGCC 캐릭터가 통통 튐
+  for (const p of everything) if (p.data.title_icon) p.titleIcon = await resolveMedia(p, p.data.title_icon);
 
   // 2) 상세 페이지
   const ctx = { resolve: (p, ref, o) => resolveMedia(p, ref, o) };
