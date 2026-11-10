@@ -63,7 +63,7 @@ sup { font-family: var(--sans); font-weight: 400; font-size: 13px; vertical-alig
 .hd { position: fixed; inset: 0 0 auto; z-index: 50; display: flex; justify-content: space-between; align-items: flex-start; padding: 28px var(--g) 0; pointer-events: none; view-transition-name: hd; }
 .hd > * { pointer-events: auto; }
 .hd-mark { display: block; transition: opacity .5s var(--ease), transform .5s var(--ease); }
-.hd-nav { display: grid; justify-items: end; font-family: var(--geo); font-size: 17px; line-height: 1; letter-spacing: .05em; text-transform: uppercase; gap: 14px; padding-top: 6px; }
+.hd-nav { display: grid; justify-items: end; font-family: var(--geo); font-size: 21px; line-height: 1; letter-spacing: .05em; text-transform: uppercase; gap: 17px; padding-top: 6px; }
 .hd-nav a { position: relative; padding-bottom: 3px; }
 .hd-nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease); }
 .hd-nav a:hover::after, .hd-nav a[aria-current]::after { transform: scaleX(1); transform-origin: left; }
@@ -450,7 +450,7 @@ html.lenis, html.lenis body { height: auto; }
 @media (max-width: 760px) {
   .hd { padding: 20px var(--g) 18px; background: linear-gradient(var(--paper) 62%, rgba(255, 255, 255, 0)); }
   .logo--sm { height: 24px; }
-  .hd-nav { font-size: 13px; gap: 10px; padding-top: 4px; }
+  .hd-nav { font-size: 16px; gap: 13px; padding-top: 4px; }
   .hero { padding: 20vh var(--g) 10vh; min-height: 100svh; }
   .hero-hi { font-size: 18px; letter-spacing: .14em; }
   .hero-foot { grid-template-columns: 1fr; margin-top: 36px; }
