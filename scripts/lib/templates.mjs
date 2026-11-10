@@ -46,7 +46,7 @@ ${og ? `<meta property="og:image" content="${esc(og)}">\n<meta name="twitter:car
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400&family=Roboto:wght@100;300;400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400&family=Montserrat:wght@700&family=Roboto:wght@100;300;400;700&display=swap">
 <link rel="stylesheet" href="${u("assets/css/style.css")}">
 <script>document.documentElement.classList.add("js");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("motion")</script>
 ${jsonld}

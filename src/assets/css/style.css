@@ -15,6 +15,7 @@
 
   /* 영문은 Roboto(가는 제목) + Josefin Sans(메뉴·라벨), 한글은 자동으로 Pretendard */
   --sans: Roboto, "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --mont: Montserrat, "Pretendard Variable", Pretendard, sans-serif;  /* 첫 화면 인사·소개 글 */
   --geo: "Josefin Sans", Roboto, "Pretendard Variable", Pretendard, sans-serif;
 
   --g: clamp(20px, 3.4vw, 64px);          /* 좌우 여백 */
@@ -85,10 +86,10 @@ main { display: block; min-height: 70vh; }
 /* ---------- HOME 첫 화면 ---------- */
 .hero { position: relative; min-height: 100svh; padding: 22vh var(--g) 14vh calc(var(--g) + 4vw); }
 .hero-logo { margin: 0; }
-.hero-hi { margin: clamp(28px, 5vh, 56px) 0 0; font-family: var(--geo); font-weight: 300; font-size: clamp(20px, 1.85vw, 30px); line-height: 1.85; letter-spacing: .26em; }
+.hero-hi { margin: clamp(28px, 5vh, 56px) 0 0; font-family: var(--mont); font-weight: 700; font-size: clamp(20px, 1.85vw, 30px); line-height: 1.85; letter-spacing: .2em; }
 /* nirnor처럼: 왼쪽에 작은 소개 글, 화면 가운데쯤(55%)에 캠 */
 .hero-foot { display: grid; grid-template-columns: calc(55vw - var(--g) - 4vw) minmax(0, 1fr); align-items: start; margin-top: clamp(40px, 7vh, 80px); }
-.hero-intro { max-width: 30em; padding-right: 2em; font-family: var(--geo); font-weight: 300; font-size: 15px; line-height: 1.95; letter-spacing: .02em; }
+.hero-intro { max-width: 30em; padding-right: 2em; font-family: var(--mont); font-weight: 700; font-size: 14px; line-height: 2; letter-spacing: .02em; }
 .hero-intro p { margin: 0; }
 .hero-intro p + p { margin-top: .8em; }
 
@@ -440,9 +441,9 @@ html.lenis, html.lenis body { height: auto; }
   .logo--sm { height: 24px; }
   .hd-nav { font-size: 13px; gap: 10px; padding-top: 4px; }
   .hero { padding: 20vh var(--g) 10vh; min-height: 100svh; }
-  .hero-hi { font-size: 19px; letter-spacing: .2em; }
+  .hero-hi { font-size: 18px; letter-spacing: .14em; }
   .hero-foot { grid-template-columns: 1fr; margin-top: 36px; }
-  .hero-intro { font-size: 14px; padding-right: 0; }
+  .hero-intro { font-size: 13px; padding-right: 0; }
   .hicam { width: min(72%, 300px); margin: 40px 0 0 auto; }
   .hero-scroll { display: none; }
   .grid { grid-template-columns: repeat(6, minmax(0, 1fr)); row-gap: 56px; }
