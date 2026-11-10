@@ -83,43 +83,89 @@
     addEventListener("resize", () => { if (Math.abs(innerWidth - lastW) < 2) return; lastW = innerWidth; clearTimeout(rt); rt = setTimeout(() => { setup(); draw(performance.now()); }, 250); });
   }
 
-  /* ---------- HOME 첫 화면: 인사하는 캠 ----------
-     "Say hi"를 누르면 방문자의 카메라가 켜지고(브라우저가 먼저 허락을 묻습니다), 손을 흔들면 인사가 돌아옵니다.
-     영상은 이 브라우저 안에서만 쓰이고 어디로도 보내거나 저장하지 않습니다.
-     손 흔들기는 작은 화면(64×48)에서 움직인 부분의 가운데가 좌우로 몇 번 왔다 갔다 하는지로 알아챕니다. */
+  /* ---------- HOME 첫 화면: 인사하는 캠 (맥북 화면 모양) ----------
+     "Say hi"를 누르면 방문자의 카메라가 켜지고(브라우저가 먼저 허락을 묻습니다),
+     화면 속 사람을 찾아 "human" 상자로 따라가고, 손을 흔들면 인사가 돌아옵니다.
+     - 사람 찾기: MediaPipe 물체 인식 모델(버튼을 누를 때만 내려받음). 못 불러오면 움직인 부분을 상자로 잡습니다.
+     - 손 흔들기: 작은 화면(64×48)에서 움직인 부분의 가운데가 좌우로 몇 번 오가는지로 알아챕니다.
+     영상은 이 브라우저 안에서만 쓰이고 어디로도 보내거나 저장하지 않습니다. */
   const cam = document.querySelector(".hicam");
   if (cam) {
-    const video = cam.querySelector(".hicam-video"), msg = cam.querySelector(".hicam-msg"), clock = cam.querySelector(".hicam-clock");
+    const MP = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21";
+    const MODEL = "https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/float16/1/efficientdet_lite0.tflite";
+    const screen = cam.querySelector(".hicam-screen"), video = cam.querySelector(".hicam-video"), boxes = cam.querySelector(".hicam-boxes");
+    const msg = cam.querySelector(".hicam-msg"), clock = cam.querySelector(".hicam-clock");
     const say = (state, html) => { cam.dataset.state = state; msg.innerHTML = html; };
     const tick = () => { clock.textContent = new Date().toLocaleTimeString("en-GB"); };
     tick(); setInterval(tick, 1000);
-    const HELLO = ["Hi! Nice to meet you 👋", "Hello there!", "Welcome in :)"];
-    let stream = null, timer = 0, hello = 0;
+    const HELLO = ["Hi! Nice to meet you", "Hello there!", "Welcome in :)"];
+    let stream = null, timer = 0, hello = 0, detector = null, loading = null;
+
+    // 사람 찾는 모델은 한 번만 불러옵니다 (GPU가 안 되면 CPU로)
+    const loadDetector = () => loading || (loading = (async () => {
+      const { FilesetResolver, ObjectDetector } = await import(`${MP}/vision_bundle.mjs`);
+      const files = await FilesetResolver.forVisionTasks(`${MP}/wasm`);
+      const make = delegate => ObjectDetector.createFromOptions(files, {
+        baseOptions: { modelAssetPath: MODEL, delegate }, runningMode: "VIDEO", scoreThreshold: .4, maxResults: 3, categoryAllowlist: ["person"],
+      });
+      try { detector = await make("GPU"); } catch { detector = await make("CPU"); }
+    })().catch(() => { detector = null; }));
 
     const stop = () => {
       if (stream) stream.getTracks().forEach(tr => tr.stop());
       stream = null; cancelAnimationFrame(timer); video.srcObject = null;
+      boxes.getContext("2d").clearRect(0, 0, boxes.width, boxes.height);
       say("idle", "See you around.<br>Wave again?");
     };
 
     const watch = () => {
       const c = document.createElement("canvas"); c.width = 64; c.height = 48;
       const g = c.getContext("2d", { willReadFrequently: true });
-      let prev = null, xs = [], lastWave = 0, nudge = performance.now() + 7000;
+      const bx = boxes.getContext("2d");
+      let prev = null, xs = [], lastWave = 0, nudge = performance.now() + 7000, lastDetect = 0;
+      let found = [], shown = [], motionBox = null, motionSeen = 0;
+
+      // 영상 좌표(원본) → 화면 좌표 (꽉 채우기 + 거울처럼 뒤집기)
+      const toScreen = (x, y, w, h, W, H) => {
+        const vw = video.videoWidth, vh = video.videoHeight, s = Math.max(W / vw, H / vh);
+        const ox = (W - vw * s) / 2, oy = (H - vh * s) / 2;
+        return [W - (ox + (x + w) * s), oy + y * s, w * s, h * s];
+      };
+
+      const drawBoxes = (W, H) => {
+        bx.clearRect(0, 0, W, H);
+        bx.lineWidth = 1.5; bx.font = '400 10px "Josefin Sans", sans-serif'; bx.textBaseline = "middle";
+        for (const b of shown) {
+          if (b.a < .02) continue;
+          bx.globalAlpha = b.a;
+          bx.strokeStyle = "#8DB33A"; bx.strokeRect(b.x, b.y, b.w, b.h);
+          const label = `human ${b.score.toFixed(2)}`, tw = bx.measureText(label).width + 10, ty = b.y > 15 ? b.y - 14 : b.y;
+          bx.fillStyle = "#8DB33A"; bx.fillRect(b.x - .75, ty, tw, 14);
+          bx.fillStyle = "#fff"; bx.fillText(label, b.x + 4.5, ty + 8);
+        }
+        bx.globalAlpha = 1;
+      };
+
       const frame = now => {
         if (!stream) return;
-        if (video.readyState >= 2) {
+        const W = screen.clientWidth, H = screen.clientHeight, dpr = Math.min(2, devicePixelRatio || 1);
+        if (boxes.width !== Math.round(W * dpr)) { boxes.width = Math.round(W * dpr); boxes.height = Math.round(H * dpr); bx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+        if (video.readyState >= 2 && video.videoWidth) {
+          // 1) 움직임: 손 흔들기 + (모델이 없을 때) 움직인 부분 상자
           g.drawImage(video, 0, 0, 64, 48);
           const px = g.getImageData(0, 0, 64, 48).data, cur = new Uint8ClampedArray(64 * 48);
-          let cnt = 0, sx = 0;
+          let cnt = 0, sx = 0, x0 = 64, y0 = 48, x1 = -1, y1 = -1;
           for (let i = 0; i < cur.length; i++) {
             cur[i] = (px[i * 4] * 3 + px[i * 4 + 1] * 6 + px[i * 4 + 2]) / 10;
-            if (prev && Math.abs(cur[i] - prev[i]) > 28) { cnt++; sx += i % 64; }
+            if (prev && Math.abs(cur[i] - prev[i]) > 28) {
+              const x = i % 64, y = (i / 64) | 0; cnt++; sx += x;
+              if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+            }
           }
           prev = cur;
+          if (cnt > 40) { const k = video.videoWidth / 64; motionBox = { x: x0 * k, y: y0 * k, w: (x1 - x0 + 1) * k, h: (y1 - y0 + 1) * k, score: Math.min(.99, .55 + cnt / 900) }; motionSeen = now; }
           xs = xs.filter(p => now - p[0] < 1600);
           if (cnt > 40) xs.push([now, sx / cnt]);
-          // 좌우로 방향이 바뀐 횟수 세기 (흔들림이 4칸 이상일 때만)
           let turns = 0, dir = 0, anchor = xs[0]?.[1];
           for (const [, x] of xs) {
             const dx = x - anchor;
@@ -130,8 +176,29 @@
             say("waved", HELLO[hello++ % HELLO.length]);
             setTimeout(() => { if (stream && cam.dataset.state === "waved") say("live", "Wave again anytime."); }, 3200);
           } else if (now > nudge && !lastWave) {
-            nudge = Infinity; msg.innerHTML = "Give me a wave 👋<br>with your hand.";
+            nudge = Infinity; msg.innerHTML = "Give me a wave<br>with your hand.";
           }
+
+          // 2) 사람 찾기 (1초에 약 12번)
+          if (detector && now - lastDetect > 80) {
+            lastDetect = now;
+            try {
+              found = detector.detectForVideo(video, now).detections.map(d => ({ ...d.boundingBox, score: d.categories[0]?.score || 0 }))
+                .map(b => ({ x: b.originX, y: b.originY, w: b.width, h: b.height, score: b.score }));
+            } catch { found = []; }
+          } else if (!detector) {
+            found = motionBox && now - motionSeen < 900 ? [motionBox] : [];
+          }
+
+          // 3) 상자를 부드럽게 따라가게 (갑자기 튀지 않게)
+          const target = found.map(b => { const [x, y, w, h] = toScreen(b.x, b.y, b.w, b.h, W, H); return { x, y, w, h, score: b.score }; });
+          shown = target.map((t, i) => {
+            const p = shown[i];
+            if (!p || p.a < .05) return { ...t, a: .2 };
+            const k = .35;
+            return { x: p.x + (t.x - p.x) * k, y: p.y + (t.y - p.y) * k, w: p.w + (t.w - p.w) * k, h: p.h + (t.h - p.h) * k, score: t.score, a: Math.min(1, p.a + .2) };
+          }).concat(shown.slice(target.length).map(p => ({ ...p, a: p.a * .8 })).filter(p => p.a > .02));
+          drawBoxes(W, H);
         }
         timer = requestAnimationFrame(frame);
       };
@@ -139,16 +206,17 @@
     };
 
     cam.querySelector(".hicam-btn").addEventListener("click", async () => {
-      if (!navigator.mediaDevices?.getUserMedia) { say("denied", "No camera here —<br>hi anyway 👋"); return; }
+      if (!navigator.mediaDevices?.getUserMedia) { say("denied", "No camera here.<br>Hi anyway!"); return; }
       say("asking", "Allow the camera<br>in your browser.");
+      loadDetector();
       try {
         stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } }, audio: false });
         video.srcObject = stream; await video.play();
-        say("live", "I can see you!<br>Wave hello 👋");
+        say("live", "I can see you!<br>Wave hello.");
         watch();
       } catch {
         stream = null;
-        say("denied", "Camera is off —<br>hi anyway 👋");
+        say("denied", "Camera is off.<br>Hi anyway!");
       }
     });
     cam.querySelector(".hicam-off").addEventListener("click", stop);

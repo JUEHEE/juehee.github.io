@@ -230,11 +230,17 @@ export function home({ categories, featured, all }) {
   <div class="hero-foot">
     <div class="hero-intro">${(Array.isArray(SITE.intro) ? SITE.intro : SITE.intro ? [SITE.intro] : []).map(t => `<p>${txt(t)}</p>`).join("")}</div>
     <figure class="hicam" data-state="idle" aria-label="Say hi with your camera">
-      <div class="hicam-screen">
-        <video class="hicam-video" playsinline muted aria-hidden="true"></video>
-        <p class="hicam-msg" aria-live="polite">Hi there.<br>Wave back?</p>
-        <button class="hicam-btn" type="button"><span aria-hidden="true">👋</span> Say hi</button>
-        <button class="hicam-off lbl" type="button" aria-label="Turn camera off">Off</button>
+      <div class="hicam-mac">
+        <div class="hicam-lid">
+          <div class="hicam-screen">
+            <video class="hicam-video" playsinline muted aria-hidden="true"></video>
+            <canvas class="hicam-boxes" aria-hidden="true"></canvas>
+            <p class="hicam-msg" aria-live="polite">Hi there.<br>Wave back?</p>
+            <button class="hicam-btn" type="button"><i aria-hidden="true"></i>Say hi</button>
+            <button class="hicam-off lbl" type="button" aria-label="Turn camera off">Off</button>
+          </div>
+        </div>
+        <div class="hicam-base" aria-hidden="true"></div>
       </div>
       <figcaption class="hicam-bar lbl"><span class="hicam-rec"><i></i>Live</span><time class="hicam-clock"></time></figcaption>
       <p class="hicam-note">Your camera stays on your device. Nothing is recorded or sent.</p>
