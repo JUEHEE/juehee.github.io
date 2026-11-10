@@ -58,7 +58,7 @@ export function inline(s) {
 }
 
 /* ---------- 미디어 줄 옵션 ---------- */
-const SIZES = ["full", "wide", "medium", "small"];
+const SIZES = ["full", "wide", "medium", "small", "tiny"];
 export function parseOptions(str = "") {
   const o = { size: "", align: "", flags: new Set(), ratio: "" };
   for (const w of String(str).toLowerCase().split(/[\s,]+/).filter(Boolean)) {
@@ -123,7 +123,7 @@ export async function renderMarkdown(src, { resolve, figure }) {
         }
         const inner = await renderMarkdown(text.join("\n"), { resolve, figure });
         const prose = inner.replace(/<section class="txt[^"]*">(?:<h2[^>]*>[\s\S]*?<\/h2>)?<div class="prose">/g, "").replace(/<\/div><\/section>/g, "");
-        out.push(`<div class="duo duo--${group[0].o.align === "right" ? "right" : "left"}${group[0].o.size === "small" ? " duo--small" : ""}">${figure(group)}<div class="duo-text prose">${prose}</div></div>`);
+        out.push(`<div class="duo duo--${group[0].o.align === "right" ? "right" : "left"}${group[0].o.size === "small" ? " duo--small" : group[0].o.size === "tiny" ? " duo--small duo--tiny" : ""}">${figure(group)}<div class="duo-text prose">${prose}</div></div>`);
         continue;
       }
       out.push(figure(group));

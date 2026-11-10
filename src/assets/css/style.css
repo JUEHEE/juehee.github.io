@@ -394,6 +394,11 @@ main { display: block; min-height: 70vh; }
 .duo--right.duo--small > .m { grid-column: 8 / span 5; }
 .duo--right.duo--small > .duo-text { grid-column: 1 / span 6; }
 .duo-text h3:first-child { margin-top: 0; }
+/* "side tiny": 세로 영상을 좁게 (화면 높이를 넘지 않게) */
+.duo--tiny > .m { grid-column: 1 / span 3; }
+.duo--tiny > .duo-text { grid-column: 5 / span 7; }
+.duo--right.duo--tiny > .m { grid-column: 10 / span 3; }
+.duo--right.duo--tiny > .duo-text { grid-column: 1 / span 7; }
 
 /* 여러 장을 한 줄로: 비율이 달라도 높이를 맞춰 나란히 */
 .m-row { display: flex; gap: var(--col-gap); align-items: flex-start; }
