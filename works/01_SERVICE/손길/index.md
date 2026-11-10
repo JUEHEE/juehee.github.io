@@ -4,7 +4,7 @@ subtitle: Sign language–based remote financial counseling AI
 slug: sonkil
 year: 2026
 period: 2026-1
-role: Team lead (planning & advisory, data preprocessing, fine-tuning data)
+role: Team lead (planning & advisory, data preprocessing, fine-tuning data, presentation)
 team: 4
 tools: MediaPipe Hands·Pose, PyTorch Transformer Encoder, OpenAI o4-mini, Streamlit
 summary: 청각장애인이 통역사 없이 수어로 금융 상담을 받을 수 있는 비대면 AI 상담 서비스. 서강대 해커톤 장려상.
@@ -149,8 +149,9 @@ CrossEntropy와 Adam(학습률 0.0001)으로 50 epoch 학습했고, 검증 손�
 - **기획과 방향** — 서비스 아이디어를 내고, 교수님께 드릴 질문을 준비해 자문 내용을 팀에 정리했습니다. 그 내용을 바탕으로 은행 도메인을 제안했고, 인식률·실시간성 같은 문제를 기술적으로 어떻게 보완할지 고민하며 멘토링 질문으로 가져갔습니다.
 - **데이터** — AI Hub 원본 영상에서 키포인트를 다시 뽑고 단어 구간으로 나누는 전처리, 그리고 도메인 갭을 줄이기 위한 웹캠 파인튜닝 데이터 촬영·제작을 맡았습니다.
 - **상담 화면** — 색 체계와 화면 흐름 같은 방향을 정하고, AI 코딩 도구로 프로토타입을 만들었습니다.
+- **발표** — 최종 경연대회 발표를 맡았습니다.
 
-- **팀장 (나)** — 기획·전문가 자문, 데이터 전처리, 파인튜닝 데이터 제작, 상담 화면 프로토타입
+- **팀장 (나)** — 기획·전문가 자문, 데이터 전처리, 파인튜닝 데이터 제작, 상담 화면 프로토타입, 발표
 - **팀원 A** — 데이터 전처리, 파인튜닝 데이터 제작
 - **팀원 B** — AI 파이프라인 설계, 모델 구조 분석
 - **팀원 C** — AI 모델링, 학습, 파인튜닝
