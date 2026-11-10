@@ -113,6 +113,19 @@ export async function renderMarkdown(src, { resolve, figure }) {
         i++;
       }
       i--;
+      // "side": 미디어 한 개 옆에 바로 뒤 글(다음 ## 제목·미디어·--- 전까지)을 나란히 둡니다
+      if (group.length === 1 && group[0].o.flags.has("side")) {
+        const text = [];
+        while (i + 1 < lines.length) {
+          const n = lines[i + 1].trim();
+          if (MEDIA_LINE.test(n) || /^#{1,2}\s+/.test(n) || /^(-{3,}|\*{3,})$/.test(n)) break;
+          text.push(lines[i + 1]); i++;
+        }
+        const inner = await renderMarkdown(text.join("\n"), { resolve, figure });
+        const prose = inner.replace(/<section class="txt[^"]*">(?:<h2[^>]*>[\s\S]*?<\/h2>)?<div class="prose">/g, "").replace(/<\/div><\/section>/g, "");
+        out.push(`<div class="duo duo--${group[0].o.align === "right" ? "right" : "left"}${group[0].o.size === "small" ? " duo--small" : ""}">${figure(group)}<div class="duo-text prose">${prose}</div></div>`);
+        continue;
+      }
       out.push(figure(group));
       continue;
     }

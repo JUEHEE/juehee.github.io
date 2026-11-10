@@ -369,6 +369,17 @@ main { display: block; min-height: 70vh; }
 .pj-body > .m--small.m--left { grid-column: 1 / span 4; }
 .pj-body > .m--small.m--right { grid-column: 9 / span 4; }
 .pj-body > .m--doc { grid-column: 5 / span 7; }
+/* "side": 미디어와 설명을 나란히 (왼쪽 미디어 + 오른쪽 글, right면 반대) */
+.pj-body > .duo { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: center; }
+.duo > .m { grid-column: 1 / span 7; grid-row: 1; margin: 0; }
+.duo > .duo-text { grid-column: 9 / span 4; grid-row: 1; }
+.duo--small > .m { grid-column: 1 / span 5; }
+.duo--small > .duo-text { grid-column: 7 / span 6; }
+.duo--right > .m { grid-column: 6 / span 7; }
+.duo--right > .duo-text { grid-column: 1 / span 4; }
+.duo--right.duo--small > .m { grid-column: 8 / span 5; }
+.duo--right.duo--small > .duo-text { grid-column: 1 / span 6; }
+.duo-text h3:first-child { margin-top: 0; }
 
 /* 여러 장을 한 줄로: 비율이 달라도 높이를 맞춰 나란히 */
 .m-row { display: flex; gap: var(--col-gap); align-items: flex-start; }
@@ -506,6 +517,8 @@ html.lenis, html.lenis body { height: auto; }
   .txt-h { grid-column: 1 / -1; position: static; margin-bottom: 14px; }
   .prose, .pj-body > .m--doc, .pull { grid-column: 1 / -1 !important; }
   .pj-body > .m--medium, .pj-body > .m--small, .pj-body > .m--medium.m--left, .pj-body > .m--medium.m--right { grid-column: 1 / -1; }
+  .duo > .m, .duo > .duo-text, .duo--right > .m, .duo--right > .duo-text, .duo--small > .m, .duo--small > .duo-text { grid-column: 1 / -1 !important; grid-row: auto; }
+  .duo > .duo-text { margin-top: 20px; }
   .pj-body > .m--small.m--left, .pj-body > .m--small.m--right, .pj-body > .m--small { grid-column: 2 / span 10; }
   .m-row { gap: 8px; }
   .m-row:has(> :nth-child(4)) { flex-wrap: wrap; }
