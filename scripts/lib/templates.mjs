@@ -238,6 +238,10 @@ export function home({ categories, featured, all }) {
             <p class="hicam-msg" aria-live="polite">Hi there.<br>Wave back?</p>
             <button class="hicam-btn" type="button"><i aria-hidden="true"></i>Say hi</button>
             <button class="hicam-off lbl" type="button" aria-label="Turn camera off">Off</button>
+            <figure class="hicam-pip">
+              <video class="hicam-me" poster="${u("assets/media/hello.jpg")}" muted loop playsinline preload="metadata" aria-label="Juehee bowing and waving hello"><source src="${u("assets/media/hello.mp4")}" type="video/mp4"><source src="${u("assets/media/hello.webm")}" type="video/webm"></video>
+              <figcaption class="lbl">juehee</figcaption>
+            </figure>
           </div>
         </div>
         <div class="hicam-base" aria-hidden="true"></div>
