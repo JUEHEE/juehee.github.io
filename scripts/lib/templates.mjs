@@ -224,7 +224,9 @@ function cubeStage(p, i, total) {
   // cube_net: cross → 모서리 없이 6면이 십자 모양으로 펼쳐짐 (뒷면도 남음). 그림은 가로 4칸 × 세로 3칸
   const cross = p.data.cube_net === "cross";
   const cols = cross ? 4 : 3;
-  const tile = (cls, c, r, inner = "") => `<div class="f ${cls}" style="background-position:${c * 100 / (cols - 1)}% ${r * 50}%">${inner}</div>`;
+  // cube_hide: [bottom] → 그 면은 비워 둠 (전개도에서 빠짐)
+  const hide = [].concat(p.data.cube_hide || []);
+  const tile = (cls, c, r, inner = "") => `<div class="f ${cls}${hide.some(h => cls === `f-${h}`) ? " f-hide" : ""}" style="background-position:${c * 100 / (cols - 1)}% ${r * 50}%">${inner}</div>`;
   const corners = cross ? "" : [[0, 0], [2, 0], [0, 2], [2, 2]].map(([c, r]) => tile(`f-corner f-c${c}${r}`, c, r)).join("");
   const href = u(`works/${p.slug}/`);
   return `<article class="cs${url ? "" : " cs--empty"}${cross ? " cs--cross" : ""}"${url ? ` style="--img:url('${esc(url)}')"` : ""}>
