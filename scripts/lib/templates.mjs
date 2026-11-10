@@ -207,7 +207,7 @@ function wcard(p, i) {
   return `<article class="wc" data-reveal>
   <a href="${u(`works/${p.slug}/`)}">
     <div class="wc-cap">
-      <h2 class="wc-t${/[가-힣]/.test(p.title) ? " wc-t--ko" : ""}">${esc(p.title)}${badge(p.status)}</h2>
+      <h2 class="wc-t${/[가-힣]/.test(p.title) ? " wc-t--ko" : ""}">${p.titleIcon ? titleWithIcon(p) : esc(p.title)}${badge(p.status)}</h2>
       <p class="wc-tag">#${esc(p.category.label)}${p.parent ? ` · ${esc(p.parent.data.group || p.parent.title)}` : ""}</p>
     </div>
     <div class="wc-media">${media}</div>
