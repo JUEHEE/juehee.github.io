@@ -9,11 +9,15 @@ tools: YOLOv8, FLAME dataset, Python
 summary: 카메라 영상으로 화재를 탐지하고, 탐지 결과를 드론 제어와 연결해 화재 지점에 소화 페이로드를 투하하는 PARROT × MECA 연합 프로젝트.
 status: In progress
 order: 2
+info:
+  - Status | 진행 중
 links:
   - GitHub | https://github.com/adeomise/AnomalyDetection
 ---
 
 ## Overview
+
+**현재 진행 중인 프로젝트입니다.** 아래는 지금까지 진행한 내용이며, 결과가 나오는 대로 이어서 업데이트할 예정입니다.
 
 영상 기반 화재 탐지 AI가 핵심인 드론 프로젝트입니다. 카메라 영상 → 화재 탐지 모델 → 바운딩 박스와 신뢰도 → 탐지 판단 → 드론 제어 → 소화 페이로드 투하로 이어지는 흐름을 설계했습니다.
 

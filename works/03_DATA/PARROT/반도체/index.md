@@ -10,6 +10,8 @@ summary: Sandia National Laboratories의 Mo 스퍼터링 공정 데이터(27개 
 status: In progress
 order: 3
 hero: false
+info:
+  - Status | 진행 중
 links:
   - Colab | https://colab.research.google.com/drive/1FUxdruC-vSyxcWiMcfL8QqKtcWTDaX20
   - Notion | https://app.notion.com/p/PRIME-PARROT-PVD-3d00b009e7bd810280ddeed21969d6a8
@@ -17,6 +19,8 @@ links:
 ---
 
 ## Overview
+
+**현재 진행 중인 프로젝트입니다.** 아래는 지금까지 진행한 내용이며, 결과가 나오는 대로 이어서 업데이트할 예정입니다.
 
 마그네트론 스퍼터링으로 Mo(몰리브덴) 박막을 증착할 때, Power와 Ar Pressure 조건에 따라 증착률이 어떻게 달라지는지 예측하는 것이 목표입니다. Sandia의 공개 데이터(100/500/750 W, 2~23 mTorr, 27개 레시피 × 웨이퍼 3장)를 사전에 합의한 체크리스트와 증착 메커니즘을 기준으로 분석했습니다.
 
