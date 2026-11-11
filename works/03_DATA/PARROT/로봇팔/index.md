@@ -12,7 +12,7 @@ summary:
   - 실제 로봇 팔이 노란 테이프를 집어 바구니에 넣도록 만든 프로젝트.
 order: 1
 hero: false
-cover: example_episode.jpg
+cover: cover-15.jpg
 info:
   - Team | PARROT × 기계공학 학회 연합 · 소프트웨어 팀
   - Result | 15개 시연으로 학습한 모델이 실물 로봇에서 성공
