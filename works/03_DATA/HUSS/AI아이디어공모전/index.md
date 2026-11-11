@@ -6,7 +6,7 @@ slug: huss-pathto
 year: 2026
 role: Idea & poster (individual)
 summary: 시각장애인의 전국 단위 이동을 돕는 AI 기반 적응형 경로 안내 플랫폼 아이디어. HUSS 'AI 데이터 기반 포용 아젠다 아이디어 공모전' 출품작.
-order: 2
+order: 3
 cover: PathTo 포스터.jpg
 hero: false
 ---

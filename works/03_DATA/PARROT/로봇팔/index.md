@@ -7,7 +7,7 @@ year: 2026
 role: [작성 필요]
 tools: LeRobot, ACT, SO-101
 summary: SO-101 로봇 팔로 시연을 녹화하고 LeRobot의 ACT 정책을 학습해, 실제 로봇이 노란 테이프를 집어 바구니에 넣도록 만든 프로젝트.
-order: 5
+order: 1
 hero: false
 info:
   - Result | 15개 시연으로 학습한 모델이 실물 로봇에서 성공

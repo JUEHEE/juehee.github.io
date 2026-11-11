@@ -7,6 +7,7 @@ year: 2026
 role: Lead & planning
 tools: Python, Colab
 summary: Sandia National Laboratories의 Mo 스퍼터링 공정 데이터(27개 레시피)로 증착률 예측을 준비한 탐색적 데이터 분석과 모델 설계.
+status: In progress
 order: 3
 hero: false
 links:

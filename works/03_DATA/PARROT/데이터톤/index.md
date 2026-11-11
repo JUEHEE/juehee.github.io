@@ -9,7 +9,7 @@ role: Team member (modeling, analysis)
 team: 5
 tools: Python, LightGBM, XGBoost, Colab
 summary: 글로벌 e-커머스 주문 14만 건으로 배송 지연 위험을 머신러닝으로 예측한 중앙대 × 서강대 데이터톤(앵날다쏘) 프로젝트.
-order: 1
+order: 5
 info:
   - Score | OOF PR-AUC 0.9668
 links:

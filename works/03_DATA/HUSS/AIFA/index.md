@@ -7,7 +7,7 @@ year: 2026
 role: Front-end
 tools: RAG
 summary: 인문사회계 학부생이 교수자와 함께 AI 기반 교수·학습·행정 자동화 시스템을 설계하고 개발한 HUSS 포용사회 사업단 비교과 프로그램.
-order: 1
+order: 2
 ---
 
 > AI가 가르치고(Professor), 돕고(Tutor), 관리하는(Administrator) 포용적 교육 생태계

@@ -7,7 +7,8 @@ year: 2026
 role: Lead & planning
 tools: YOLOv8, FLAME dataset, Python
 summary: 카메라 영상으로 화재를 탐지하고, 탐지 결과를 드론 제어와 연결해 화재 지점에 소화 페이로드를 투하하는 PARROT × MECA 연합 프로젝트.
-order: 4
+status: In progress
+order: 2
 links:
   - GitHub | https://github.com/adeomise/AnomalyDetection
 ---

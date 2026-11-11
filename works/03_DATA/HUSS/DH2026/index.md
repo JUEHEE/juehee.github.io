@@ -8,7 +8,7 @@ period: 2026.07
 role: RAG back-end team
 tools: Python, LangChain, RAG
 summary: 국제 디지털 인문학 학술대회 DH2026: Engagement에서 진행된 RAG 워크숍 준비에 RAG 구축 백엔드팀으로 참여.
-order: 3
+order: 1
 links:
   - Workshop slides | https://littlekg87.github.io/DH2026/Workshop_RAG/index.html#step5
   - GitHub | https://github.com/littlekg87/DH2026

@@ -8,7 +8,7 @@ role: [작성 필요]
 team: 4
 tools: RT-DETR, YOLO, CLIP, Ingredient2Vec, Gradio
 summary: 냉장고 사진 한 장으로 식재료를 인식하고, 건강 상태와 남은 재료에 맞는 레시피를 추천하는 딥러닝 프로젝트.
-order: 7
+order: 4
 info:
   - Result | RT-DETR-L mAP@50 0.820
 links:
