@@ -21,7 +21,7 @@ links:
   - SO-ARM100 (reference) | https://github.com/TheRobotStudio/SO-ARM100
 ---
 
-![위에서 본 실행 — 리더 팔에 손대지 않아도 팔로워가 혼자 테이프를 집어 바구니에 넣음](위에서 본 실행.mp4)
+![위에서 본 실행 — 리더 팔에 손대지 않아도 팔로워가 혼자 테이프를 집어 바구니에 넣음](계봇 실행.mp4 "medium")
 
 ## Overview
 
