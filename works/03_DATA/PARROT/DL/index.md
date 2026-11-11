@@ -5,7 +5,7 @@ subtitle: One photo of your groceries, a meal without waste
 slug: parrot-dl
 year: 2026
 period: 2026.05 – 2026.06
-role: Team lead · Detection experiments (YOLO-World) · Presentation
+role: Team lead · Planning · Modeling · Presentation
 team: 4
 tools: RT-DETR, YOLO, CLIP, Ingredient2Vec, Gradio
 summary:
@@ -17,6 +17,7 @@ info:
   - Team | PARROT 딥러닝 프로젝트 · 4명 (팀장)
   - Result | RT-DETR-L mAP@50 0.820 · mAP@50-95 0.570
 links:
+  - RT-DETR 논문 리뷰 (참고) | https://kimjy99.github.io/논문리뷰/rt-detr/
   - Colab | https://colab.research.google.com/drive/1jDMTJsMf_he0RTui-RzlJmTLP2d6Gh3i
   - Slides PDF | DL 프로젝트 발표자료.pdf
 ---
@@ -24,6 +25,8 @@ links:
 > 오늘 뭐 먹지?
 
 ## Question
+
+딥러닝을 처음 배우고 진행한 첫 프로젝트입니다.
 
 장을 보고 와서 산 재료를 어떻게 다 쓸지, 오늘은 무엇을 해 먹을지 고민하는 일은 매일 반복됩니다. 저희는 이 고민을 딥러닝으로 풀어 보고자 했습니다. 식재료를 사진 한 장으로 탐지하고, 사용자의 건강 상태에 맞춰 남은 재료를 가장 잘 활용하는 레시피를 추천해 음식 낭비를 줄이는 것이 목표였습니다.
 
@@ -93,12 +96,14 @@ Roboflow의 식재료 데이터셋 3개를 인덱스 재매핑으로 하나의 �
 
 ## Role
 
-- 팀장으로 문제 정의와 범위 조정, 회의 일정과 할 일을 정리하며 프로젝트를 이끎
-- '장보고 온 직후 식탁 위 사진' 시나리오와 '미국 교환학생' 페르소나 제안
-- 탐지 보완책 중 YOLO-World 실험을 맡아 결과와 한계 정리
-- 발표 자료를 만들고 도입 · 데이터 파트를 발표, 향후 과제 구성 제안
+- **팀 리더** — 문제 정의와 범위 조정, 회의 일정과 할 일을 정리하며 프로젝트를 이끎
+- **기획** — '장보고 온 직후 식탁 위 사진' 시나리오와 '미국 교환학생' 페르소나, 향후 과제 구성 제안
+- **모델링** — 팀원들과 함께 탐지 모델을 실험하고 비교했고, 그중 YOLO-World 실험을 맡음
+- **발표** — 발표 자료를 만들고 도입 · 데이터 파트를 발표
 
 ## Learnings
+
+딥러닝을 처음 배우고 시작한 프로젝트라, 모델을 쓰기 전에 모델을 먼저 공부해야 했습니다. RT-DETR이 왜 YOLO와 다르게 이미지 전체를 한 번에 보는지 이해하려고 논문과 논문 리뷰를 찾아 읽었고, 레시피 추천 공식과 칼로리 범위를 정할 때도 추천 시스템 논문과 식이 가이드라인을 근거로 삼았습니다. 수업에서 개념으로만 배운 객체 탐지와 Transformer를 실제 데이터에 적용해 보며, 각 모델이 어떤 구조이고 왜 그런 결과가 나오는지를 하나씩 따라가 볼 수 있었습니다.
 
 이번 프로젝트에서 가장 크게 배운 것은 **계획보다 검증이 먼저**라는 점입니다. 처음 계획서에는 하고 싶은 기능이 가득했지만, 피드백을 받고 나서야 데이터와 평가 지표가 확정되지 않으면 어떤 기능도 설득력을 갖기 어렵다는 것을 알았습니다. 범위를 줄인 덕분에 탐지와 추천이라는 핵심을 끝까지 실험하고 비교할 수 있었습니다.
 
