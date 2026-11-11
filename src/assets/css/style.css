@@ -400,7 +400,6 @@ main { display: block; min-height: 70vh; }
 .duo--right.duo--small > .duo-text { grid-column: 1 / span 6; }
 .duo-text h3:first-child { margin-top: 0; }
 /* "side tiny": 세로 영상을 좁게 (화면 높이를 넘지 않게) */
-.pj-body > .duo--tiny { align-items: start; }
 .duo--tiny > .m { grid-column: 1 / span 3; }
 .duo--tiny > .duo-text { grid-column: 5 / span 7; }
 .duo--right.duo--tiny > .m { grid-column: 10 / span 3; }
