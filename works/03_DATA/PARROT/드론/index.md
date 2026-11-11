@@ -11,7 +11,7 @@ summary:
   - 데이터사이언스 학회 PARROT과 기계공학 학회 MECA의 연합 프로젝트.
 status: In progress
 order: 2
-cover: 드론 조립.jpg
+cover: cover-detect.jpg
 hero: false
 info:
   - Status | 진행 중 (1차 실험 준비)
