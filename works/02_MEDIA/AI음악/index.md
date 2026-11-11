@@ -8,8 +8,8 @@ role: Planning, English lyrics, AI music production (individual)
 tools: Suno, UVR (Ultimate Vocal Remover), Kits.ai, Mureka
 summary:
   - 글로벌 프로듀서가 되어 한국 동요를 세계에 전하는 과제로,
-  - 윤극영의 「반달」(1924)을 영어 가사의 R&B 발라드로 다시 만들고 영화 장면에 입혀
-  - 연애 콘텐츠 BGM으로 선보였습니다.
+  - 윤극영의 「반달」(1924)을 영어 가사의 R&B 발라드로 다시 만들고
+  - 영화 장면에 입혀 연애 콘텐츠 BGM으로 선보였습니다.
 order: 2
 cover: https://youtu.be/4xHfgSIi5nk
 # 맨 위에 유튜브 영상이 크게 나오고 바로 재생됩니다
