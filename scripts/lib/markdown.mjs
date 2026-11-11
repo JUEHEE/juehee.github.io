@@ -92,7 +92,7 @@ export async function renderMarkdown(src, { resolve, figure }) {
     flushPara();
     if (!section) return;
     if (section.heading || section.parts.length) {
-      out.push(`<section class="txt${section.heading ? "" : " txt--cont"}">${section.heading ? `<h2 class="txt-h">${inline(section.heading)}</h2>` : ""}<div class="prose">${section.parts.join("")}</div></section>`);
+      out.push(`<section class="txt${section.heading ? "" : " txt--cont"}${section.aside ? " has-aside" : ""}">${section.heading ? `<h2 class="txt-h">${inline(section.heading)}</h2>` : ""}<div class="prose">${section.parts.join("")}</div>${section.aside ? `<div class="txt-aside">${section.aside.join("")}</div>` : ""}</section>`);
     }
     section = null;
   };
@@ -103,6 +103,14 @@ export async function renderMarkdown(src, { resolve, figure }) {
     if (!t) { flushPara(); continue; }
 
     // 미디어: 빈 줄 없이 이어진 미디어 줄은 한 줄(row)로 묶습니다
+    // "aside": 섹션 제목([ ... ]) 아래 왼쪽 빈 칸에 작게 넣는 사진 — 섹션은 끊지 않음
+    if (MEDIA_LINE.test(t) && /\baside\b/i.test(t.match(MEDIA_LINE)[3] || "")) {
+      const [, caption, ref, opt] = t.match(MEDIA_LINE);
+      const o = parseOptions(opt);
+      const sec = ensureSection();
+      (sec.aside ??= []).push(figure([{ caption, o, m: await resolve(ref, o) }]));
+      continue;
+    }
     if (MEDIA_LINE.test(t)) {
       closeSection();
       const group = [];

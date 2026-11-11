@@ -353,6 +353,10 @@ main { display: block; min-height: 70vh; }
 .txt-h::after { content: "\00a0\00a0]"; }
 .prose { grid-column: 5 / span 7; font-size: clamp(16px, 1.15vw, 18px); line-height: 1.9; }
 .txt + .txt { margin-top: calc(clamp(24px, 4vw, 64px) * -1); }
+.has-aside .prose { grid-row: 1 / span 2; }
+.txt-aside { grid-column: 1 / span 3; grid-row: 2; margin-top: 28px; padding-right: 8%; }
+.txt-aside .m { margin: 0; }
+.txt-aside .m + .m { margin-top: 20px; }
 .prose > :first-child { margin-top: 0; }
 .prose > :last-child { margin-bottom: 0; }
 .prose p { margin: 0 0 1.1em; }
