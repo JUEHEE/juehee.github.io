@@ -8,14 +8,14 @@ role: Software team · Drone build · Data preprocessing & modeling
 tools: YOLOv8n, D-Fire, Python, ESP32, INAV
 summary:
   - 드론 카메라로 불꽃과 연기를 찾아내고, 화재 지점에 소화 페이로드를 투하하는
-  - PARROT × MECA 연합 프로젝트. 현재 1차 비행 실험을 준비하고 있습니다.
+  - 데이터사이언스 학회 PARROT과 기계공학 학회 MECA의 연합 프로젝트. 현재 1차 비행 실험을 준비하고 있습니다.
 status: In progress
 order: 2
 cover: 드론 조립.jpg
 hero: false
 info:
   - Status | 진행 중 (1차 실험 준비)
-  - Team | PARROT × MECA 연합 · 소프트웨어 팀
+  - Team | PARROT(데이터사이언스 학회) × MECA(기계공학 학회) 연합 · 소프트웨어 팀
 links:
   - GitHub (team) | https://github.com/Zero-woo/drone-fire-detection
   - Reference — 운영진으로 기획할 때 만든 예시 | https://github.com/adeomise/AnomalyDetection
@@ -28,6 +28,8 @@ links:
 ## Overview
 
 **현재 진행 중인 프로젝트입니다.** 아래는 지금까지 진행한 내용이며, 결과가 나오는 대로 이어서 업데이트할 예정입니다.
+
+데이터사이언스 학회 PARROT과 기계공학 학회 MECA가 함께하는 연합 프로젝트입니다. PARROT이 화재를 찾는 AI를, MECA가 드론 기체를 맡고 두 학회가 함께 하나의 드론을 완성해 갑니다.
 
 YOLOv8n 모델로 이미지 속 불꽃과 연기를 탐지하고, 어떤 학습 조건에서 탐지 성능이 좋아지는지 확인하는 프로젝트입니다. 모델 하나를 학습시키는 데서 그치지 않고, 학습 횟수 · 학습률 · 데이터 증강 · 입력 해상도를 바꿔 가며 성능과 처리 비용이 어떻게 달라지는지 분석하는 것이 핵심입니다. 이렇게 고른 모델을 드론에 연결해, 화재 지점에 소화 페이로드를 투하하는 것까지가 목표입니다.
 
