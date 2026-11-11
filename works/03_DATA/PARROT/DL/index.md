@@ -12,7 +12,7 @@ summary:
   - 식재료 사진 한 장으로 재료를 탐지하고,
   - 건강 상태에 맞는 칼로리 범위 안에서 남은 재료를 가장 잘 쓰는 레시피를 추천하는 딥러닝 프로젝트.
 order: 4
-cover: cover-poster.jpg
+cover: cover-poster-2.jpg
 info:
   - Team | PARROT 딥러닝 프로젝트 · 4명 (팀장)
   - Result | RT-DETR-L mAP@50 0.820 · mAP@50-95 0.570

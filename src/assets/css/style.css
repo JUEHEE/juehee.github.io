@@ -342,6 +342,7 @@ main { display: block; min-height: 70vh; }
 .pj-links .todo { font-size: 13px; border-bottom: 1px dashed currentColor; }
 .m.pj-hero { margin-bottom: clamp(64px, 9vw, 140px); }
 .pj-hero .frame { max-height: 92svh; }
+.pj-hero .frame img { object-position: 50% 0; }
 
 .pj-body { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); row-gap: clamp(48px, 7vw, 112px); padding: 0 var(--g) clamp(80px, 10vw, 140px); }
 .pj-body > * { grid-column: 1 / -1; min-width: 0; }
