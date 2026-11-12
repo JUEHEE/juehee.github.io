@@ -10,6 +10,7 @@ team: 4
 tools: LightGBM, XGBoost, CatBoost, Optuna
 summary: 온라인 기사 2만 3천여 건의 키워드·콘텐츠 구조·감성 정보로 인기 기사를 예측한 머신러닝 프로젝트. 세 부스팅 모델의 가중치 앙상블로 OOF PR-AUC 0.3320.
 order: 6
+cover: cover-title.jpg
 info:
   - Program | PARROT 14기 ML 프로젝트 (2026.04)
   - Result | Weighted ensemble OOF PR-AUC 0.3320

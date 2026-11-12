@@ -5,7 +5,7 @@ subtitle: One photo of your groceries, a meal without waste
 slug: parrot-dl
 year: 2026
 period: 2026.05 – 2026.06
-role: Team leader, team modeling, final presenter
+role: Team leader, team modeling, presenter
 team: 4
 tools: RT-DETR, YOLO, CLIP, Ingredient2Vec, Gradio
 summary:
