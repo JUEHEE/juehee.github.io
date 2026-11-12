@@ -13,7 +13,7 @@ cover: cover-collage.jpg
 cube: cube-parrot.jpg
 thumb: thumb-logo.jpg
 tiles:
-  - tile-robot.jpg
+  - tile-robot-15.jpg
 hero: false
 info:
   - Instagram | @sogang_parrot
