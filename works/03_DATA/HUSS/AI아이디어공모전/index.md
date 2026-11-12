@@ -84,4 +84,4 @@ PathTo를 기획하면서 가장 오래 붙잡고 있던 질문은 기술이 아
 
 PathTo 아이디어를 한 장에 정리해 만들었던 학술 포스터입니다.
 
-![PathTo 학술 포스터](PathTo 포스터.jpg "medium")
+![PathTo 학술 포스터](PathTo 포스터.jpg "small")
