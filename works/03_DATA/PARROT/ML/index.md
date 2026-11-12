@@ -1,5 +1,5 @@
 ---
-title: Popular Article Prediction
+title: Popular Article Prediction (ML Project)
 title_ko: ML 프로젝트 — 인기 있는 기사 예측
 subtitle: Gradient boosting ensemble on online news data
 slug: parrot-ml

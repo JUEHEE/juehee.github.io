@@ -1,11 +1,11 @@
 ---
-title: The Legendary Refrigerator
+title: The Legendary Refrigerator (DL Project)
 title_ko: DL 프로젝트 — 냉장고, 전설이 되다
 subtitle: One photo of your groceries, a meal without waste
 slug: parrot-dl
 year: 2026
 period: 2026.05 – 2026.06
-role: Team lead · Planning · Modeling · Presentation
+role: Team leader, team modeling, final presenter
 team: 4
 tools: RT-DETR, YOLO, CLIP, Ingredient2Vec, Gradio
 summary:
