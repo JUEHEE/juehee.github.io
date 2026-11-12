@@ -25,6 +25,4 @@ cover: cover-logo.jpg
 
 ## Works
 
-- **Sogang Intelligence — Paper Study** — 생성과 증강 LLM 논문 5편 발표 (RAPO, VISTA, NapMem, Search Arena, ShareChat)
-- **More Agents, Better Results?** — AI 카드뉴스 생성 MAS 아키텍처 연구
-- **Simple2HardTask** — 진행 중인 연구
+- **Sogang Intelligence — Paper Study** — 카드뉴스 MAS 연구, 생성·증강 LLM 논문 5편 발표(RAPO, VISTA, NapMem, Search Arena, ShareChat), 진행 중인 Simple2HardTask 연구를 한 페이지에 정리

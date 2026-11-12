@@ -5,9 +5,9 @@ subtitle: Generation and augmented LLMs — prompts, memory, and real-world use
 slug: si-paper-study
 year: 2026
 role: Presenter
-summary: KAIST AI 대학원 정지혁 선배님과 함께하는 논문 스터디에서 생성(RAPO, VISTA)과 증강 LLM(NapMem, Search Arena, ShareChat) 논문을 읽고 발표했습니다.
+summary: KAIST AI 대학원 정지혁 선배님과 함께하는 Sogang Intelligence 논문 스터디. 카드뉴스 MAS 연구에서 출발해, 지금은 생성(RAPO, VISTA)과 증강 LLM(NapMem, Search Arena, ShareChat) 논문을 읽고 발표하며 Simple2HardTask 연구를 진행하고 있습니다.
 order: 1
-hero: false
+cover: cover.jpg
 info:
   - Study | KAIST AI 대학원 정지혁 선배님 · 공학 대학원생·학부생 함께
   - Focus | Generation, Augmented LLM
@@ -16,6 +16,7 @@ links:
   - Slides — RAPO · VISTA | RAPO VISTA 발표자료.pdf
   - Slides — NapMem | NapMem 발표자료.pdf
   - Slides — Search Arena · ShareChat | SearchArena ShareChat 발표자료.pdf
+  - Slides — MAS 카드뉴스 아키텍처 | MAS 카드뉴스 아키텍처 발표자료.pdf
 ---
 
 ## Overview
@@ -28,7 +29,42 @@ Sogang Intelligence의 논문 스터디입니다. KAIST AI 대학원 정지혁 �
 4. **Search Arena** — 검색이 붙은 LLM에 대한 실제 사용자의 선호 (Search-augmented LLM)
 5. **ShareChat** — 실제로 공유된 대화로 본 서비스별 LLM 사용 방식
 
-처음에는 여러 에이전트가 협력해 카드뉴스를 만드는 멀티 에이전트 시스템(MAS)을 연구했지만, LLM 분야의 기초부터 먼저 다지기로 하면서 지금의 스터디 방향으로 옮겨 왔습니다.
+처음에는 여러 에이전트가 협력해 카드뉴스를 만드는 멀티 에이전트 시스템(MAS)을 연구했지만, LLM 분야의 기초부터 먼저 다지기로 하면서 지금의 스터디 방향으로 옮겨 왔습니다. 그 과정은 아래 순서로 정리했습니다.
+
+- **Research 1 — More Agents, Better Results?** 카드뉴스 MAS 아키텍처 연구 (이전 연구)
+- **Talk 1–3** — 생성과 증강 LLM 논문 5편 발표 (현재 스터디)
+- **Research 2 — Simple2HardTask** 진행 중인 연구
+
+## Research 1 — More Agents, Better Results? (카드뉴스 MAS)
+
+**멀티 에이전트 LLM이 복합 과제에서 실패하는 이유를 세 논문으로 분석하고, 이를 바탕으로 AI 카드뉴스 생성 아키텍처를 설계했습니다.** 혼자 맡아 연구하고 발표했습니다.
+
+> More agents, better results? Not necessarily. Better coordination, better results.
+
+### Main claim
+
+복합 과제에서 멀티 에이전트 시스템(MAS)의 성능은 에이전트 수를 늘린다고 보장되지 않습니다. **정보를 어떻게 넘기고, 작업을 어떻게 나누고, 결과를 어떻게 검증하느냐**가 성능을 좌우합니다.
+
+### Papers
+
+- **MAST (NeurIPS)** — 5개 MAS 프레임워크의 150개 이상 태스크를 추적해, 실패를 개별 모델의 성능이 아닌 시스템 수준의 협력 실패로 분류했습니다.
+- **PMC (ACL)** — 복잡한 기획 과제를 계층적 하위 과제로 나눠 여러 제약 조건을 동시에 만족하는 비율을 높였습니다 (TravelPlanner 기준 42.68% vs GPT-4 2.92%).
+- **Paper2Figure (CVPR)** — 생성 에이전트와 수정 에이전트의 역할을 분리하고 반복 수정해 정확도·미학·완성도를 함께 올렸습니다.
+
+![세 논문에서 확인한 사실](slide-mas-papers.jpg)
+![세 논문의 시사점 종합](slide-mas-synthesis.jpg "medium left")
+
+### Architecture
+
+세 논문의 시사점을 카드뉴스 제작에 적용해, 실제로 생길 수 있는 네 가지 실패와 그 해결책을 설계했습니다.
+
+- **자유 텍스트 오염** → 에이전트 사이의 핵심 정보는 자유 텍스트가 아니라 렌더링 값이 명시된 JSON Schema로 전달
+- **제약 조건 교착** → 분량·톤앤매너·레이아웃 등 전담 하위 과제로 계층적 분해
+- **맥락 파편화** → 생성과 분리된 독립 Reviewer 에이전트가 최종 결과물만 보고 검증
+- **시각적 진동** → 수정 반복을 최대 3회로 제한하고, 수렴하지 않으면 안전한 기본 템플릿으로 되돌림
+
+![AI 카드뉴스 MAS 하이브리드 아키텍처](slide-mas-architecture.jpg)
+
 
 ## Talk 1 — Beyond Simple Prompts (RAPO · VISTA)
 
@@ -207,6 +243,10 @@ Search Arena는 **선호**를, ShareChat은 **서비스 맥락**을 봅니다. S
 
 ![입장마다 읽어야 할 결과가 다르다](slide-ss-insight.jpg "medium left")
 ![논의점](slide-ss-agenda.jpg "medium right")
+
+## Research 2 — Simple2HardTask (진행 중)
+
+논문 스터디와 함께 진행하고 있는 연구입니다. 진행 상황은 정리되는 대로 추가할 예정입니다.
 
 ## What I'm Taking Away
 
