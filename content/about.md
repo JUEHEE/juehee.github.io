@@ -53,4 +53,4 @@ portrait_alt: Portrait of Kim Juehee
 
 - GitHub — [@JUEHEE](https://github.com/JUEHEE)
 - Instagram — [@olive0kk](https://www.instagram.com/olive0kk)
-- Instagram — [@miennale_2025](https://www.instagram.com/miennale_2025)
+- Instagram — [@miennale_2026](https://www.instagram.com/miennale_2026)
