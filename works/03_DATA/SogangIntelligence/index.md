@@ -7,11 +7,8 @@ period: 2026.07–
 role: Research, paper study
 summary: 서강대 AI 연구 학회. KAIST AI 대학원 정지혁 선배님과 함께 생성(Generation)과 증강 LLM(Augmented LLM) 분야 논문을 읽고 발표하는 스터디와 연구를 하고 있습니다.
 order: 3
-cover: cover.jpg
-hero: false
+cover: cover-logo.jpg
 ---
-
-![Sogang Intelligence Team](logo.png "small left")
 
 ## About
 
