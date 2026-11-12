@@ -10,6 +10,7 @@ summary: '삶: 어둠과 빛 그 사이로'를 주제로 전시, 야외 영화 �
 featured: true
 order: 1
 cover: trailer-10.jpg
+cube: cube-trailer.jpg
 hero: false
 info:
   - Scale | ~200 visitors

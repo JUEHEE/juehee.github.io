@@ -16,10 +16,13 @@ description: The archive of Kim Juehee — questions found in everyday life, tur
 statement: I find questions in everyday life and shape them — with data and technology, stories and images — into forms that others can experience too. This archive records not only finished results, but the process of thought taking form.
 works_intro: Services, media, data, exhibitions. Questions that took form.
 contact_message: If there is something you would like to make together, feel free to get in touch.
-email: [작성 필요] email address
+email:
+  - juehee0110@gmail.com
+  - joyfull@sogang.ac.kr
 url: https://juehee.github.io
 base: /
 links:
   - GitHub | https://github.com/JUEHEE
   - Instagram | https://www.instagram.com/olive0kk
+  - Notion | https://www.notion.so/4118d0cadd82816192d2c919559c2f3b
 ---

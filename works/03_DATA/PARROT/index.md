@@ -10,7 +10,7 @@ summary: 서강대 데이터사이언스학회. 학회원 2026.03–, 부학회�
 featured: true
 order: 1
 cover: cover-collage.jpg
-cube: cube-collage.jpg
+cube: cube-parrot.jpg
 hero: false
 info:
   - Instagram | @sogang_parrot

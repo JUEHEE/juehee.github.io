@@ -87,7 +87,8 @@ ${body}
 
 function contactLinks() {
   const out = [];
-  if (SITE.email && !isTodo(SITE.email)) out.push(`<a href="mailto:${esc(SITE.email)}">Email</a>`);
+  const mail = [].concat(SITE.email || []).find(e => !isTodo(e));
+  if (mail) out.push(`<a href="mailto:${esc(mail)}">Email</a>`);
   for (const l of SITE.links || []) if (l.value) out.push(`<a href="${esc(l.value)}" target="_blank" rel="noopener">${esc(l.label)}</a>`);
   return out;
 }
@@ -420,7 +421,8 @@ export function aboutPage({ data, html, portrait }) {
 
 /* ---------- CONTACT ---------- */
 export function contactPage() {
-  const email = SITE.email && !isTodo(SITE.email) ? `<a class="ct-mail" href="mailto:${esc(SITE.email)}">${esc(SITE.email)}</a>` : `<p class="ct-mail"><span class="todo">${esc(SITE.email || "[작성 필요] email")}</span></p>`;
+  const mails = [].concat(SITE.email || []).filter(e => !isTodo(e));
+  const email = mails.length ? `<div class="ct-mails">${mails.map(m => `<a class="ct-mail" href="mailto:${esc(m)}">${esc(m)}</a>`).join("")}</div>` : `<p class="ct-mail"><span class="todo">[작성 필요] email</span></p>`;
   const body = `
 <section class="pg-hd ct">
   <p class="lbl br">contact</p>
