@@ -3,6 +3,8 @@ title: PARROT x DART-B Datathon (3rd, Organizer)
 title_ko: 제3회 앵날다쏘 — 운영진 (기획팀)
 subtitle: Predicting a mobile game's 90-day revenue from its first week
 slug: parrot-datathon-3
+# 포트폴리오에서 숨김 (다시 보이려면 이 줄을 지우기)
+draft: true
 year: 2026
 period: 2026.11.01 – 2026.11.07
 role: Organizer, planning team
