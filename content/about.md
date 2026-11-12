@@ -31,7 +31,7 @@ I study stories and media at the Department of Media & Entertainment, Sogang Uni
 
 - 2026.08– Vice president, PARROT (Sogang Data Science Society)
 - 2026.07– Sogang Intelligence
-- 2026.02– HUSS Initiative for Inclusive Society — 1st cohort (AIFA, AI idea contest "PathTo"), 2nd cohort (DH2026 RAG workshop, co-presenter)
+- 2026.02– HUSS Initiative for Inclusive Society — 1st cohort (HUSS Insight AI Competition, AI idea contest "PathTo"), 2nd cohort (DH2026 RAG workshop, co-presenter)
 - 2026 Sogang Hackathon, Honorable Mention — Sonkil
 - 2025 Miennale — general director
 - 2025.03–2025.08 SGCC club website — UI/UX, front-end
