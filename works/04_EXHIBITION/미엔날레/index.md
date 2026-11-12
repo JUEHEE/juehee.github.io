@@ -9,7 +9,8 @@ role: General director (design, planning, film, finance)
 summary: '삶: 어둠과 빛 그 사이로'를 주제로 전시, 야외 영화 상영회, 연사 초청 강연의 3부로 펼친 미디어&엔터테인먼트학과 전시.
 featured: true
 order: 1
-cover: cover-poster.jpg
+cover: cover-card.jpg
+cube: cube-poster.jpg
 hero: false
 info:
   - Scale | ~200 visitors
