@@ -5,19 +5,88 @@ subtitle: Build a Working RAG in Half a Day — UN Policy Reports with LangChain
 slug: huss-dh2026
 year: 2026
 period: 2026.07
-role: RAG back-end team
-tools: Python, LangChain, RAG
-summary: 국제 디지털 인문학 학술대회 DH2026: Engagement에서 진행된 RAG 워크숍 준비에 RAG 구축 백엔드팀으로 참여.
+role: Co-presenter (Top-k retrieval)
+team: 7
+tools: Python, LangChain, FAISS, Qwen3, RAG
+summary: 국제 디지털 인문학 학술대회 DH2026: Engagement에서 서강대 사학과 김근하 교수님과 함께 진행한 RAG 워크숍. 공동발표자로 Top-k 검색(Retrieval) 파트를 맡아 발표.
 order: 1
+info:
+  - Event | DH2026: Engagement · 2026.07.27 · 대전
+  - Lead | 서강대학교 사학과 김근하 교수
 links:
-  - Workshop slides | https://littlekg87.github.io/DH2026/Workshop_RAG/index.html#step5
+  - Workshop site | https://littlekg87.github.io/DH2026/Workshop_RAG/index.html#welcome
   - GitHub | https://github.com/littlekg87/DH2026
+  - Abstract (Zenodo) | https://zenodo.org/records/22073445
 ---
 
 ## Overview
 
-DH2026: Engagement 학술대회에서 진행된 워크숍 *Build a Working RAG in Half a Day: UN Policy Reports with LangChain*을 준비했습니다. 참가자가 반나절 안에 UN 정책 보고서를 대상으로 실제로 동작하는 RAG를 직접 만들어 볼 수 있도록 구성된 워크숍입니다.
+국제 디지털 인문학 학술대회 **DH2026: Engagement**(2026.07.27–31, 대전)에서 서강대학교 사학과 김근하 교수님이 이끈 워크숍 *Build a Working RAG in Half a Day: UN Policy Reports with LangChain*에 공동발표자로 참여했습니다. 참가자가 반나절 동안 Google Colab에서 UN 정책 보고서(SDG Report 2025)를 재료로, **답변마다 전거(典據, 출처)가 따라붙는 RAG 파이프라인**을 직접 만들어 보는 실습 워크숍입니다.
 
-## Role
+교수님과 공동연구자 여섯 명(정용호, 정수아, 박지우, 김준한, 김주희, 변혜진)이 함께 준비했고, 저는 그중 **Top-k Retrieval** 파트를 맡아 발표했습니다. 해외 참가자도 있었기 때문에 영어로 인사를 건넨 뒤, 개념을 천천히 한국어로 설명했습니다.
 
-[작성 필요] RAG 구축 백엔드팀에서 맡은 일
+![발표 세션 중](02-session.jpg)
+![워크숍 발표팀](01-team.jpg)
+
+## Why RAG
+
+워크숍은 하나의 질문으로 시작했습니다. **"이 답변을 믿으시겠습니까?"** AI가 유려하게 내놓은 답변의 출처를 확인해 보면, 존재하지 않는 논문, 실재하지 않는 절, 문서 범위 밖의 쪽수가 나옵니다. 유려함은 신뢰가 아닙니다.
+
+이 불안에 대한 기술적 응답이 RAG(Retrieval-Augmented Generation)입니다. 모델의 기억에만 기대 답하는 대신, **근거를 먼저 찾은 뒤에 말하는** 구조입니다. 하지만 RAG도 만능은 아닙니다. 최근 연구들은 검색을 붙여도 환각이 남고, 그 원인이 모델이 아니라 자료 정제·청킹·임베딩 같은 **파이프라인의 설계**에 있다고 보고합니다. 그래서 이 워크숍은 완벽한 챗봇이 아니라, RAG가 어디서 실패하는지까지 손으로 확인하는 데 초점을 맞췄습니다.
+
+## Pipeline
+
+RAG는 성격이 다른 두 국면으로 나뉩니다. **A. 자료 준비**는 한 번만 하는 오프라인 작업이고, **B. 질문·검색·답변**은 질문할 때마다 반복되는 온라인 작업입니다. 워크숍은 이를 열 단계로 나눠 진행했습니다.
+
+1. 환경설정 · 자산 준비
+2. 글자 수로 자르는 naive chunk의 실패를 일부러 경험
+3. **PDF → XML** — 보고서의 조판을 읽어 목차와 본문 구조를 세우기 (워크숍의 무게중심)
+4. XML → chunk — 구조대로 자르고, 각 조각에 Goal · 소제목 · 쪽수 메타데이터 심기
+5. Chunk → Vector (all-MiniLM-L6-v2, 384차원)
+6. Vector DB 구축 (FAISS)
+7. Query → Vector — 청크를 임베딩한 같은 인코더로 질문도 임베딩
+8. Distance 계산 — FAISS 없이 넘파이로 L2 거리를 직접 계산
+9. **FAISS 검색 + 전거** — 상위 k개를 찾고 출처를 붙이기
+10. **생성 + 전거** — Qwen3-0.6B로 답변을 만들고 출처 3줄을 함께 출력
+
+![RAG의 두 국면 — 자료 준비와 질문·검색·답변](fig-rag-flow.jpg "medium right")
+
+모든 코드는 Colab 셀 단위로 공개되어 있고, API 키 없이 로컬 모델(인코더 all-MiniLM-L6-v2, LLM Qwen3-0.6B)만으로 돌아가도록 설계했습니다.
+
+## My Part — Top-k Retrieval
+
+제가 맡은 부분은 STEP 8–10, 거리를 재서 찾은 청크가 **어떻게 답변이 되는지**였습니다.
+
+**Top-k Retrieval**이란 질문을 던졌을 때 수많은 문서 중에서 의미적 거리를 재어 가장 가까운 상위 k개의 글 조각(청크)을 골라내는 과정입니다. 질문 "How many people still live in extreme poverty?"를 176개 청크 전부와 비교해 거리순으로 정렬하면, 가장 가까운 청크는 0.7861, 중앙값은 1.2086, 가장 먼 청크는 1.4104였습니다.
+
+![176개 청크와의 거리 — 가까운 순으로 정렬](fig-distance-rank.jpg "medium left")
+
+발표는 다섯 단계로 구성했습니다.
+
+**① 찾은 것** — `k=3`으로 설정하면 상위 3개 청크가 뽑힙니다. 셋 다 Goal 1(빈곤)입니다. 아무도 "Goal 1에서 찾아라"라고 지시하지 않았는데, 거리 계산만으로 주제가 맞는 문서가 위로 올라왔습니다. 미리 심어 둔 메타데이터 덕분에 각 청크가 어느 Goal의 몇 쪽인지도 함께 딸려 나옵니다.
+
+![거리순 상위 3개 청크와 출처](fig-top3.jpg "medium right")
+
+**② 사이** — 흔히 "검색해서 AI가 바로 답한다"고 생각하지만, 그 사이에는 **조립**이라는 단계가 있습니다. 찾아낸 청크 세 개가 그대로 모델에게 가는 것이 아니라, 하나의 프롬프트로 바뀌는 과도기입니다.
+
+![청크 3개 → 프롬프트 조립 → LLM → 답변 + 전거](fig-assembly-flow.jpg)
+
+**③ 조립** — 모델이 받는 텍스트는 [지시문 → 청크 → 질문] 순서로 쌓입니다. k를 1, 2, 3으로 바꿔 가며 프롬프트를 직접 확인한 이유는, LLM에게 **정확한 근거만** 주기 위해서입니다. 잘못되거나 부적절한 정보가 섞이면 LLM은 그럴듯한 거짓말을 만들어 낼 수 있습니다. 바로 이 지점에서 인문학자가 직접 개입해, 찾아낸 사료와 텍스트 조각이 연구에 맞는지 눈으로 확인하고 판단해야 합니다.
+
+![k에 따라 달라지는 프롬프트 — 지시문, 청크, 질문 순으로 조립](fig-prompt-k.jpg "medium left")
+
+**④ 생성** — 조립된 프롬프트가 모델로 들어가고, 모델은 그 텍스트를 읽어 답변을 만듭니다. "여기 있는 자료만 쓰라"는 지시문 때문에, 연구자가 검증한 재료 안에서만 답하게 됩니다.
+
+**⑤ 전거** — 답변만 덩그러니 나오면 검증할 수 없습니다. 그래서 답을 만드는 데 쓴 청크의 메타데이터를 옮겨 출처 세 줄을 함께 출력합니다. **답변은 모델이 만들지만, 출처는 우리가 설계한 것**임을 보여 주는 대목입니다.
+
+![답변 아래 붙는 출처 세 줄](fig-sources.jpg)
+
+PDF 한 편을 쪼개고, 좌표로 바꾸고, 거리를 재서 찾고, 조립해 답변을 얻는 열 단계의 여정이 RAG의 전체 구조입니다. 결국 RAG의 본질은 모델을 뜯어고치는 것이 아니라 **모델이 읽을 재료를 우리가 직접 바꿔 주는 것**이고, Top-k Retrieval은 AI가 읽을 가장 가치 있는 재료를 정확히 골라내는 핵심 관문입니다.
+
+## Takeaway
+
+> 자료의 구조가 검색 단위를 정하고, 검색 단위가 답변의 전거 단위를 정한다.
+
+워크숍의 마지막 메시지는 RAG를 설계할 때 가장 먼저 볼 것이 최신 LLM이 아니라 **자료**라는 것이었습니다. 자료가 어떤 내용이고 어떻게 구조화되어 있는지 먼저 알고, 정제는 거기에 맞춥니다. 구조를 지키면 잘린 조각마다 제 주소가 붙고, 전거는 마지막에 덧붙이는 장식이 아니라 그 결과로 저절로 남습니다. 인문학, 특히 역사학이 오랫동안 강조해 온 "근거를 대라"는 규율이 그대로 RAG의 설계 원칙이 되는 셈입니다.
+
+그림 출처: 워크숍 발표자료와 보조자료(littlekg87/DH2026)
