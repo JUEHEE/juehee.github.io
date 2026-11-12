@@ -424,4 +424,31 @@
     addEventListener("mousemove", e => { mouse = { x: e.clientX, y: e.clientY }; if (on) { aim(); wake(); } }, { passive: true });
   }
 
+
+  /* ---------- 영상 소리: 화면 밖으로 스크롤하면 소리가 점점 작아지다 멈춤 ---------- */
+  {
+    const vids = [...document.querySelectorAll("video")].filter(v => !v.closest(".hicam") && !v.autoplay);
+    if (vids.length && "IntersectionObserver" in window) {
+      const fade = v => {
+        if (v.paused || v._fading) return;
+        const start = v.volume, t0 = performance.now(), dur = 700;
+        v._fading = true;
+        const step = now => {
+          if (!v._fading) { try { v.volume = start; } catch (e) {} return; }
+          const k = Math.min(1, (now - t0) / dur);
+          try { v.volume = start * (1 - k) * (1 - k); } catch (e) {}
+          if (k < 1 && !v.paused) return requestAnimationFrame(step);
+          v.pause(); v._fading = false;
+          try { v.volume = start; } catch (e) {}
+        };
+        requestAnimationFrame(step);
+      };
+      const io = new IntersectionObserver(es => es.forEach(e => {
+        if (e.intersectionRatio < 0.35) fade(e.target);
+        else e.target._fading = false;
+      }), { threshold: [0, 0.35] });
+      vids.forEach(v => { io.observe(v); v.addEventListener("play", () => { v._fading = false; }); });
+    }
+  }
+
 })();
