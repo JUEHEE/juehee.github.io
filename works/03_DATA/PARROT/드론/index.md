@@ -17,6 +17,7 @@ info:
   - Status | 진행 중 (1차 실험 준비)
   - Team | PARROT(데이터사이언스 학회) × MECA(기계공학 학회) 연합 · 소프트웨어 팀
 links:
+  - MECHA × PARROT guideline (Notion) | https://app.notion.com/p/MECHA-PARROT-3d10b009e7bd812aa446f8e3e00f18ce
   - GitHub (team) | https://github.com/Zero-woo/drone-fire-detection
   - Reference — 운영진으로 기획할 때 만든 예시 | https://github.com/adeomise/AnomalyDetection
   - D-Fire dataset | https://github.com/gaia-solutions-on-demand/DFireDataset

@@ -3,8 +3,6 @@ title: PARROT Alumni Talk 2026
 title_ko: 쉐어링데이(홈커밍데이)
 subtitle: AI가 만드는 변화, 우리가 준비할 미래
 slug: parrot-homecoming
-# 포트폴리오에서 숨김 (다시 보이려면 이 줄을 지우기)
-draft: true
 year: 2026
 role: General lead, event planning, website
 summary: 연구와 현업의 최전선에 있는 PARROT 출신 연사 4인이 진로 여정과 경험을 들려준 쉐어링데이(홈커밍데이) 행사. 총괄·전체 기획과 행사 웹사이트 제작.

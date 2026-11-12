@@ -17,6 +17,7 @@ info:
   - Team | PARROT(데이터사이언스 학회) × MECA(기계공학 학회) 연합 · 소프트웨어 팀
   - Result | 15개 시연으로 학습한 모델이 실물 로봇에서 성공
 links:
+  - MECHA × PARROT guideline (Notion) | https://app.notion.com/p/MECHA-PARROT-3d10b009e7bd812aa446f8e3e00f18ce
   - GitHub (team) | https://github.com/SunAhKim0430/so101-act-tape-basket
   - SO-ARM100 (reference) | https://github.com/TheRobotStudio/SO-ARM100
 ---

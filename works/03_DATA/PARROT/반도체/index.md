@@ -17,6 +17,7 @@ info:
   - Team | PARROT(데이터사이언스 학회) × PRIME(화학공학 학회) 연합
   - Lab | 서강대학교 나노팹센터
 links:
+  - PRIME × PARROT PVD guideline (Notion) | https://app.notion.com/p/PRIME-PARROT-PVD-3d00b009e7bd810280ddeed21969d6a8
   - EDA report PDF | Mo PVD EDA 보고서.pdf
 ---
 
