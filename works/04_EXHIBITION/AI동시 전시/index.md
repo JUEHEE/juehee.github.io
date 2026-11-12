@@ -6,7 +6,7 @@ slug: ai-poetry-exhibition
 year: [작성 필요]
 role: Planning (individual)
 summary: 정지용의 동시를 근대적 감각 실험과 식민지 현실의 상실감을 담은 성인 문학으로 다시 읽는 전시 기획. AI가 어린 시절 사진에 어울리는 동시를 추천하는 체험존과 낭독 체험 부스를 설계했습니다.
-order: 3
+order: 2
 cover: slide-01-표지.jpg
 hero: false
 ---

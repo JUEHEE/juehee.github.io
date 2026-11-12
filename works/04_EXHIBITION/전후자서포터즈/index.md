@@ -7,8 +7,8 @@ year: 2024
 period: 2024.06–2024.09
 role: Hands-on booth lead, design (card news, exhibition panels)
 summary: 서강대학교 인권·성평등서포터즈로 기획하고 디자인한 참여형 전시. 기후정의·비건·제로웨이스트 부스, 원데이 클래스, 특별강연으로 구성.
-order: 2
-cover: 카드뉴스-1.jpg
+order: 3
+cover: cover-record.jpg
 hero: false
 info:
   - Dates | 2024.09.10–09.11
