@@ -3,14 +3,12 @@ title: about
 lead: 사람들과 대화하며 기획하고, 함께 만들고, 생각하는 것을 좋아합니다. 일상의 물음에서 출발해 데이터와 미디어, 전시로 그 물음에 형태를 입혀 왔습니다.
 portrait: portrait.jpg
 portrait_alt: Portrait of Kim Juehee
+profile:
+  - 김주희 Kim Juehee
+  - 1전공 — 서강대학교 미디어&엔터테인먼트학과
+  - 연계전공 — 빅데이터 사이언스
+  - GPA — 3.7 / 4.3
 ---
-
-## Profile
-
-- 김주희 Kim Juehee
-- 1전공 — 서강대학교 미디어&엔터테인먼트학과
-- 연계전공 — 빅데이터 사이언스
-- GPA — 3.7 / 4.3
 
 ## About me
 

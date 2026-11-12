@@ -413,7 +413,10 @@ export function aboutPage({ data, html, portrait }) {
   <p class="lbl br">about</p>
   <h1 class="huge">${lower(data.title || "about")}</h1>
   ${portrait && portrait.type === "image" ? `<figure class="ab-portrait">${mediaHTML(portrait, {}, data.portrait_alt || `Portrait of ${SITE.name_en}`, { sizes: "(max-width: 760px) 70vw, 28vw" })}</figure>` : ""}
-  ${data.lead ? `<p class="ab-lead">${txt(data.lead)}</p>` : ""}
+  <div class="ab-side">
+    ${data.lead ? `<p class="ab-lead">${txt(data.lead)}</p>` : ""}
+    ${data.profile ? `<ul class="ab-profile">${[].concat(data.profile).map(l => `<li>${txt(l)}</li>`).join("")}</ul>` : ""}
+  </div>
 </section>
 <div class="pj-body ab-body">${html}</div>`;
   return layout({ title: "About", description: String(data.lead || "").replace(/\[[^\]]*\]/g, ""), path: "about/", body, page: "pg-about" });

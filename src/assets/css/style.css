@@ -457,8 +457,11 @@ main { display: block; min-height: 70vh; }
 /* ---------- ABOUT / CONTACT ---------- */
 .ab-hd { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); }
 .ab-hd > .lbl, .ab-hd > .huge { grid-column: 1 / -1; }
-.ab-portrait { grid-column: 1 / span 4; margin: clamp(32px, 5vw, 72px) 0 0; }
-.ab-lead { grid-column: 5 / span 7; margin: clamp(32px, 5vw, 72px) 0 0; font-weight: 300; font-size: clamp(20px, 2vw, 30px); line-height: 1.6; }
+.ab-portrait { grid-column: 1 / span 3; max-width: 220px; margin: clamp(32px, 5vw, 72px) 0 0; }
+.ab-side { grid-column: 4 / span 8; margin: clamp(32px, 5vw, 72px) 0 0; }
+.ab-lead { margin: 0; font-weight: 300; font-size: clamp(20px, 2vw, 30px); line-height: 1.6; }
+.ab-profile { list-style: none; margin: clamp(24px, 3vw, 40px) 0 0; padding: 0; font-size: 16px; line-height: 1.9; }
+.ab-profile li::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 12px 2px 0; border-radius: 50%; background: var(--accent); }
 .ab-body { padding-top: clamp(24px, 4vw, 64px); }
 
 .ct-mail { display: inline-block; margin: clamp(40px, 6vw, 80px) 0 0; font-weight: 100; font-size: clamp(28px, 5vw, 76px); line-height: 1.15; border-bottom: 1px solid currentColor; }
@@ -564,8 +567,8 @@ html.lenis, html.lenis body { height: auto; }
   .m-row:has(> :nth-child(4)) { row-gap: 24px; }
   .pj-nav { grid-template-columns: 1fr 1fr; }
   .pj-up { grid-column: 1 / -1; grid-row: 2; }
-  .ab-portrait { grid-column: 1 / span 8; }
-  .ab-lead { grid-column: 1 / -1; }
+  .ab-portrait { grid-column: 1 / span 6; max-width: 180px; }
+  .ab-side { grid-column: 1 / -1; }
   .ct-links li { grid-template-columns: 1fr; gap: 0; }
   .ft { grid-template-columns: 1fr; }
 }
