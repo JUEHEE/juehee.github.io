@@ -11,6 +11,7 @@ featured: true
 order: 1
 cover: cover-collage.jpg
 cube: cube-collage.jpg
+hero: false
 info:
   - Instagram | @sogang_parrot
 links:
