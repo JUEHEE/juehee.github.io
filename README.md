@@ -42,7 +42,7 @@ works/                         ← 모든 작업 (Drive의 포트폴리오_자�
 │   │   ├── 데이터톤_26-2/index.md
 │   │   ├── 반도체/ · 드론/ · 로봇팔/ · ML/ · DL/ · 홈커밍데이/
 │   ├── 인사이트AI경진대회/
-│   └── SogangIntelligence/    (논문스터디 = Sogang Intelligence — Paper Study)
+│   └── SogangIntelligence/    (논문스터디 = Sogang Intelligence — Paper Study, 카드뉴스, S2H)
 └── 04_EXHIBITION/ (미엔날레, 전후자서포터즈, AI동시 전시)
 
 content/
