@@ -28,6 +28,4 @@ hero: false
 
 ## Works
 
-- **Sogang Intelligence — Paper Study** — 생성과 증강 LLM 논문 4편 발표
-- **More Agents, Better Results?** — AI 카드뉴스 생성 MAS 아키텍처 연구
-- **Simple2HardTask** — 진행 중인 연구
+- **Sogang Intelligence — Paper Study** — 생성과 증강 LLM 논문 5편 발표 (RAPO, VISTA, NapMem, Search Arena, ShareChat)

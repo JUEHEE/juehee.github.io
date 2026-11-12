@@ -20,12 +20,13 @@ links:
 
 ## Overview
 
-Sogang Intelligence의 논문 스터디입니다. KAIST AI 대학원 정지혁 선배님이 이끄는 스터디에서 공학 대학원생·학부생분들과 함께 최신 논문을 읽고 돌아가며 발표합니다. 스터디는 매주 열리고, 저는 격주로 발표를 맡고 있습니다. 지금 제가 공부하고 있는 분야는 **생성(Generation)** 과 **증강 LLM(Augmented LLM)** 이고, 그 흐름에 맞춰 네 편의 발표를 준비했습니다.
+Sogang Intelligence의 논문 스터디입니다. KAIST AI 대학원 정지혁 선배님이 이끄는 스터디에서 공학 대학원생·학부생분들과 함께 최신 논문을 읽고 돌아가며 발표합니다. 스터디는 매주 열리고, 저는 격주로 발표를 맡고 있습니다. 지금 제가 공부하고 있는 분야는 **생성(Generation)** 과 **증강 LLM(Augmented LLM)** 이고, 그 흐름에 맞춰 다섯 편의 논문을 세 번에 나눠 발표했습니다.
 
-1. **RAPO · VISTA** — 텍스트-비디오 생성에서 프롬프트를 고도화하는 두 방법 (Generation)
-2. **NapMem** — 에이전트가 기억을 능동적으로 탐색하는 방법 (Memory-augmented LLM)
-3. **Search Arena** — 검색이 붙은 LLM에 대한 실제 사용자의 선호 (Search-augmented LLM)
-4. **ShareChat** — 실제로 공유된 대화로 본 서비스별 LLM 사용 방식
+1. **RAPO** — 관계 그래프에서 모델이 잘 아는 표현을 찾아 텍스트-비디오 프롬프트를 재구성 (Generation)
+2. **VISTA** — 생성한 영상을 직접 보고 비평해 프롬프트를 스스로 고치는 비디오 생성 에이전트 (Generation)
+3. **NapMem** — 에이전트가 구조화된 기억을 능동적으로 탐색하는 방법 (Memory-augmented LLM)
+4. **Search Arena** — 검색이 붙은 LLM에 대한 실제 사용자의 선호 (Search-augmented LLM)
+5. **ShareChat** — 실제로 공유된 대화로 본 서비스별 LLM 사용 방식
 
 처음에는 여러 에이전트가 협력해 카드뉴스를 만드는 멀티 에이전트 시스템(MAS)을 연구했지만, LLM 분야의 기초부터 먼저 다지기로 하면서 지금의 스터디 방향으로 옮겨 왔습니다.
 
