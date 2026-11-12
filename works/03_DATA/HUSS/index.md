@@ -9,6 +9,8 @@ role: 1st cohort (HUSS Insight AI Competition, AI idea contest), 2nd cohort (DH2
 summary: 서강대 HUSS 포용사회 사업단에서 1기(HUSS 인사이트 AI 경진대회, AI 아이디어 공모전)와 2기(DH2026 RAG 워크숍)로 활동.
 order: 2
 group: HUSS
+cover: cover-group.jpg
+hero: false
 ---
 
 ## About

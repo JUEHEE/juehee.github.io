@@ -11,6 +11,9 @@ featured: true
 order: 1
 cover: cover-collage.jpg
 cube: cube-parrot.jpg
+thumb: thumb-logo.jpg
+tiles:
+  - tile-robot.jpg
 hero: false
 info:
   - Instagram | @sogang_parrot
