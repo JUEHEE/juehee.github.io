@@ -17,7 +17,7 @@ group: HUSS
 
 ## 1st cohort
 
-HUSS 인사이트 AI 경진대회(AI 음성 기반 대화형 키오스크 — 최종 발표, MVP 구현), AI 데이터 기반 포용 아젠다 아이디어 공모전(PathTo)
+HUSS 인사이트 AI 경진대회(AI 음성 기반 대화형 키오스크 — 최종 발표, MVP 구현), AI·데이터 기반 포용 아젠다 아이디어 공모전(PathTo) → HUSS 선상인문학 데이터팀(일본)
 
 ## 2nd cohort
 
