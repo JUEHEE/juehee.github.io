@@ -372,6 +372,11 @@ main { display: block; min-height: 70vh; }
 .pull p { margin: 0; }
 .pull p::before { content: "“"; color: var(--accent); }
 .pull p::after { content: "”"; color: var(--accent); }
+.poem { margin: 8px 0 24px; grid-column: 3 / span 9 !important; padding: 22px 26px; border-left: 2px solid var(--accent); font-size: 16px; line-height: 1.75; }
+.poem .poem-title { margin: 0 0 12px; font-weight: 600; }
+.poem-body { column-count: 2; column-gap: 40px; }
+.poem-body p { margin: 0 0 14px; break-inside: avoid; }
+.poem-body p:last-child { margin-bottom: 0; }
 .pull-src { display: block; margin-top: 14px; font-style: normal; font-size: 14px; font-weight: 400; color: var(--mute); }
 .pull-src::before { content: "("; }
 .pull-src::after { content: ")"; }
@@ -544,7 +549,8 @@ html.lenis, html.lenis body { height: auto; }
   .pj-intro, .pj-ko, .pj-en { grid-column: 1 / -1; }
   .pj-body { row-gap: 48px; }
   .txt-h { grid-column: 1 / -1; position: static; margin-bottom: 14px; }
-  .prose, .pj-body > .m--doc, .pull { grid-column: 1 / -1 !important; }
+  .prose, .pj-body > .m--doc, .pull, .poem { grid-column: 1 / -1 !important; }
+  .poem-body { column-count: 1; }
   .pj-body > .m--medium, .pj-body > .m--small, .pj-body > .m--medium.m--left, .pj-body > .m--medium.m--right { grid-column: 1 / -1; }
   .duo > .m, .duo > .duo-text, .duo--right > .m, .duo--right > .duo-text, .duo--small > .m, .duo--small > .duo-text { grid-column: 1 / -1 !important; grid-row: auto; }
   .duo > .duo-text { margin-top: 20px; }

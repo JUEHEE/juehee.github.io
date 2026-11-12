@@ -145,6 +145,13 @@ export async function renderMarkdown(src, { resolve, figure }) {
       const q = [];
       while (i < lines.length && lines[i].trim().startsWith(">")) { q.push(lines[i].trim().replace(/^>\s?/, "")); i++; }
       i--;
+      // 첫 줄이 〈제목〉이면 시(詩) 블록: 연(빈 줄)마다 나누고, 작은 글씨로 한 화면에 보이게 합니다.
+      if (q.length > 1 && /^〈.+〉$/.test(q[0])) {
+        const title = q.shift();
+        const stanzas = q.join("\n").split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+        out.push(`<blockquote class="poem"><p class="poem-title">${inline(title)}</p><div class="poem-body">${stanzas.map(s => `<p>${inline(s).replace(/\n/g, "<br>")}</p>`).join("")}</div></blockquote>`);
+        continue;
+      }
       // 마지막 줄이 (괄호)로만 되어 있으면 작은 글씨 출처로 둡니다: > 인용문 / > (모상근 교수님 자문)
       const src = q.length > 1 && /^\(.+\)$/.test(q[q.length - 1]) ? q.pop().slice(1, -1) : "";
       out.push(`<blockquote class="pull"><p>${inline(q.join("\n")).replace(/\n/g, "<br>")}</p>${src ? `<cite class="pull-src">${inline(src)}</cite>` : ""}</blockquote>`);
