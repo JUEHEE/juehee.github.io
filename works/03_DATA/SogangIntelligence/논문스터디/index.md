@@ -1,18 +1,33 @@
 ---
-title: Paper Study
-title_ko: 논문 스터디
-subtitle: Text-to-video prompts, agent memory, and how people really use AI
+title: Sogang Intelligence — Paper Study
+title_ko: Sogang Intelligence 논문 스터디
+subtitle: Generation and augmented LLMs — prompts, memory, and real-world use
 slug: si-paper-study
 year: 2026
 role: Presenter
-summary: 텍스트-비디오 프롬프트 최적화(RAPO, VISTA), 에이전트의 능동적 기억 탐색(NapMem), 실제 사용자의 AI 사용 방식(Search Arena, ShareChat) 논문 발표.
+summary: KAIST AI 대학원 정지혁 선배님과 함께하는 논문 스터디에서 생성(RAPO, VISTA)과 증강 LLM(NapMem, Search Arena, ShareChat) 논문을 읽고 발표했습니다.
 order: 1
 hero: false
+info:
+  - Study | KAIST AI 대학원 정지혁 선배님 · 공학 대학원생·학부생 함께
+  - Focus | Generation, Augmented LLM
+  - Schedule | 매주 스터디 · 격주 발표
 links:
   - Slides — RAPO · VISTA | RAPO VISTA 발표자료.pdf
   - Slides — NapMem | NapMem 발표자료.pdf
   - Slides — Search Arena · ShareChat | SearchArena ShareChat 발표자료.pdf
 ---
+
+## Overview
+
+Sogang Intelligence의 논문 스터디입니다. KAIST AI 대학원 정지혁 선배님이 이끄는 스터디에서 공학 대학원생·학부생분들과 함께 최신 논문을 읽고 돌아가며 발표합니다. 스터디는 매주 열리고, 저는 격주로 발표를 맡고 있습니다. 지금 제가 공부하고 있는 분야는 **생성(Generation)** 과 **증강 LLM(Augmented LLM)** 이고, 그 흐름에 맞춰 네 편의 발표를 준비했습니다.
+
+1. **RAPO · VISTA** — 텍스트-비디오 생성에서 프롬프트를 고도화하는 두 방법 (Generation)
+2. **NapMem** — 에이전트가 기억을 능동적으로 탐색하는 방법 (Memory-augmented LLM)
+3. **Search Arena** — 검색이 붙은 LLM에 대한 실제 사용자의 선호 (Search-augmented LLM)
+4. **ShareChat** — 실제로 공유된 대화로 본 서비스별 LLM 사용 방식
+
+처음에는 여러 에이전트가 협력해 카드뉴스를 만드는 멀티 에이전트 시스템(MAS)을 연구했지만, LLM 분야의 기초부터 먼저 다지기로 하면서 지금의 스터디 방향으로 옮겨 왔습니다.
 
 ## RAPO · VISTA
 
@@ -32,12 +47,16 @@ links:
 
 ![NapMem — 기억 피라미드와 능동 탐색](slide-napmem.jpg)
 
-## Search Arena · ShareChat
+## Search Arena
 
-**실제 사용자는 AI를 어떻게 쓰는가.** 벤치마크가 아닌 실제 사용 데이터를 다룬 두 논문을 함께 읽고, 사용자는 어떤 답을 좋아하는지, 서비스마다 사용 방식은 어떻게 다른지, 두 데이터가 무엇을 보여 주고 놓치는지 세 가지 질문으로 정리했습니다.
+**실제 사용자는 AI를 어떻게 쓰는가 (1).** Search Arena와 ShareChat은 한 번의 발표에서 함께 다뤘습니다. 벤치마크가 아닌 실제 사용 데이터를 다룬 두 논문을 나란히 읽고, 사용자는 어떤 답을 좋아하는지, 서비스마다 사용 방식은 어떻게 다른지, 두 데이터가 무엇을 보여 주고 놓치는지 세 가지 질문으로 정리했습니다.
 
-- **Search Arena** — 검색 AI 대화 2만 4천여 건의 쌍대 투표를 분석했습니다. 사실 조회는 질문의 5분의 1뿐이었고, 사용자는 길고 인용이 많은 답을 선호했지만 **맞는 인용과 무관한 인용을 거의 구분하지 못했습니다** (계수 0.29 vs 0.27). 투표는 정답이 아니라 선호라는 한계를 짚었습니다.
-- **ShareChat** — 공유 URL로 모은 실제 대화 14만여 건으로 서비스별 차이를 봤습니다. Perplexity는 정보 찾기 비중이 63.3%로 가장 높았고, 요청의 완전 해결 비율은 서비스에 따라 67~88%로 달랐습니다. Grok은 X에, Perplexity는 여러 출처에 기대는 경향이 있었습니다.
+Search Arena는 검색 AI 대화 2만 4천여 건의 쌍대 투표를 분석했습니다. 사실 조회는 질문의 5분의 1뿐이었고, 사용자는 길고 인용이 많은 답을 선호했지만 **맞는 인용과 무관한 인용을 거의 구분하지 못했습니다** (계수 0.29 vs 0.27). 투표는 정답이 아니라 선호라는 한계를 짚었습니다.
 
 ![실제 사용은 벤치마크보다 훨씬 다양하다](slide-searcharena-summary.jpg "medium left")
+
+## ShareChat
+
+**실제 사용자는 AI를 어떻게 쓰는가 (2).** ShareChat은 공유 URL로 모은 실제 대화 14만여 건으로 서비스별 차이를 봤습니다. Perplexity는 정보 찾기 비중이 63.3%로 가장 높았고, 요청의 완전 해결 비율은 서비스에 따라 67~88%로 달랐습니다. Grok은 X에, Perplexity는 여러 출처에 기대는 경향이 있었습니다.
+
 ![서비스별 요청의 완전 해결 비율](slide-sharechat-completeness.jpg "medium right")
