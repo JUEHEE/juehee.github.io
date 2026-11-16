@@ -269,7 +269,7 @@ export function home({ categories, featured, all }) {
         <div class="hicam-screen">
           <video class="hicam-video" playsinline muted aria-hidden="true"></video>
           <canvas class="hicam-boxes" aria-hidden="true"></canvas>
-          <p class="hicam-msg" aria-live="polite">Hi there.<br>Wave back?</p>
+          <p class="hicam-msg" aria-live="polite">Hi there.<br>Wave back?<br>Tap “Say hi” below to start.</p>
           <button class="hicam-btn" type="button"><i aria-hidden="true"></i>Say hi</button>
           <button class="hicam-off lbl" type="button" aria-label="Turn camera off">Off</button>
           <figure class="hicam-pip">
