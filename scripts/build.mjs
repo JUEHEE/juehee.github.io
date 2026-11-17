@@ -220,6 +220,7 @@ async function main() {
   await fsp.mkdir(OUT, { recursive: true });
   await copyDir(path.join(ROOT, "src"), OUT);
   await copyDir(path.join(CONTENT, "files"), path.join(OUT, "files"));
+  await copyDir(path.join(ROOT, "demos"), path.join(OUT, "demos")); // 실제 웹사이트 결과물 (주소: /demos/이름/)
 
   const site = readMd(path.join(CONTENT, "site.md")).data;
   site.links = parseList(site.links);

@@ -45,6 +45,10 @@ works/                         ← 모든 작업 (Drive의 포트폴리오_자�
 │   └── SogangIntelligence/    (논문스터디 = Sogang Intelligence — Paper Study: MAS·논문 5편·S2H 포함)
 └── 04_EXHIBITION/ (미엔날레, 전후자서포터즈, AI동시 전시)
 
+demos/                         ← 직접 만든 웹사이트 결과물 (그대로 올라감)
+├── sgcc/                      ← juehee.github.io/demos/sgcc/
+└── parrot-homecoming/         ← juehee.github.io/demos/parrot-homecoming/
+
 content/
 ├── site.md        ← 이름, 소개 문구, 이메일, SNS 링크 (사이트 전체)
 ├── about.md       ← ABOUT 페이지

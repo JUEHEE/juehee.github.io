@@ -1,0 +1,1 @@
+import"./CWj6FrbW.js";import{z as o,F as l,A as x,B as s,C as e,$ as i}from"./n83u-EM1.js";import{s as m}from"./DlQR3Ob5.js";var c=o('<h1 class="font-[Sogang] text-center text-white py-9"><span class="text-5xl"> </span> <span class="text-6xl">SGCC</span></h1>');function C(r,p){var t=c(),a=s(t),n=s(a);e(a),i(2),e(t),l(()=>m(n,`${p.title??""}: `)),x(r,t)}export{C as T};
