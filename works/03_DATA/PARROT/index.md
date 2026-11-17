@@ -21,7 +21,7 @@ links:
   - Instagram | https://www.instagram.com/sogang_parrot/
   - MECHA × PARROT guideline (Notion) | https://app.notion.com/p/MECHA-PARROT-3d10b009e7bd812aa446f8e3e00f18ce
   - PRIME × PARROT PVD guideline (Notion) | https://app.notion.com/p/PRIME-PARROT-PVD-3d00b009e7bd810280ddeed21969d6a8
-  - Sharing Day website | https://parrot-alumni-2026.netlify.app/
+  - Sharing Day website | /demos/parrot-homecoming/
 ---
 
 ![PARROT Data Science](logo.jpg "medium")

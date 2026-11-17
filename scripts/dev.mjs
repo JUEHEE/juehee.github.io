@@ -1,5 +1,5 @@
 /* 내 컴퓨터에서 미리보기: npm run dev → http://localhost:4000
-   works/, content/, src/, scripts/ 안의 파일을 저장하면 자동으로 다시 만듭니다. (새로고침해서 확인) */
+   works/, content/, src/, scripts/, demos/ 안의 파일을 저장하면 자동으로 다시 만듭니다. (새로고침해서 확인) */
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
@@ -15,7 +15,7 @@ const build = () => spawnSync(process.execPath, [path.join(ROOT, "scripts/build.
 build();
 
 let timer;
-for (const dir of ["works", "content", "src", "scripts"]) {
+for (const dir of ["works", "content", "src", "scripts", "demos"]) {
   fs.watch(path.join(ROOT, dir), { recursive: true }, () => { clearTimeout(timer); timer = setTimeout(build, 200); });
 }
 
@@ -24,6 +24,7 @@ http.createServer((req, res) => {
   let f = path.join(OUT, p);
   if (!f.startsWith(OUT)) { res.writeHead(403).end(); return; }
   if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, "index.html");
+  if (!fs.existsSync(f) && fs.existsSync(f + ".html")) f += ".html"; // GitHub Pages처럼 /a/b → /a/b.html
   if (!fs.existsSync(f)) { res.writeHead(404, { "content-type": TYPES[".html"] }); fs.createReadStream(path.join(OUT, "404.html")).pipe(res); return; }
   res.writeHead(200, { "content-type": TYPES[path.extname(f).toLowerCase()] || "application/octet-stream" });
   fs.createReadStream(f).pipe(res);
